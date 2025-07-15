@@ -6,10 +6,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
-// Shop리스트와 별개 교통페이지 
-
 public class Page_Event : MonoBehaviour, IPrefabInstancer
 {
     [SerializeField] Transform buttonParent;

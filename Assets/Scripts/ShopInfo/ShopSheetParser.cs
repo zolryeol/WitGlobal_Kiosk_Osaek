@@ -7,6 +7,49 @@ using UnityEngine.Networking;
 
 public class ShopSheetParser
 {
+    public static List<LocalizationText> LocalizationTextParse(ValueRange sheet)
+    {
+        var result = new List<LocalizationText>();
+        var rows = sheet?.Values;
+
+        if (rows == null || rows.Count < 2)
+        {
+            Debug.LogWarning("로컬라이제이션 시트에 데이터가 충분하지 않습니다.");
+            return result;
+        }
+
+        // 헤더 스킵 (row[0] = "Num", "Key", "Korean", "English", "Japanese", "Chinese")
+        for (int i = 1; i < rows.Count; i++)
+        {
+            var row = rows[i];
+
+            // Num과 Key가 필수
+            if (row.Count < 3 || string.IsNullOrWhiteSpace(row[0]?.ToString()) || string.IsNullOrWhiteSpace(row[1]?.ToString()))
+                continue;
+
+            var data = new LocalizationText();
+
+            // Num
+            if (int.TryParse(row[0].ToString(), out int num))
+                data.Num = num;
+            else
+                continue;
+
+            // Key
+            data.Key = row[1].ToString();
+
+            // 언어별 텍스트 (index 기준: Korean = 2, English = 3, Japanese = 4, Chinese = 5)
+            data.Text[(int)Language.Korean] = GetCell(row, 2);
+            data.Text[(int)Language.English] = GetCell(row, 3);
+            data.Text[(int)Language.Japanese] = GetCell(row, 4);
+            data.Text[(int)Language.Chinese] = GetCell(row, 5);
+
+            result.Add(data);
+        }
+
+        Debug.Log($"✅ Localization 텍스트 {result.Count}개 파싱 완료");
+        return result;
+    }
     public static List<BaseShopInfoData> ShopDataParse(ValueRange sheet)
     {
         var result = new List<BaseShopInfoData>();
@@ -278,8 +321,6 @@ public class ShopSheetParser
     {
         return (row.Count > index && row[index] != null) ? row[index].ToString() : string.Empty;
     }
-
-
 }
 
 [Serializable]
@@ -325,4 +366,12 @@ public class EventData
     public string ImageUrl;
 
     public Sprite ThumbNailImage;
+}
+
+[Serializable]
+public class LocalizationText
+{
+    public int Num;
+    public string Key;
+    public string[] Text = new string[(int)Language.EndOfIndex];
 }

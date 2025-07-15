@@ -20,10 +20,12 @@ public class ResourceManager : MonoBehaviour
     public Sprite[] LanNormal_Icon = new Sprite[4];
     public Sprite[] LanSelect_Icon = new Sprite[4];
 
-    public Sprite hanbokSelected_Background;
-    public Sprite hanbokNormal_Background;
+    public Sprite HanbokSelected_Background;
+    public Sprite HanbokNormal_Background;
 
-    public Sprite noQRImage;
+    public Sprite NoQRImage;
+
+    public Sprite[] PhotoBlockingImage = new Sprite[4];
 
     //public Dictionary<string, List<Sprite>> HanbokSpritesDic { get; private set; } = new();
     public Dictionary<string, List<(string, Sprite)>> HanbokSpritesDic { get; private set; } = new(); // 폴더명, 파일명,이미지
@@ -56,6 +58,14 @@ public class ResourceManager : MonoBehaviour
             string resourcePath = $"Hanbok/{folderName}";
 
             Sprite[] sprites = Resources.LoadAll<Sprite>(resourcePath);
+
+            if (sprites.Length <= 0) //  빈폴더 예외처리
+            {
+                var emptyList = new List<(string, Sprite)>();
+                HanbokSpritesDic.Add(folderName, emptyList);
+                Debug.LogWarning($"[{folderName}] 폴더에서 스프라이트를 찾지 못했습니다.");
+                continue;
+            }
 
             if (sprites != null && sprites.Length > 0)
             {

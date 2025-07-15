@@ -17,7 +17,22 @@ public class UIManager : MonoBehaviour
     public List<HanbokContentButton> HanbokContentButtons = new();
     public List<ShopContent> ShopContents = new(); /// 관련된 것들을 Page_Shop 을 만들어서 옮기면 좋을듯 하다.
 
-    public Language NowLanguage { get; set; } = Language.Korean;
+    private Language nowLanguage = Language.Korean;
+    public Language NowLanguage
+    {
+        get => nowLanguage;
+        set
+        {
+            if (nowLanguage != value)
+            {
+                nowLanguage = value;
+                UpdateLocaization(); // 언어가 바뀌면 UI 갱신
+                Debug.Log($"🌐 언어 변경됨: {nowLanguage}");
+            }
+        }
+    }
+
+
 
     public Category_Base NowSelectedCategory = Category_Base.Default; // 현재 선택된 카테고리
 
@@ -41,6 +56,10 @@ public class UIManager : MonoBehaviour
     public CanvasGroup AIRecommendPage;
     public CanvasGroup EventDetailPage;
 
+    [Header("Localization")]
+    public List<ILocalizableImage> localizableImageList = new();
+
+
     public Stack pageStack = new(); // 페이지스택
     public void Init()
     {
@@ -54,6 +73,28 @@ public class UIManager : MonoBehaviour
 
         InitContentFetcher();
         InitPages();
+    }
+
+    public void InitLocalization()
+    {
+        localizableImageList = FindObjectsOfType<MonoBehaviour>(true)  // 비활성 오브젝트까지 포함
+       .OfType<ILocalizableImage>()
+       .ToList();
+
+        foreach (var localizable in localizableImageList)
+        {
+            localizable.InitLocalizableImage();
+        }
+
+        Debug.Log($"🌐 LocalizableImage 초기화 완료 - 총 {localizableImageList.Count}개");
+    }
+
+    public void UpdateLocaization()
+    {
+        foreach (var li in localizableImageList)
+        {
+            li.UpdateLocalizableImage();
+        }
     }
 
     public void InitContentFetcher()

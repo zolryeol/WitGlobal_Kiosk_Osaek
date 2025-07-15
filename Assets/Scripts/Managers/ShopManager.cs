@@ -20,11 +20,14 @@ public class ShopManager : MonoBehaviour
     private List<PalaceData> palaceList = new();
     [SerializeField]
     private List<EventData> eventList = new();
+    [SerializeField]
+    private List<LocalizationText> locaizationList = new();
 
     public List<BaseShopInfoData> ShopList => shopList;
     public List<AICategory> AICategorieList => aiCategorieList;
     public List<PalaceData> PalaceDataList => palaceList;
     public List<EventData> EventDataList => eventList;
+    public List<LocalizationText> LocalizeTextList => locaizationList;
 
     private void Awake()
     {
@@ -39,7 +42,8 @@ public class ShopManager : MonoBehaviour
         await LoadShopInfoDataAsync();
         await LoadAICategoryDataAsync();
         await LoadPalaceInfoDataAsync();
-        await LoadEvenetDataAsync();
+        await LoadEventDataAsync();
+        await LoadLocalizationTextAsync();
 
         Debug.Log("<color=green>[Shop 매니저] 로드 완료</color>");
     }
@@ -73,7 +77,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private async Task LoadEvenetDataAsync()
+    private async Task LoadEventDataAsync()
     {
         var sheet = await GoogleSheetReader.ReadEventInfoDataRange();
 
@@ -101,6 +105,21 @@ public class ShopManager : MonoBehaviour
         var tcs = new TaskCompletionSource<Sprite>();
         StartCoroutine(LoadEventThumbnailSprite(data, sprite => tcs.SetResult(sprite)));
         return tcs.Task;
+    }
+
+    private async Task LoadLocalizationTextAsync()
+    {
+        var sheet = await GoogleSheetReader.ReadLocalizationDataRange();
+        if (sheet != null)
+        {
+            // 고궁 정보 데이터 파싱
+            locaizationList = ShopSheetParser.LocalizationTextParse(sheet);
+            Debug.Log($"[ShopManager] 현지화 데이터 로드 완료");
+        }
+        else
+        {
+            Debug.Log($"[ShopManager] 현지화 데이터 불러오지 못했습니다.");
+        }
     }
 
     private async Task LoadPalaceInfoDataAsync()

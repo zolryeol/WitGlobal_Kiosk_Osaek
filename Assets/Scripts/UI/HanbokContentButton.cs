@@ -56,13 +56,13 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
 
         if (IsSelected == true)
         {
-            backGroundImage.sprite = ResourceManager.Instance.hanbokSelected_Background;
+            backGroundImage.sprite = ResourceManager.Instance.HanbokSelected_Background;
             //CommonFunction.ChangeColorBtnAndTxt(transform);
             SetElgamoHanbokIndex(); // 한복인덱스 설정
         }
         else
         {
-            backGroundImage.sprite = ResourceManager.Instance.hanbokNormal_Background;
+            backGroundImage.sprite = ResourceManager.Instance.HanbokNormal_Background;
             //CommonFunction.ChangeColorBtnAndTxt(transform, false);
         }
     }

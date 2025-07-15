@@ -37,7 +37,7 @@ public class ShopContentDetail : ShopContent
 
         if (string.IsNullOrEmpty(data.NaverLink))
         {
-            qrCodeImage.texture = CommonFunction.ConvertSpriteToTexture(ResourceManager.Instance.noQRImage);
+            qrCodeImage.texture = CommonFunction.ConvertSpriteToTexture(ResourceManager.Instance.NoQRImage);
         }
         else
         {

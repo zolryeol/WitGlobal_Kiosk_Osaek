@@ -14,7 +14,7 @@ public class WeatherItem
 {
     public long dt { get; set; }
     public WeatherMain main { get; set; }
-    public List<Weather> weather { get; set; }
+    public List<WeatherAPI> weather { get; set; }
     public Clouds clouds { get; set; }
     public Wind wind { get; set; }
     public int visibility { get; set; }
@@ -36,7 +36,7 @@ public class WeatherMain
     public double temp_kf { get; set; }
 }
 
-public class Weather
+public class WeatherAPI
 {
     public int id { get; set; }
     public string main { get; set; }
