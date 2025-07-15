@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public event Action ChangeLanguageEvent;
+    public event Action ChangeLanguageEvent; // 언어 변경시 호출될 이벤트들;
 
     public Category_Base NowSelectedCategory = Category_Base.Default; // 현재 선택된 카테고리
 
@@ -76,6 +76,8 @@ public class UIManager : MonoBehaviour
         InitPages();
 
         InitLocalization();
+
+        ChangeLanguageEvent += InitAISelect;
     }
 
     public void InitLocalization()

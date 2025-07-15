@@ -54,10 +54,10 @@ public class AISelector : MonoBehaviour
 
         generateButton.onClick.AddListener(UIManager.Instance.OnAIRecommendPage);
 
+        ResetAll();
+
         UpdateGenerateButtonState();
     }
-
-    // 
 
     void AssignedButtons()
     {
@@ -150,7 +150,6 @@ public class AISelector : MonoBehaviour
         {
             btn.GetComponent<Image>().color = UIColorPalette.NormalColor;
             btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.SelectedColor;
-
         }
         foreach (var btn in aiCategoryButton)
         {
