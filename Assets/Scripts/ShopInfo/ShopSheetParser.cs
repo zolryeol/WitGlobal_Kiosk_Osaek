@@ -289,10 +289,10 @@ public class ShopSheetParser
                 eventData.DescriptionString[lang] = GetCell(row, 14 + lang);
             }
 
-            // 업무시간
+            // 주최사
             for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
             {
-                eventData.OpeningTime[lang] = GetCell(row, 18 + lang);
+                eventData.Host[lang] = GetCell(row, 18 + lang);
             }
 
             // 관람 연령
@@ -307,10 +307,10 @@ public class ShopSheetParser
                 eventData.Fee[lang] = GetCell(row, 26 + lang);
             }
 
-            eventData.ContactNum = GetCell(row, 30);
-            eventData.Period = GetCell(row, 31);
-
-            eventData.ImageUrl = GetCell(row, 32);
+            eventData.OpeningTime = GetCell(row, 30);   // 운영시간
+            eventData.ContactNum = GetCell(row, 31);    // 전화번호
+            eventData.Period = GetCell(row, 32);        // 기간
+            eventData.ImageUrl = GetCell(row, 33);      // 이미지URL
 
             result.Add(eventData);
         }
@@ -356,10 +356,11 @@ public class EventData
     public string[] EventAddressString = new string[(int)Language.EndOfIndex]; // 주소
     public string[] HashTagString = new string[(int)Language.EndOfIndex]; // 해시태그
     public string[] DescriptionString = new string[(int)Language.EndOfIndex]; // 정보
-    public string[] OpeningTime = new string[(int)Language.EndOfIndex]; // 운영시간
+    public string[] Host = new string[(int)Language.EndOfIndex];
     public string[] Age = new string[(int)Language.EndOfIndex]; // 볼거리
     public string[] Fee = new string[(int)Language.EndOfIndex]; // 입장료
 
+    public string OpeningTime;
     public string ContactNum; // 연락처
     public string Period; // 기간
 

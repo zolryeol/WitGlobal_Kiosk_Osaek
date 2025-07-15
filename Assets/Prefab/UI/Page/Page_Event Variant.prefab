@@ -242,7 +242,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5761439123397674520}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 511664775608678392}
   - component: {fileID: 3408695498801564548}
   - component: {fileID: 5240436411170142270}
+  - component: {fileID: 2629964092063740226}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -749,6 +750,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2629964092063740226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6191894506745096760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Event_Upcomming
+  targetText: {fileID: 0}
 --- !u!1 &6210953253238847310
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,6 +896,7 @@ GameObject:
   - component: {fileID: 6298004856471225337}
   - component: {fileID: 386847232569017011}
   - component: {fileID: 5189997448649636124}
+  - component: {fileID: 8714876679861209258}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1004,6 +1020,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8714876679861209258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657953928035640113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Event_Past
+  targetText: {fileID: 0}
 --- !u!1 &7300957242357439761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1228,7 @@ GameObject:
   - component: {fileID: 2067240447851607077}
   - component: {fileID: 5704246582082822743}
   - component: {fileID: 6550462923823074999}
+  - component: {fileID: 4040544883546964668}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1321,6 +1352,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4040544883546964668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8153249870406692774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Event_Week
+  targetText: {fileID: 0}
 --- !u!1 &8547041337609192423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,7 +1401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 860, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7311125629546735860
@@ -1430,6 +1475,7 @@ GameObject:
   - component: {fileID: 2166217880199324247}
   - component: {fileID: 1951060800488266203}
   - component: {fileID: 3990369856598023629}
+  - component: {fileID: 6932967476355403315}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1553,6 +1599,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6932967476355403315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8756099214277818948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Event_Today
+  targetText: {fileID: 0}
 --- !u!1001 &2050255671915985073
 PrefabInstance:
   m_ObjectHideFlags: 0

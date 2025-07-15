@@ -9,7 +9,7 @@ public class EventContent : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI ID;
     [SerializeField] protected TextMeshProUGUI eventName;
     [SerializeField] protected TextMeshProUGUI address;
-    [SerializeField] protected TextMeshProUGUI periodTime;
+    [SerializeField] protected TextMeshProUGUI openingTime;
     [SerializeField] protected TextMeshProUGUI contactNum;
     [SerializeField] protected TextMeshProUGUI hashTag;
 
@@ -37,7 +37,7 @@ public class EventContent : MonoBehaviour
 
         eventName.text = data.EventNameString[nowLang].ToString();
         address.text = data.EventAddressString[nowLang].ToString();
-        periodTime.text = data.OpeningTime[nowLang].ToString();
+        openingTime.text = data.OpeningTime.ToString();
         hashTag.text = data.HashTagString[nowLang].ToString();
 
         contactNum.text = data.ContactNum;
