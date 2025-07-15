@@ -1,0 +1,141 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Page_Photo : MonoBehaviour
+{
+    ElgatoController elgatoController;
+
+    [SerializeField] Button selectButton;
+    [SerializeField] Button confirmButton;
+    [SerializeField] GameObject blocking;
+
+    [SerializeField] GameObject resultParent;
+    [SerializeField] Image resultImage;
+    [SerializeField] Image Photoresult_Display2;
+
+    [SerializeField] Button savePhotoButton; // 
+    [SerializeField] Button closeQRFocusButton; // 팝업시 닫기버튼
+
+    [SerializeField] Button retryPhotoButton;
+    [SerializeField] GameObject _QRFocus;
+
+    [SerializeField] GameObject photoRenderTexture;
+    private void Awake()
+    {
+        elgatoController = GetComponent<ElgatoController>();
+
+        selectButton.onClick.AddListener(OnSelectButton);
+        confirmButton.onClick.AddListener(OnConfirmButton);
+        savePhotoButton.onClick.AddListener(ActiveQRFocus);
+        closeQRFocusButton.onClick.AddListener(InActiveQRFocus);
+        retryPhotoButton.onClick.AddListener(InitPage);
+    }
+
+    public void InitPage()
+    {
+        photoRenderTexture.SetActive(false);
+
+        InActiveQRFocus();
+        Photoresult_Display2.sprite = null;
+        InActiveButton(confirmButton);
+        blocking.SetActive(false);
+        Photoresult_Display2.gameObject.SetActive(false);
+        resultParent.SetActive(false);
+    }
+
+    void OnSelectButton()
+    {
+        ActiveButton(confirmButton);
+    }
+
+    void OnConfirmButton()
+    {
+        blocking.SetActive(true);
+        //elgatoController.StartElgatoDirect();
+        //elgatoController.StartElgato();
+
+        photoRenderTexture.SetActive(true);
+        elgatoController.StartElgato();
+        //StartCoroutine(CaptureAndShowResult());
+    }
+
+    void ActiveQRFocus()
+    {
+        _QRFocus.SetActive(true);
+    }
+    void InActiveQRFocus()
+    {
+        _QRFocus.SetActive(false);
+    }
+
+    void ActiveButton(Button targetButton)
+    {
+        targetButton.gameObject.SetActive(true);
+    }
+
+    void InActiveButton(Button targetButton)
+    {
+        targetButton.gameObject.SetActive(false);
+    }
+
+    IEnumerator CaptureAndShowResult()
+    {
+
+        //photoRenderTexture.SetActive(true);
+        //elgatoController.StartElgato();
+
+        // 최대 60초까지 대기
+        float timeout = 60f;
+        float elapsed = 0f;
+
+        while (string.IsNullOrEmpty(elgatoController.LatestResultImagePath) && elapsed < timeout)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (string.IsNullOrEmpty(elgatoController.LatestResultImagePath))
+        {
+            Debug.LogError("결과 이미지가 생성되지 않았습니다.");
+            yield break;
+        }
+    }
+
+    public void Final()
+    {
+        string path = elgatoController.LatestResultImagePath;
+
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("LatestResultImagePath가 null 또는 빈 문자열입니다.");
+
+            InitPage();
+            return;
+        }
+
+        if (!File.Exists(path))
+        {
+            Debug.LogError("파일 존재하지 않음: " + path);
+
+            InitPage();
+            return;
+        }
+
+        // 파일 로딩
+        byte[] imageData = File.ReadAllBytes(path);
+        Texture2D texture = new Texture2D(2, 2);
+        texture.LoadImage(imageData);
+
+        resultParent.SetActive(true);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+        resultImage.sprite = sprite;
+        resultImage.preserveAspect = true;
+        resultImage.gameObject.SetActive(true); // 혹시 꺼져있었다면
+
+        Photoresult_Display2.gameObject.SetActive(true);
+        Photoresult_Display2.sprite = sprite;
+    }
+}

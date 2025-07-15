@@ -1,0 +1,14 @@
+diff a/Assets/Scripts/AR/UpdatePhoto.cs b/Assets/Scripts/AR/UpdatePhoto.cs	(rejected hunks)
+@@ -60,7 +60,12 @@
+             images[i].sprite = sprite;
+         }
+ 
++<<<<<<< Updated upstream
+         // �� ������ �ٷ� �ٿ�ε�Ǵ� QR�ڵ� ����
++=======
++        // TODO - �� ������ �ٷ� �ٿ�ε�Ǵ� QR�ڵ� ����
++
++>>>>>>> Stashed changes
+         string fileName = path.Substring(path.LastIndexOf("/") + 1);
+         string encodedFileName = Uri.EscapeDataString(fileName);
+         string url = "http://wit.inno-t.shop/api/kiosk/download/" + encodedFileName;

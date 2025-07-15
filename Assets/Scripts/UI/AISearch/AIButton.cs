@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+
+/// <summary>
+///  특별 취급하는 AI 버튼 클래스
+/// </summary>
+public class AIButton : MonoBehaviour
+{
+    Button button;
+    AISelector aiSelector;
+
+    [SerializeField] CanvasGroup PageAICanvasGroup;
+    public void Init()
+    {
+        if (TryGetComponent<Button>(out Button _button))
+        {
+            button = _button;
+        }
+        else button = this.AddComponent<Button>();
+
+        aiSelector = FindObjectOfType<AISelector>();
+
+        PageAICanvasGroup = GameObject.Find("Page_AISelect").GetComponent<CanvasGroup>();
+
+        button.onClick.AddListener(() => UIManager.Instance.OpenPage(PageAICanvasGroup));
+        button.onClick.AddListener(aiSelector.ResetAll);
+    }
+}
