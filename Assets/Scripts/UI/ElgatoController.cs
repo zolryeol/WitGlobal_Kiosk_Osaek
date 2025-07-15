@@ -24,9 +24,12 @@ public class ElgatoController : MonoBehaviour
 
     Page_Photo page_photo;
 
+    [SerializeField] PhotoResultToQR resultToQR;
+
     private void Awake()
     {
         page_photo = GetComponent<Page_Photo>();
+        resultToQR = FindAnyObjectByType<PhotoResultToQR>(FindObjectsInactive.Include);
     }
     public void StartElgato()
     {
@@ -183,6 +186,8 @@ public class ElgatoController : MonoBehaviour
         LatestResultImagePath = resultPath;
         File.WriteAllBytes(resultPath, finalTexture.EncodeToPNG());
         Debug.Log("📥 응답 이미지 저장 완료: " + resultPath);
+
+        StartCoroutine(resultToQR.FetchImageFile(LatestResultImagePath));
     }
 
     /// 워터마크 추가

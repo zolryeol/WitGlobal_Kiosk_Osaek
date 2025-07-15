@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class PhotoUploader : MonoBehaviour
+public class PhotoResultToQR : MonoBehaviour
 {
     [Header("업로드된 사진 미리보기용 UI")]
     [SerializeField] private Image[] displayImages;
@@ -16,8 +16,9 @@ public class PhotoUploader : MonoBehaviour
     [SerializeField] private RawImage qrSmallImage;
     [SerializeField] private RawImage qrLargeImage;
 
-    private string filePath;
     private const string uploadURL = "http://134.185.113.244/upload";
+
+    ElgatoController elgatoController;
 
     [Serializable]
     public class UploadResponse
@@ -27,41 +28,10 @@ public class PhotoUploader : MonoBehaviour
         public string download_url;
     }
 
-    private void Start()
+    public IEnumerator FetchImageFile(string filePath)
     {
-        filePath = PlayerPrefs.GetString("arFilePath");
+        //var filePath = elgatoController.LatestResultImagePath;
 
-        if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
-        {
-            Debug.LogError("이미지 파일 경로가 유효하지 않거나 존재하지 않습니다.");
-            return;
-        }
-
-        DisplayImageFromFile(filePath);
-        StartCoroutine(UploadAndGenerateQR(filePath));
-    }
-
-    private void DisplayImageFromFile(string path)
-    {
-        try
-        {
-            byte[] imageBytes = File.ReadAllBytes(path);
-            Texture2D tex = new Texture2D(2, 2);
-            tex.LoadImage(imageBytes);
-
-            Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
-            foreach (var img in displayImages)
-                img.sprite = sprite;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"이미지 표시 실패: {e.Message}");
-        }
-    }
-
-    private IEnumerator UploadAndGenerateQR(string filePath)
-    {
         byte[] imageBytes = File.ReadAllBytes(filePath);
         string fileName = Path.GetFileName(filePath);
 
@@ -77,7 +47,6 @@ public class PhotoUploader : MonoBehaviour
             Debug.LogError("파일 업로드 실패: " + request.error);
             yield break;
         }
-
         UploadResponse response = JsonUtility.FromJson<UploadResponse>(request.downloadHandler.text);
         if (string.IsNullOrEmpty(response.download_url))
         {
@@ -86,16 +55,16 @@ public class PhotoUploader : MonoBehaviour
         }
 
         string fullDownloadURL = "http://134.185.113.244" + response.download_url;
+
         ApplyQRToUI(fullDownloadURL);
     }
-
     private void ApplyQRToUI(string url)
     {
         if (qrSmallImage != null)
-            QRCreator.CreateQR(url, qrSmallImage);
+            qrSmallImage.texture = CommonFunction.GenerateQRCode(url);
 
         if (qrLargeImage != null)
-            QRCreator.CreateQR(url, qrLargeImage);
+            qrLargeImage.texture = CommonFunction.GenerateQRCode(url);
 
         Debug.Log($"QR URL 생성 완료: {url}");
     }
