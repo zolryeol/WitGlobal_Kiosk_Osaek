@@ -19,7 +19,6 @@ public class ResourceManager : MonoBehaviour
     public Sprite NonCheck_Icon;
     public Sprite[] LanNormal_Icon = new Sprite[4];
     public Sprite[] LanSelect_Icon = new Sprite[4];
-
     public Sprite HanbokSelected_Background;
     public Sprite HanbokNormal_Background;
 

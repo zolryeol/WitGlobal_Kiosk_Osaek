@@ -28,11 +28,12 @@ public class UIManager : MonoBehaviour
                 nowLanguage = value;
                 UpdateLocaization(); // 언어가 바뀌면 UI 갱신
                 Debug.Log($"🌐 언어 변경됨: {nowLanguage}");
+                ChangeLanguageEvent?.Invoke();
             }
         }
     }
 
-
+    public event Action ChangeLanguageEvent;
 
     public Category_Base NowSelectedCategory = Category_Base.Default; // 현재 선택된 카테고리
 
@@ -58,7 +59,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Localization")]
     public List<ILocalizableImage> localizableImageList = new();
-
+    public List<LocalizerText> localizerTexts = new();
 
     public Stack pageStack = new(); // 페이지스택
     public void Init()
@@ -73,6 +74,8 @@ public class UIManager : MonoBehaviour
 
         InitContentFetcher();
         InitPages();
+
+        InitLocalization();
     }
 
     public void InitLocalization()
@@ -87,6 +90,13 @@ public class UIManager : MonoBehaviour
         }
 
         Debug.Log($"🌐 LocalizableImage 초기화 완료 - 총 {localizableImageList.Count}개");
+
+        localizerTexts = FindObjectsOfType<MonoBehaviour>(true).OfType<LocalizerText>().ToList();
+
+        foreach (var lt in localizerTexts)
+        {
+            lt.InitLocalizerText();
+        }
     }
 
     public void UpdateLocaization()
@@ -94,6 +104,11 @@ public class UIManager : MonoBehaviour
         foreach (var li in localizableImageList)
         {
             li.UpdateLocalizableImage();
+        }
+
+        foreach (var lt in localizerTexts)
+        {
+            lt.UpdateText();
         }
     }
 

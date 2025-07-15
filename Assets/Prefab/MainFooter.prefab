@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 6105842235827511268}
   - component: {fileID: 6070559536510745166}
   - component: {fileID: 1145883886157397301}
-  - component: {fileID: 7490017332331737838}
+  - component: {fileID: 1241398833950283838}
   m_Layer: 5
   m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8750363105790895078
 RectTransform:
   m_ObjectHideFlags: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7490017332331737838}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MoveScene, Assembly-CSharp
         m_MethodName: moveScene
         m_Mode: 1
@@ -134,7 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7490017332331737838
+--- !u!114 &1241398833950283838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,10 +143,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1160963048348409962}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25d50e2fe2eef7249aaa632a22a66d2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e72f7b0e95961b4b809ba744fca2c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: TransGuide_Footer
+  _targetCanvasGroup: {fileID: 0}
+  category: 0
+  categoryETC: 0
+  FirstCategory: {fileID: 0}
+  body: {fileID: 0}
+  buttonParent: {fileID: 0}
+  firstButton: {fileID: 0}
 --- !u!1 &2415611263035978886
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,14 +256,14 @@ GameObject:
   - component: {fileID: 8663657226175954735}
   - component: {fileID: 1940289025729650109}
   - component: {fileID: 2296340881402881742}
-  - component: {fileID: 536116671077144483}
+  - component: {fileID: 4686005285569284557}
   m_Layer: 5
   m_Name: Hanbok
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3426406046508487565
 RectTransform:
   m_ObjectHideFlags: 0
@@ -360,7 +366,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 536116671077144483}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MoveScene, Assembly-CSharp
         m_MethodName: moveScene
         m_Mode: 1
@@ -372,7 +378,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &536116671077144483
+--- !u!114 &4686005285569284557
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -381,10 +387,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3124716291208677062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25d50e2fe2eef7249aaa632a22a66d2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e72f7b0e95961b4b809ba744fca2c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: ArExplain
+  _targetCanvasGroup: {fileID: 0}
+  category: 0
+  categoryETC: 0
+  FirstCategory: {fileID: 0}
+  body: {fileID: 0}
+  buttonParent: {fileID: 0}
+  firstButton: {fileID: 0}
 --- !u!1 &4053664273715565823
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +420,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4053664273715565823}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.1399999, y: 2.1399999, z: 2.1399999}
   m_ConstrainProportionsScale: 0
@@ -571,6 +583,7 @@ GameObject:
   - component: {fileID: 8337770528805144476}
   - component: {fileID: 1586272387902337670}
   - component: {fileID: 5455745239094822830}
+  - component: {fileID: 1304280599604531733}
   m_Layer: 5
   m_Name: Photo
   m_TagString: Untagged
@@ -678,19 +691,26 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1586272387902337670}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ARTimeCheck, Assembly-CSharp
-        m_MethodName: OnClickArButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!114 &1304280599604531733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729299142369733415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e72f7b0e95961b4b809ba744fca2c7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetCanvasGroup: {fileID: 0}
+  category: 0
+  categoryETC: 6
+  FirstCategory: {fileID: 0}
+  body: {fileID: 0}
+  buttonParent: {fileID: 0}
+  firstButton: {fileID: 0}
 --- !u!1 &7006082623229111211
 GameObject:
   m_ObjectHideFlags: 0

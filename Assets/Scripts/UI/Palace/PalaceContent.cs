@@ -27,6 +27,8 @@ public class PalaceContent : MonoBehaviour
 
         button.onClick.AddListener(() => fetcher.OpenPalaceDetail());
         button.onClick.AddListener(() => fetcher.palaceDetail.FetchDetail(this.Data));
+
+        UIManager.Instance.ChangeLanguageEvent += () => FetchContent(Data);
     }
 
     public void FetchContent(PalaceData palaceData)

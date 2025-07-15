@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HanbokCategoryCreator : MonoBehaviour, IPrefabInstancer
@@ -18,12 +19,16 @@ public class HanbokCategoryCreator : MonoBehaviour, IPrefabInstancer
 
             var hanbokBtn = _hanbokcategoryButton.GetComponent<HanbokCategoryButton>();
 
+
             hanbokBtn.CategoryButtonIndex = index;
             hanbokBtn.GetComponentInChildren<TextMeshProUGUI>().text = hanbokcategoryButton.Key;
 
             hanbokBtn.HanbokSpriteList = hanbokcategoryButton.Value;
 
             UIManager.Instance.HanbokCategorieButtons.Add(hanbokBtn);
+
+            var lt = hanbokBtn.transform.GetChild(0).AddComponent<LocalizerText>();
+            lt.SetKey($"Hanbok_{index}");
 
             index++;
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,40 @@ using UnityEngine.UI;
 public class LocalizerText : MonoBehaviour
 {
     [SerializeField] string key = string.Empty;
-    [SerializeField] Text targetText;
+    [SerializeField] TextMeshProUGUI targetText;
+
+    public void SetKey(string keyStr)
+    {
+        key = keyStr;
+    }
+    public void InitLocalizerText()
+    {
+        if (targetText == null)
+        {
+            targetText = GetComponent<TextMeshProUGUI>();
+        }
+
+        var language = UIManager.Instance.NowLanguage;
+
+        if (key == string.Empty)
+        {
+            Debug.LogError("LocalizerText 키가 비었습니다. = " + this.gameObject.name);
+            return;
+        }
+
+
+        var entry = ShopManager.Instance.LocalizeTextList.Find(t => t.Key == key);
+
+        if (entry != null)
+        {
+            targetText.text = entry.Text[(int)language];
+        }
+        else
+        {
+            Debug.LogWarning($"[LocalizerText] 키 '{key}'에 해당하는 로컬라이즈 데이터를 찾을 수 없습니다.");
+            targetText.text = $"[{key}]";
+        }
+    }
     public void UpdateText()
     {
         if (ShopManager.Instance == null || string.IsNullOrEmpty(key) || targetText == null)

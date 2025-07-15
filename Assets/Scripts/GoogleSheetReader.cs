@@ -26,7 +26,6 @@ public static class GoogleSheetReader
 
     public static async Task<ValueRange> ReadShopDataSheetAsync() // shopdata 시트
     {
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
         GoogleCredential credential = GetCredential(); ; // 인증 정보 로드(자격증명) 
         SheetsService service = GetService(credential);
 
@@ -46,7 +45,6 @@ public static class GoogleSheetReader
     }
     public static async Task<ValueRange> ReadAICategoryAsync() // AICategory 시트
     {
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
         GoogleCredential credential = GetCredential(); ; // 인증 정보 로드(자격증명) 
         SheetsService service = GetService(credential);
 
@@ -65,7 +63,6 @@ public static class GoogleSheetReader
 
     public static async Task<ValueRange> ReadLocalizationDataRange()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
         GoogleCredential credential = GetCredential(); ; // 인증 정보 로드(자격증명) 
         SheetsService service = GetService(credential);
 
@@ -84,7 +81,6 @@ public static class GoogleSheetReader
     }
     public static async Task<ValueRange> ReadPalaceInfoDataRange()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
         GoogleCredential credential = GetCredential(); ; // 인증 정보 로드(자격증명) 
         SheetsService service = GetService(credential);
 
@@ -103,7 +99,6 @@ public static class GoogleSheetReader
 
     public static async Task<ValueRange> ReadEventInfoDataRange()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
         GoogleCredential credential = GetCredential(); ; // 인증 정보 로드(자격증명) 
         SheetsService service = GetService(credential);
 
