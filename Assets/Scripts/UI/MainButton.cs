@@ -127,7 +127,7 @@ public class MainButton : MonoBehaviour, ILocalizable
                 targetHeader.SetKey("MainButton_ToHelp");
                 break;
             case Category_Base.ToStay:
-                targetHeader.SetKey("MainButton_ToLodment");
+                targetHeader.SetKey("MainButton_ToStay");
                 break;
             default:
                 break;

@@ -220,6 +220,11 @@ public class ShopManager : MonoBehaviour
                         categoryList.Add((number, parts[1].Trim()));
                     }
                 }
+                //else
+                //{
+                //    // '-' 없는 경우: 우선순위를 가장 낮게 설정
+                //    categoryList.Add((int.MaxValue, raw.Trim()));
+                //}
             }
         }
 
