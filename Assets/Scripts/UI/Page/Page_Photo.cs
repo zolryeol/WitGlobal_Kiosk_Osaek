@@ -43,6 +43,8 @@ public class Page_Photo : MonoBehaviour
         InActiveButton(confirmButton);
         blocking.SetActive(false);
         Photoresult_Display2.gameObject.SetActive(false);
+
+        resultImage.gameObject.SetActive(false);
         resultParent.SetActive(false);
     }
 
@@ -81,29 +83,6 @@ public class Page_Photo : MonoBehaviour
         targetButton.gameObject.SetActive(false);
     }
 
-    IEnumerator CaptureAndShowResult()
-    {
-
-        //photoRenderTexture.SetActive(true);
-        //elgatoController.StartElgato();
-
-        // 최대 60초까지 대기
-        float timeout = 60f;
-        float elapsed = 0f;
-
-        while (string.IsNullOrEmpty(elgatoController.LatestResultImagePath) && elapsed < timeout)
-        {
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        if (string.IsNullOrEmpty(elgatoController.LatestResultImagePath))
-        {
-            Debug.LogError("결과 이미지가 생성되지 않았습니다.");
-            yield break;
-        }
-    }
-
     public void Final()
     {
         string path = elgatoController.LatestResultImagePath;
@@ -133,7 +112,11 @@ public class Page_Photo : MonoBehaviour
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
         resultImage.sprite = sprite;
         resultImage.preserveAspect = true;
-        resultImage.gameObject.SetActive(true); // 혹시 꺼져있었다면
+
+        if (resultImage.gameObject.activeSelf == false)      // 혹시 꺼져있었다면
+        {
+            resultImage.gameObject.SetActive(true);
+        }
 
         Photoresult_Display2.gameObject.SetActive(true);
         Photoresult_Display2.sprite = sprite;

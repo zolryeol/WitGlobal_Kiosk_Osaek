@@ -26,5 +26,6 @@ public class AIButton : MonoBehaviour
         PageAICanvasGroup = GameObject.Find("Page_AISelect").GetComponent<CanvasGroup>();
 
         button.onClick.AddListener(() => UIManager.Instance.OpenPage(PageAICanvasGroup));
+        button.onClick.AddListener(aiSelector.ResetAll);
     }
 }

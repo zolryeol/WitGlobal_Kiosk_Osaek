@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     public List<ILocalizableImage> localizableImageList = new();
     public List<LocalizerText> localizerTexts = new();
 
-    public Stack pageStack = new(); // 페이지스택
+    public Stack PageStack = new(); // 페이지스택
     public void Init()
     {
         Instance = this;
@@ -135,7 +135,7 @@ public class UIManager : MonoBehaviour
     public void OpenPage(CanvasGroup _targetCanvasGroup, Action ac = null)
     {
         ac?.Invoke();
-        pageStack.Push(_targetCanvasGroup);
+        PageStack.Push(_targetCanvasGroup);
         _targetCanvasGroup.alpha = 1f;
         _targetCanvasGroup.interactable = true;
         _targetCanvasGroup.blocksRaycasts = true;
@@ -151,7 +151,7 @@ public class UIManager : MonoBehaviour
     {
         if (DetailPage.alpha < 1)
         {
-            pageStack.Push(DetailPage);
+            PageStack.Push(DetailPage);
             DetailPage.alpha = 1f;
             DetailPage.interactable = true;
             DetailPage.blocksRaycasts = true;
@@ -168,7 +168,7 @@ public class UIManager : MonoBehaviour
     {
         if (AIRecommendPage.alpha < 1)
         {
-            pageStack.Push(AIRecommendPage);
+            PageStack.Push(AIRecommendPage);
             AIRecommendPage.alpha = 1f;
             AIRecommendPage.interactable = true;
             AIRecommendPage.blocksRaycasts = true;
@@ -183,9 +183,9 @@ public class UIManager : MonoBehaviour
 
     public void CloseAllPages()
     {
-        while (pageStack.Count > 0)
+        while (PageStack.Count > 0)
         {
-            var page = pageStack.Pop() as CanvasGroup;
+            var page = PageStack.Pop() as CanvasGroup;
             if (page != null)
             {
                 ClosePage(page);
@@ -309,6 +309,15 @@ public class UIManager : MonoBehaviour
             {
                 Debug.LogWarning($"{btn.name}은(는) ISelectableButton 인터페이스를 구현하지 않았습니다.");
             }
+        }
+    }
+
+    private void Update()
+    {
+
+        if (0 < Input.touchCount)
+        {
+            Debug.Log("터치함");
         }
     }
 }

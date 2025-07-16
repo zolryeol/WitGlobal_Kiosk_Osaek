@@ -9,7 +9,7 @@ public class BackButton : Button
     {
         base.Start();
         this.onClick.AddListener(() =>
-        UIManager.Instance.ClosePage((CanvasGroup)UIManager.Instance.pageStack.Pop()));
+        UIManager.Instance.ClosePage((CanvasGroup)UIManager.Instance.PageStack.Pop()));
 
     }
 }

@@ -56,11 +56,12 @@ public class MainButton : MonoBehaviour, ILocalizable
             button.onClick.AddListener(() => UIManager.Instance.FetchingContent(0)); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
         }
 
+        // 촬영버튼일경우
         if (categoryETC == Category_ETC.Photo)
         {
             button.onClick.AddListener(() => UIManager.Instance.SelectFirstCategory(UIManager.Instance.HanbokCategorieButtons));
             button.onClick.AddListener(() => UIManager.Instance.HanbokCategorieButtons[0].SelectFirstHanbokContent());
-
+            button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.SelectPhotoHanbok));
         }
     }
     private void SelectFirstCategory() // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해

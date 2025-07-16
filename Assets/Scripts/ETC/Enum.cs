@@ -135,3 +135,10 @@ public enum KeyboardETC
     BackSpace,
     Symbol,
 }
+
+public enum VideoType
+{
+    Default,
+    SelectPhotoHanbok,
+    WaitCreatePhoto,
+}
