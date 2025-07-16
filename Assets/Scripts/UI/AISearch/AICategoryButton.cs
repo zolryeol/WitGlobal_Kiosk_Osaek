@@ -10,14 +10,14 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
 {
     Button button;
 
-    AISelector aiSelector;
+    Page_AISelect aiSelector;
 
     TextMeshProUGUI categoryText;
     public bool IsSelected { get; private set; } = false;
 
     public AICategory category;
 
-    public void Init(AISelector _aiselector = null)
+    public void Init(Page_AISelect _aiselector = null)
     {
         if (TryGetComponent<Button>(out Button _button))
         {
@@ -39,7 +39,7 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
         {
             // 현재 언어에 맞는 카테고리명 표시 (예시: 한국어)
             var oriText = category.AICategoryString[(int)UIManager.Instance.NowLanguage];
-            var result = CommonFunction.SplitAndTrim(oriText, '-', 1);
+            var result = CommonFunction.SplitAndTrim(oriText, '-', 1); // -의 뒷부분
             categoryText.text = result;
 
             //categoryText.text = category.AICategoryString[(int)UIManager.Instance.NowLanguage];
@@ -62,22 +62,31 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
             }
 
             IsSelected = true;
-            GetComponent<Image>().color = UIColorPalette.SelectedColor;
-            transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.SelectedTextColor;
+            CommonFunction.ChangeColorBtn(transform);
+
             aiSelector.aiSelectedCount++;
             aiSelector.AddSelectedCategory(category);
         }
         else
         {
             IsSelected = false;
-            GetComponent<Image>().color = UIColorPalette.NormalColor;
-            transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.NormalTextColor;
+            CommonFunction.ChangeColorBtn(transform, false);
+
             aiSelector.aiSelectedCount--;
             aiSelector.RemoveSelectedCategory(category);
         }
 
         aiSelector.UpdateGenerateButtonState();
     }
+
+    public void DeSelected()
+    {
+        IsSelected = false;
+        CommonFunction.ChangeColorBtn(transform, false);
+        aiSelector.aiSelectedCount--;
+        aiSelector.RemoveSelectedCategory(category);
+    }
+
 
     public void UpdateLocalizedString(string str = null)
     {

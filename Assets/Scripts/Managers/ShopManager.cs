@@ -326,7 +326,9 @@ public class ShopManager : MonoBehaviour
 
     public BaseShopInfoData GetShopInfoByShopName(string _shopName)
     {
-        return ShopList.FirstOrDefault(shop => shop.ShopName[(int)Language.Korean] == _shopName);
+        var nowLang = (int)UIManager.Instance.NowLanguage;
+
+        return ShopList.FirstOrDefault(shop => shop.ShopName[nowLang] == _shopName);
     }
 
     public List<BaseShopInfoData> GetAICategoryString()

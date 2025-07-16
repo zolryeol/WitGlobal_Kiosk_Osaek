@@ -112,6 +112,17 @@ static class CommonFunction
             _target.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.NormalTextColor;
         }
     }
+    public static void ChangeColorBtn(Transform _target, bool isSelected = true)
+    {
+        if (isSelected == true)
+        {
+            _target.GetComponent<Image>().color = UIColorPalette.SelectedColor;
+        }
+        else
+        {
+            _target.GetComponent<Image>().color = UIColorPalette.NormalColor;
+        }
+    }
 
     public static Texture2D GenerateQRCode(string text)
     {

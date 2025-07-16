@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class AIButton : MonoBehaviour
 {
     Button button;
-    AISelector aiSelector;
+    Page_AISelect aiSelector;
 
     [SerializeField] CanvasGroup PageAICanvasGroup;
     public void Init()
@@ -21,11 +21,10 @@ public class AIButton : MonoBehaviour
         }
         else button = this.AddComponent<Button>();
 
-        aiSelector = FindObjectOfType<AISelector>();
+        aiSelector = FindObjectOfType<Page_AISelect>();
 
         PageAICanvasGroup = GameObject.Find("Page_AISelect").GetComponent<CanvasGroup>();
 
         button.onClick.AddListener(() => UIManager.Instance.OpenPage(PageAICanvasGroup));
-        button.onClick.AddListener(aiSelector.ResetAll);
     }
 }

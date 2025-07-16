@@ -76,8 +76,6 @@ public class UIManager : MonoBehaviour
         InitPages();
 
         InitLocalization();
-
-        ChangeLanguageEvent += InitAISelect;
     }
 
     public void InitLocalization()
@@ -232,7 +230,7 @@ public class UIManager : MonoBehaviour
 
     public void InitAISelect()
     {
-        var AISelector = FindObjectOfType<AISelector>();
+        var AISelector = FindObjectOfType<Page_AISelect>();
         AISelector.Init();
 
         var AIRecommendCourse = FindObjectOfType<AIRecommendCourse>();

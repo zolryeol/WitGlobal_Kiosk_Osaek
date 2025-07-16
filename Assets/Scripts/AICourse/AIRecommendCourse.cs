@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class AIRecommendCourse : MonoBehaviour
 {
-    [SerializeField] AISelector aiSelector;
+    [SerializeField] Page_AISelect aiSelector;
 
     [SerializeField] Button[] courseSelectButton = new Button[3]; // A, B, C 코스 선택 버튼
 
@@ -22,7 +22,7 @@ public class AIRecommendCourse : MonoBehaviour
     {
         if (aiSelector == null)
         {
-            aiSelector = FindObjectOfType<AISelector>();
+            aiSelector = FindObjectOfType<Page_AISelect>();
         }
 
         aiSelector.generateButton.onClick.AddListener(FetchCourseInfoSmall);

@@ -11,6 +11,7 @@ public class ShopContentDetail : ShopContent
     [SerializeField] TextMeshProUGUI baseCategory;
     [SerializeField] TextMeshProUGUI secondCategory;
     [SerializeField] TextMeshProUGUI aiCategory;
+    [SerializeField] TextMeshProUGUI address;
     [SerializeField] TextMeshProUGUI openingTime;
     [SerializeField] TextMeshProUGUI contactNumber;
 
@@ -27,6 +28,7 @@ public class ShopContentDetail : ShopContent
 
 
         shopDescripotion.text = data.ShopDescription[(int)nowLanguage];
+        address.text = data.Address[(int)nowLanguage];
         openingTime.text = data.OpeningTime;
         contactNumber.text = data.ContactNumber;
 

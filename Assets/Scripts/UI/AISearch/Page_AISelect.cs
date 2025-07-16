@@ -8,7 +8,7 @@ using UnityEngine.UI;
 // AI 페이지에서 선택한것을 바탕으로 AI 코스를 생성
 // AI는 사실 다 거짓이다.
 
-public class AISelector : MonoBehaviour
+public class Page_AISelect : MonoBehaviour
 {
     [SerializeField]
     Transform peopleCountButtonParent; // 사람 수 버튼 부모
@@ -44,19 +44,21 @@ public class AISelector : MonoBehaviour
         {
             int index = i;
             peopleCountButton[i].onClick.AddListener(() => OnPeopleCountButtonClicked(index));
+            CommonFunction.ChangeColorBtnAndTxt(peopleCountButton[i].transform, false);
         }
 
         for (int i = 0; i < stayTimeButton.Length; i++)
         {
             int index = i;
             stayTimeButton[i].onClick.AddListener(() => OnStayTimeButtonClicked(index));
+            CommonFunction.ChangeColorBtnAndTxt(stayTimeButton[i].transform, false);
         }
 
         generateButton.onClick.AddListener(UIManager.Instance.OnAIRecommendPage);
 
-        ResetAll();
-
         UpdateGenerateButtonState();
+
+        UIManager.Instance.ChangeLanguageEvent += LanguageChanged;
     }
 
     void AssignedButtons()
@@ -94,13 +96,11 @@ public class AISelector : MonoBehaviour
         {
             if (i == selectedPeopleIndex)
             {
-                peopleCountButton[i].GetComponent<Image>().color = UIColorPalette.SelectedColor;
-                peopleCountButton[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.SelectedTextColor;
+                CommonFunction.ChangeColorBtnAndTxt(peopleCountButton[i].transform);
             }
             else
             {
-                peopleCountButton[i].GetComponent<Image>().color = UIColorPalette.NormalColor;
-                peopleCountButton[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.NormalTextColor;
+                CommonFunction.ChangeColorBtnAndTxt(peopleCountButton[i].transform, false);
             }
         }
 
@@ -117,11 +117,14 @@ public class AISelector : MonoBehaviour
 
         for (int i = 0; i < stayTimeButton.Length; i++)
         {
-            bool isSelected = (i == selectedStayTimeIndex);
-            stayTimeButton[i].GetComponent<Image>().color = isSelected ? UIColorPalette.SelectedColor : UIColorPalette.NormalColor;
-
-            var text = stayTimeButton[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            text.color = isSelected ? UIColorPalette.SelectedTextColor : UIColorPalette.NormalTextColor;
+            if (i == selectedStayTimeIndex)
+            {
+                CommonFunction.ChangeColorBtnAndTxt(stayTimeButton[i].transform);
+            }
+            else
+            {
+                CommonFunction.ChangeColorBtnAndTxt(stayTimeButton[i].transform, false);
+            }
         }
 
         UpdateGenerateButtonState();
@@ -136,26 +139,23 @@ public class AISelector : MonoBehaviour
 
     public void ResetAll()
     {
-        selectedPeopleIndex = -1;
-        selectedStayTimeIndex = -1;
-        aiSelectedCount = 0;
-
         foreach (var btn in peopleCountButton)
         {
-            btn.GetComponent<Image>().color = UIColorPalette.NormalColor;
-            btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.SelectedColor;
+            CommonFunction.ChangeColorBtn(btn.transform, false);
         }
+        selectedPeopleIndex = -1;
 
         foreach (var btn in stayTimeButton)
         {
-            btn.GetComponent<Image>().color = UIColorPalette.NormalColor;
-            btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.SelectedColor;
+            CommonFunction.ChangeColorBtn(btn.transform, false);
         }
+        selectedStayTimeIndex = -1;
+
         foreach (var btn in aiCategoryButton)
         {
-            btn.GetComponent<Image>().color = UIColorPalette.NormalColor;
-            btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.SelectedColor;
+            btn.DeSelected();
         }
+        aiSelectedCount = 0;
 
         selectedCategoryList.Clear();
 
@@ -168,11 +168,25 @@ public class AISelector : MonoBehaviour
     }
     public void RemoveSelectedCategory(AICategory category)
     {
-        selectedCategoryList.Remove(category);
+        if (selectedCategoryList.Contains(category))
+        {
+            selectedCategoryList.Remove(category);
+        }
     }
     public List<AICategory> GetSelectedCategoryList()
     {
         return selectedCategoryList;
+    }
+    public void LanguageChanged()
+    {
+        for (int i = 0; i < aiCategoryButton.Length; i++)
+        {
+            aiCategoryButton[i] = aiCategoryButtonParent.GetChild(i).GetComponent<AICategoryButton>();
+
+            aiCategoryButton[i].Init(this); // AISelector 인스턴스 할당
+
+            aiCategoryButton[i].SetCategoryInfo(i); // 카테고리 정보 설정
+        }
     }
 }
 
