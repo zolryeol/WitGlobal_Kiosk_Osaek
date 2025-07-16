@@ -26,7 +26,7 @@ public class LocalizerText : MonoBehaviour
 
         if (key == string.Empty)
         {
-            Debug.LogError("LocalizerText 키가 비었습니다. = " + this.gameObject.name + "부모 = " + this.gameObject.transform.parent.name);
+            Debug.LogWarning("LocalizerText 키가 비었습니다. = " + this.gameObject.name + "부모 = " + this.gameObject.transform.parent.name);
             return;
         }
 
