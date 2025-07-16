@@ -19,7 +19,7 @@ public class Page_Photo : MonoBehaviour
     [SerializeField] Button savePhotoButton; // 
     [SerializeField] Button closeQRFocusButton; // 팝업시 닫기버튼
 
-    [SerializeField] Button retryPhotoButton;
+    [SerializeField] Button GotoHomeButton;
     [SerializeField] GameObject _QRFocus;
 
     [SerializeField] GameObject photoRenderTexture;
@@ -31,7 +31,8 @@ public class Page_Photo : MonoBehaviour
         confirmButton.onClick.AddListener(OnConfirmButton);
         savePhotoButton.onClick.AddListener(ActiveQRFocus);
         closeQRFocusButton.onClick.AddListener(InActiveQRFocus);
-        retryPhotoButton.onClick.AddListener(InitPage);
+        GotoHomeButton.onClick.AddListener(InitPage);
+        GotoHomeButton.onClick.AddListener(() => UIManager.Instance.CloseAllPages());
     }
 
     public void InitPage()

@@ -191,6 +191,8 @@ public class UIManager : MonoBehaviour
                 ClosePage(page);
             }
         }
+
+        VideoPlayManager.Instance.PlayVideo(VideoType.Default);
     }
     public void InitContentCreator() // 페이지안의 콘텐츠들 생성 (카테고리버튼 및 prefab)
     {
