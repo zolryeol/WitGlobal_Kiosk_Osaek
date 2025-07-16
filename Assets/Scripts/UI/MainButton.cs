@@ -26,6 +26,7 @@ public class MainButton : MonoBehaviour, ILocalizable
     [SerializeField] Button firstButton;
 
     TextMeshProUGUI buttonText;
+
     public void Init()
     {
         if (TryGetComponent<Button>(out Button _button))
@@ -54,6 +55,7 @@ public class MainButton : MonoBehaviour, ILocalizable
             button.onClick.AddListener(() => OnCategoryButton()); // 카테고리 버튼 클릭시 서브 카테고리 버튼 활성화
             button.onClick.AddListener(() => SelectFirstCategory()); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
             button.onClick.AddListener(() => UIManager.Instance.FetchingContent(0)); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
+            button.onClick.AddListener(() => HeaderChange());
         }
 
         // 촬영버튼일경우
@@ -102,5 +104,35 @@ public class MainButton : MonoBehaviour, ILocalizable
     void ILocalizable.UpdateLocalizedString(string str)
     {
         buttonText.text = str;
+    }
+
+    void HeaderChange()
+    {
+        var targetHeader = UIManager.Instance.PublicHeader;
+
+        switch (category)
+        {
+            case Category_Base.Default:
+                return;
+            case Category_Base.ToEat:
+                targetHeader.SetKey("MainButton_ToEat");
+                break;
+            case Category_Base.ToBuy:
+                targetHeader.SetKey("MainButton_ToBuy");
+                break;
+            case Category_Base.ToGallery:
+                targetHeader.SetKey("MainButton_ToGallery");
+                break;
+            case Category_Base.ToHelp:
+                targetHeader.SetKey("MainButton_ToHelp");
+                break;
+            case Category_Base.ToStay:
+                targetHeader.SetKey("MainButton_ToLodment");
+                break;
+            default:
+                break;
+        }
+
+        targetHeader.UpdateText();
     }
 }

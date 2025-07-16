@@ -29,6 +29,8 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
         if (_aiselector == null) Debug.LogError("[AICategoryButton] AISelector가 할당되지 않았습니다. Init 메서드에 AISelector를 전달해주세요.");
         aiSelector = _aiselector;
         button.onClick.AddListener(OnSelected);
+
+        IsSelected = false;
     }
     public void SetCategoryInfo(int index)
     {

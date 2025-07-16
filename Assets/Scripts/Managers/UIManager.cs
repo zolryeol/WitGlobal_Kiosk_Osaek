@@ -58,8 +58,10 @@ public class UIManager : MonoBehaviour
     public CanvasGroup EventDetailPage;
 
     [Header("Localization")]
+    [Space(30)]
     public List<ILocalizableImage> localizableImageList = new();
     public List<LocalizerText> localizerTexts = new();
+    public LocalizerText PublicHeader; // shop페이지의 공용헤더
 
     public Stack PageStack = new(); // 페이지스택
     public void Init()

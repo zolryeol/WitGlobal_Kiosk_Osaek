@@ -183,8 +183,6 @@ public class Page_AISelect : MonoBehaviour
         {
             aiCategoryButton[i] = aiCategoryButtonParent.GetChild(i).GetComponent<AICategoryButton>();
 
-            aiCategoryButton[i].Init(this); // AISelector 인스턴스 할당
-
             aiCategoryButton[i].SetCategoryInfo(i); // 카테고리 정보 설정
         }
     }

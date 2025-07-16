@@ -12,7 +12,7 @@ public class Page_Photo : MonoBehaviour
     [SerializeField] Button confirmButton;
     [SerializeField] GameObject blocking;
 
-    [SerializeField] GameObject resultParent;
+    [SerializeField] GameObject resultParent;  
     [SerializeField] Image resultImage;
     [SerializeField] Image Photoresult_Display2;
 
