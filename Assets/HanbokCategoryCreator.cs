@@ -37,7 +37,15 @@ public class HanbokCategoryCreator : MonoBehaviour, IPrefabInstancer
     }
     void CreateHanbokContent() // 실질적으로 클릭할 수 있는 한복버튼
     {
-        var maxEntry = ResourceManager.Instance.HanbokSpritesDic.OrderByDescending(pair => pair.Value.Count).First();
+        if (ResourceManager.Instance.HanbokSpritesDic == null || ResourceManager.Instance.HanbokSpritesDic.Count == 0)
+        {
+            Debug.LogWarning("[HanbokCategoryCreator] HanbokSpritesDic에 데이터가 없습니다.");
+            return;
+        }
+
+        var maxEntry = ResourceManager.Instance.HanbokSpritesDic
+            .OrderByDescending(pair => pair.Value.Count)
+            .First();
 
         for (int i = 0; i < maxEntry.Value.Count; ++i)
         {

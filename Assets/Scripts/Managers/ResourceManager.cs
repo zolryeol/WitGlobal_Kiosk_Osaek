@@ -45,50 +45,61 @@ public class ResourceManager : MonoBehaviour
 
     private void LoadHanbokImages()
     {
-        string hanbokPath = Path.Combine(Application.dataPath, "Resources/Hanbok");
+        HanbokSpritesDic.Clear();
+
+#if UNITY_EDITOR
+        string hanbokPath = Path.Combine(Application.dataPath, "Editor", "HanbokForEditor");
+#else
+    string hanbokPath = Path.Combine(Application.dataPath, "../Data/Hanbok");
+#endif
 
         if (!Directory.Exists(hanbokPath))
         {
-            Debug.LogWarning("Hanbok 폴더가 존재하지 않습니다.");
+            Debug.LogWarning($"Hanbok 폴더가 존재하지 않습니다: {hanbokPath}");
             return;
         }
 
-        string[] subDirs = Directory.GetDirectories(hanbokPath);
+        string[] subFolders = Directory.GetDirectories(hanbokPath);
 
-        foreach (string dirPath in subDirs)
+        foreach (string folderPath in subFolders)
         {
-            string folderName = Path.GetFileName(dirPath); // ex. "Modern", "Traditional"
-            string resourcePath = $"Hanbok/{folderName}";
+            string folderName = Path.GetFileName(folderPath);
+            if (string.IsNullOrEmpty(folderName)) continue;
 
-            Sprite[] sprites = Resources.LoadAll<Sprite>(resourcePath);
-
-            if (sprites.Length <= 0) //  빈폴더 예외처리
+            string[] imageFiles = GetImageFiles(folderPath);
+            if (imageFiles.Length == 0)
             {
-                var emptyList = new List<(string, Sprite)>();
-                HanbokSpritesDic.Add(folderName, emptyList);
-                //Debug.LogWarning($"[{folderName}] 폴더에서 스프라이트를 찾지 못했습니다.");
+                Debug.LogWarning($"[ResourceManager] Hanbok/{folderName} 폴더에 이미지가 없습니다.");
+                HanbokSpritesDic[folderName] = new List<(string, Sprite)>();
                 continue;
             }
 
-            if (sprites != null && sprites.Length > 0)
-            {
-                var spriteList = new List<(string, Sprite)>(); // ← 수정된 부분
+            List<(string, Sprite)> spriteList = new();
 
-                foreach (var sprite in sprites)
+            foreach (string ipath in imageFiles)
+            {
+                try
                 {
-                    string filename = sprite.name; // .png 없이 파일명
-                    spriteList.Add((filename, sprite));
+                    byte[] bytes = File.ReadAllBytes(ipath);
+                    Texture2D tex = new Texture2D(2, 2);
+                    tex.LoadImage(bytes);
+
+                    Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+                    sprite.name = Path.GetFileNameWithoutExtension(ipath);
+
+                    spriteList.Add((sprite.name, sprite));
                 }
-
-                HanbokSpritesDic[folderName] = spriteList;
-
-                Debug.Log($"[{folderName}] 폴더에서 {sprites.Length}개의 스프라이트를 로드했습니다.");
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"[ResourceManager] Hanbok 이미지 로드 실패: {ipath} / {ex.Message}");
+                }
             }
-            else
-            {
-                Debug.LogWarning($"[{folderName}] 폴더에서 스프라이트를 찾지 못했습니다.");
-            }
+
+            HanbokSpritesDic[folderName] = spriteList;
+            Debug.Log($"[ResourceManager] Hanbok/{folderName} 폴더에서 {spriteList.Count}개 이미지 로드 완료");
         }
+
+        Debug.Log($"[ResourceManager] Hanbok 총 {HanbokSpritesDic.Count}개 카테고리 로드 완료");
     }
 
 
