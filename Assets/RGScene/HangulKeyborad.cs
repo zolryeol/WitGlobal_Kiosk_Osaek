@@ -20,9 +20,9 @@ public class HangulKeyborad : MonoBehaviour
     private bool isEngOn = true;
     private bool isSymbolAct = false;
     private bool isShift = false;
-    private bool isMan = true; //Gender Info //남녀확인
+    //private bool isMan = true; //Gender Info //남녀확인
 
-    private int selectTapNum = 0;
+    //private int selectTapNum = 0;
 
     private int caretPosition = 0;//현재커서포지션
 

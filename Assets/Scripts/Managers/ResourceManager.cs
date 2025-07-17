@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Video;
 
 // 동영상 및 이미지 리소스 관리할 매니저
 
@@ -29,6 +30,8 @@ public class ResourceManager : MonoBehaviour
     //public Dictionary<string, List<Sprite>> HanbokSpritesDic { get; private set; } = new();
     public Dictionary<string, List<(string, Sprite)>> HanbokSpritesDic { get; private set; } = new(); // 폴더명, 파일명,이미지
 
+    [Header("비디오")]
+    public Dictionary<VideoType, VideoClip> VideoClipDic = new();
 
     public void Init()
     {
@@ -37,6 +40,7 @@ public class ResourceManager : MonoBehaviour
         LoadShopImages();
         LoadPalaceImages();
         LoadHanbokImages();
+        LoadVideos();
     }
 
     private void LoadHanbokImages()
@@ -193,6 +197,24 @@ public class ResourceManager : MonoBehaviour
             PalaceSpritesDic[i] = new List<Sprite>(sprites);
         }
     }
+
+
+    public void LoadVideos()
+    {
+        var videos = Resources.LoadAll<VideoClip>("Video");
+        foreach (var v in videos)
+        {
+            if (Enum.TryParse<VideoType>(v.name, out var _videoType))
+            {
+                VideoClipDic.Add(_videoType, v);
+            }
+            else
+            {
+                Debug.LogWarning($"'{v.name}'는 VideoType enum에 존재하지 않습니다.");
+            }
+        }
+    }
+
 
     private string[] GetImageFiles(string folderPath) // png,jpg,jpeg 가져오기
     {

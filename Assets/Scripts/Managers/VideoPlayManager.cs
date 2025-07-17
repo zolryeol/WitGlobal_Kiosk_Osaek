@@ -9,7 +9,6 @@ public class VideoPlayManager : MonoBehaviour
     public static VideoPlayManager Instance { get; private set; }
     public VideoPlayer _VideoPlayer; // 
     public RenderTexture Display2Texture; // 디스플레이2용 RenderTexture
-    public Dictionary<VideoType, VideoClip> VideoClipDic = new();
 
     public VideoClip DefaultClip;
     public VideoClip SelectPhotoHanbok;
@@ -18,8 +17,6 @@ public class VideoPlayManager : MonoBehaviour
 
     public void Init()
     {
-        LoadVideos();
-
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
@@ -29,25 +26,9 @@ public class VideoPlayManager : MonoBehaviour
     // 영상다오면 파라미터로 받아서 해당 영상 플레이시킬것
     public void PlayVideo(VideoType videoType)
     {
-        _VideoPlayer.clip = VideoClipDic[videoType];
+        _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[videoType];
         _VideoPlayer.isLooping = true;
         _VideoPlayer.Play();
-    }
-
-    public void LoadVideos()
-    {
-        var videos = Resources.LoadAll<VideoClip>("Video");
-        foreach (var v in videos)
-        {
-            if (Enum.TryParse<VideoType>(v.name, out var _videoType))
-            {
-                VideoClipDic.Add(_videoType, v);
-            }
-            else
-            {
-                Debug.LogWarning($"'{v.name}'는 VideoType enum에 존재하지 않습니다.");
-            }
-        }
     }
 
     public void ActivateDisplay2()

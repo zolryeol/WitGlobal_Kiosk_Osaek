@@ -136,7 +136,7 @@ public class ShopSheetParser
                 shop.spriteImage = images.ToArray();
             else
             {
-                Debug.LogWarning($"[ShopSheetParser] {shop.ShopName[(int)Language.Korean]}의 이미지를 찾을 수 없습니다.");
+                Debug.Log($"[ShopSheetParser] {shop.ShopName[(int)Language.Korean]}의 이미지를 찾을 수 없습니다.");
             }
 
 

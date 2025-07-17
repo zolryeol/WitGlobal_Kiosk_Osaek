@@ -1550,7 +1550,7 @@ GameObject:
   - component: {fileID: 3532817858093931425}
   - component: {fileID: 1073076381124542465}
   m_Layer: 5
-  m_Name: TimeBtnParent
+  m_Name: StayTimeBtnParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2790,7 +2790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7178283625736839038}
   m_Layer: 5
-  m_Name: Body (1)
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10527,7 +10527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564375527124837580, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_Alpha
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5185452860299671721, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -10632,10 +10632,91 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8771409064552305266, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5803149628275345906}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3354047798155064177, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5366686331049244062}
+    - targetCorrespondingSourceObject: {fileID: 4377129796306706504, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8851856601746118749}
   m_SourcePrefab: {fileID: 100100000, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
 --- !u!224 &3020787451956096699 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8771409064552305266, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
   m_PrefabInstance: {fileID: 5787600770165963977}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7849493119306783873 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4377129796306706504, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+  m_PrefabInstance: {fileID: 5787600770165963977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8851856601746118749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7849493119306783873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MainButton_AI
+  targetText: {fileID: 0}
+--- !u!1 &9140698173645410232 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3354047798155064177, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+  m_PrefabInstance: {fileID: 5787600770165963977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5366686331049244062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140698173645410232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0afa27a1c5859f145a28d3d7b9373178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  peopleCountButtonParent: {fileID: 4739535194139482174}
+  stayTimeButtonParent: {fileID: 3532817858093931425}
+  aiCategoryButtonParent: {fileID: 680769916222091744}
+  aiCategoryButton:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  generateButton: {fileID: 919937784151479438}
+  resetButton: {fileID: 0}
+  selectedPeopleIndex: -1
+  selectedStayTimeIndex: -1
+  aiSelectedCount: 0

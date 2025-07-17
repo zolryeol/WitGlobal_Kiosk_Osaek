@@ -222,8 +222,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3428465826198462486}
-  - component: {fileID: 1306245260566525316}
   - component: {fileID: 8649184781336222045}
+  - component: {fileID: 1903639698935017489}
   m_Layer: 0
   m_Name: Weather
   m_TagString: Untagged
@@ -251,7 +251,15 @@ RectTransform:
   m_AnchoredPosition: {x: 790.6, y: 716.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1306245260566525316
+--- !u!222 &8649184781336222045
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2740268152099113413}
+  m_CullTransparentMesh: 1
+--- !u!114 &1903639698935017489
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,7 +268,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2740268152099113413}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b1862e68b329547a74b2b400161746, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a2a861aedc15f344af45ef5cb85aee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   curTemperature: {fileID: 7067489647503261560}
@@ -272,15 +280,6 @@ MonoBehaviour:
   snowSprite: {fileID: 21300000, guid: a4222f1c5821e004aad6d235bafe926d, type: 3}
   thunderSprite: {fileID: 21300000, guid: 437a111daf8d9024cbcad5077c367691, type: 3}
   hailSprite: {fileID: 21300000, guid: 3ba524f86d1784042a1ef527b3e14e91, type: 3}
-  weatherImages: []
---- !u!222 &8649184781336222045
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2740268152099113413}
-  m_CullTransparentMesh: 1
 --- !u!1 &4405110856464150783
 GameObject:
   m_ObjectHideFlags: 0

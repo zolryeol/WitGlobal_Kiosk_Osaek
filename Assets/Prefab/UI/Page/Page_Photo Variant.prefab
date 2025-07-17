@@ -688,8 +688,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 861, y: 70}
+  m_AnchoredPosition: {x: 167.13, y: 0}
+  m_SizeDelta: {x: 381.77, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4953250426842477706
 CanvasRenderer:
@@ -753,7 +753,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -782,7 +782,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -1.6857758, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2595,7 +2595,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB2E4\uC2DC\uCC0D\uAE30"
+  m_text: Home
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c7ca0868c1cf6184da0453a2f369f625, type: 2}
   m_sharedMaterial: {fileID: 9079447854755157883, guid: c7ca0868c1cf6184da0453a2f369f625, type: 2}
@@ -4459,7 +4459,7 @@ GameObject:
   - component: {fileID: 3537798512777489366}
   - component: {fileID: 2017296952725764369}
   m_Layer: 5
-  m_Name: RetryButton
+  m_Name: GoToHome
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4567,13 +4567,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: fc539100b80f1074c96f2ef64f7efa47, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 6379054731443981288}
+        m_TargetAssemblyTypeName: Page_Photo, Assembly-CSharp
+        m_MethodName: InitPage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5152,7 +5152,7 @@ MonoBehaviour:
   Photoresult_Display2: {fileID: 0}
   savePhotoButton: {fileID: 2900236205451623341}
   closeQRFocusButton: {fileID: 2742264704292491975}
-  GotoHomeButton: {fileID: 0}
+  GotoHomeButton: {fileID: 2017296952725764369}
   _QRFocus: {fileID: 1100804173074914087}
   photoRenderTexture: {fileID: 0}
 --- !u!114 &2700915239728081550

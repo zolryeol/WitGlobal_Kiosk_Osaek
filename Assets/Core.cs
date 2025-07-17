@@ -47,7 +47,6 @@ public class Core : MonoBehaviour
 
         resourceManager.Init();
 
-        videoPlayManager.Init();
 
         await shopManger.Init(); // 데이터 로드가 끝날 때까지 대기 // 테스트용으로 잠시 꺼둠
 
@@ -55,11 +54,13 @@ public class Core : MonoBehaviour
 
         exchangeRateManager.Init();
 
+        videoPlayManager.Init();
+
         Debug.Log("<color=green>[Core] 모든 매니저 초기화 완료</color>");
 
-        Destroy(Loading);
-        Application.logMessageReceived -= HandleLog;
-        Destroy(debugging);
+        Loading.SetActive(false);
+        //Application.logMessageReceived -= HandleLog;
+        debugging.gameObject.SetActive(false);
     }
 
     private void HandleLog(string logString, string stackTrace, LogType type)
