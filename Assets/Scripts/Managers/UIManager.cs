@@ -138,22 +138,20 @@ public class UIManager : MonoBehaviour
     {
         ac?.Invoke();
         PageStack.Push(_targetCanvasGroup);
+        Debug.Log($"페이지 스텍 카운트 = {PageStack.Count}");
         _targetCanvasGroup.alpha = 1f;
         _targetCanvasGroup.interactable = true;
         _targetCanvasGroup.blocksRaycasts = true;
     }
 
-    public void ClosePage(CanvasGroup _targetCanvasGroup)
-    {
-        _targetCanvasGroup.alpha = 0f;
-        _targetCanvasGroup.interactable = false;
-        _targetCanvasGroup.blocksRaycasts = false;
-    }
+
     public void OnDetailPage()
     {
         if (DetailPage.alpha < 1)
         {
             PageStack.Push(DetailPage);
+            Debug.Log($"OnDeatailPage 페이지 스텍 카운트 = {PageStack.Count}");
+
             DetailPage.alpha = 1f;
             DetailPage.interactable = true;
             DetailPage.blocksRaycasts = true;
@@ -180,6 +178,21 @@ public class UIManager : MonoBehaviour
             AIRecommendPage.alpha = 0f;
             AIRecommendPage.interactable = false;
             AIRecommendPage.blocksRaycasts = false;
+        }
+    }
+
+    public void ClosePage(CanvasGroup _targetCanvasGroup)
+    {
+        Debug.Log($"클로즈 페이지 pageStackcount = {PageStack.Count}");
+        _targetCanvasGroup.alpha = 0f;
+        _targetCanvasGroup.interactable = false;
+        _targetCanvasGroup.blocksRaycasts = false;
+
+        if (PageStack.Count == 0)
+        {
+            Debug.Log($"카운트가 0 이라서 기본 비디오 재생");
+
+            VideoPlayManager.Instance.PlayVideo(VideoType.Default);
         }
     }
 

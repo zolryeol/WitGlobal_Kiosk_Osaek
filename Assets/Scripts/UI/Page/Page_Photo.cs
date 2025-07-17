@@ -12,7 +12,7 @@ public class Page_Photo : MonoBehaviour
     [SerializeField] Button confirmButton;
     [SerializeField] GameObject blocking;
 
-    [SerializeField] GameObject resultParent;  
+    [SerializeField] GameObject resultParent;
     [SerializeField] Image resultImage;
     [SerializeField] Image Photoresult_Display2;
 
@@ -23,6 +23,8 @@ public class Page_Photo : MonoBehaviour
     [SerializeField] GameObject _QRFocus;
 
     [SerializeField] GameObject photoRenderTexture;
+
+    [SerializeField] GameObject PrivacyPolicy;
     private void Awake()
     {
         elgatoController = GetComponent<ElgatoController>();
@@ -121,5 +123,15 @@ public class Page_Photo : MonoBehaviour
 
         Photoresult_Display2.gameObject.SetActive(true);
         Photoresult_Display2.sprite = sprite;
+    }
+
+    public void ActivePrivacyPolicy()
+    {
+        PrivacyPolicy.SetActive(true);
+    }
+
+    public void InActivePrivacyPolicy()
+    {
+        PrivacyPolicy.SetActive(false);
     }
 }

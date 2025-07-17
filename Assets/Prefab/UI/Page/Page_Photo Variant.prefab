@@ -665,8 +665,9 @@ GameObject:
   - component: {fileID: 2806883702832228558}
   - component: {fileID: 4953250426842477706}
   - component: {fileID: 712477397686861825}
+  - component: {fileID: 8172857024185734400}
   m_Layer: 5
-  m_Name: PhotoButtonText
+  m_Name: Text_Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,6 +789,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8172857024185734400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2264536655207149062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_Start
+  targetText: {fileID: 0}
 --- !u!1 &2358015008948523296
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,8 +814,9 @@ GameObject:
   - component: {fileID: 1345178526809501589}
   - component: {fileID: 6013671756341228102}
   - component: {fileID: 729789916642681030}
+  - component: {fileID: 5739592559038513261}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_Save
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -922,6 +938,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5739592559038513261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2358015008948523296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_Save
+  targetText: {fileID: 0}
 --- !u!1 &2425980620543737575
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,8 +1039,9 @@ GameObject:
   - component: {fileID: 6631110463415023174}
   - component: {fileID: 8910641228327303606}
   - component: {fileID: 6949502037205468486}
+  - component: {fileID: 3879317508475793557}
   m_Layer: 5
-  m_Name: Icon_2
+  m_Name: Text_TakePhoto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1132,6 +1163,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3879317508475793557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2450494530025738327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_TakePhoto
+  targetText: {fileID: 0}
 --- !u!1 &2539816699832105516
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,8 +1474,9 @@ GameObject:
   - component: {fileID: 4647883864701845817}
   - component: {fileID: 8471705521545601875}
   - component: {fileID: 2988633285060203836}
+  - component: {fileID: 6766498289555609959}
   m_Layer: 5
-  m_Name: Text08
+  m_Name: Text_PrivacyPolicy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1552,6 +1598,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6766498289555609959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3265135933871105847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_PrivacyPolicy
+  targetText: {fileID: 0}
 --- !u!1 &3594529481148607905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1990,8 +2050,9 @@ GameObject:
   - component: {fileID: 2377542645716135515}
   - component: {fileID: 3326272724244624109}
   - component: {fileID: 1104489057035008821}
+  - component: {fileID: 4329565834703409678}
   m_Layer: 5
-  m_Name: PrivacyPolicyText
+  m_Name: Text_PrivacyPolicyContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2115,6 +2176,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4329565834703409678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3779582279565841049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_PrivacyPolicyContent
+  targetText: {fileID: 0}
 --- !u!1 &4051388467546564337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2206,9 +2281,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PrivacyPolicyController, Assembly-CSharp
-        m_MethodName: onClick
+      - m_Target: {fileID: 6379054731443981288}
+        m_TargetAssemblyTypeName: Page_Photo, Assembly-CSharp
+        m_MethodName: ActivePrivacyPolicy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2541,8 +2616,9 @@ GameObject:
   - component: {fileID: 8600197889876344786}
   - component: {fileID: 3734358026312339033}
   - component: {fileID: 4744403283033488481}
+  - component: {fileID: 2625356982743952}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_Home
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2664,6 +2740,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2625356982743952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4326237036757482952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_Home
+  targetText: {fileID: 0}
 --- !u!1 &4795994219118669586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2991,8 +3081,9 @@ GameObject:
   - component: {fileID: 7876870135685047219}
   - component: {fileID: 7187445426713244375}
   - component: {fileID: 152446998200949815}
+  - component: {fileID: 8092302628759328320}
   m_Layer: 5
-  m_Name: ConfirmText
+  m_Name: Text_SelectConfirm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3114,6 +3205,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8092302628759328320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5923171238489652838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_SelectConfirm
+  targetText: {fileID: 0}
 --- !u!1 &5963497229361679156
 GameObject:
   m_ObjectHideFlags: 0
@@ -3186,8 +3291,9 @@ GameObject:
   - component: {fileID: 5167343109119816439}
   - component: {fileID: 8126926300108482770}
   - component: {fileID: 1605124990591903001}
+  - component: {fileID: 2376453149298447432}
   m_Layer: 5
-  m_Name: Text_1_1
+  m_Name: Text_HanbokSelectContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3310,6 +3416,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2376453149298447432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5982470749675003271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_HanbokSelectContent
+  targetText: {fileID: 0}
 --- !u!1 &6188718336143206788
 GameObject:
   m_ObjectHideFlags: 0
@@ -3486,8 +3606,9 @@ GameObject:
   - component: {fileID: 827953573998123327}
   - component: {fileID: 3409310618009114959}
   - component: {fileID: 8872178280173372633}
+  - component: {fileID: 5305009670236504690}
   m_Layer: 5
-  m_Name: Text_2
+  m_Name: Text_TakePhotoContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3613,6 +3734,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5305009670236504690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6471481355545504519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_TakePhotoContent
+  targetText: {fileID: 0}
 --- !u!1 &6500475573158430487
 GameObject:
   m_ObjectHideFlags: 0
@@ -3849,8 +3984,9 @@ GameObject:
   - component: {fileID: 3333574096838745589}
   - component: {fileID: 3862633102525428484}
   - component: {fileID: 4799160049227369712}
+  - component: {fileID: 440382931980405426}
   m_Layer: 5
-  m_Name: QRText
+  m_Name: Text_QRExplain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3973,6 +4109,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &440382931980405426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7398891810572638762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_QRExplain
+  targetText: {fileID: 0}
 --- !u!1 &7671560435103916200
 GameObject:
   m_ObjectHideFlags: 0
@@ -4093,9 +4243,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PrivacyPolicyController, Assembly-CSharp
-        m_MethodName: XButtonClick
+      - m_Target: {fileID: 6379054731443981288}
+        m_TargetAssemblyTypeName: Page_Photo, Assembly-CSharp
+        m_MethodName: InActivePrivacyPolicy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4116,8 +4266,9 @@ GameObject:
   - component: {fileID: 5233977391621977541}
   - component: {fileID: 5311865218775591189}
   - component: {fileID: 4446865549578623302}
+  - component: {fileID: 8260632510911847825}
   m_Layer: 5
-  m_Name: Text_1
+  m_Name: Text_HanbokSelect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4239,6 +4390,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8260632510911847825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7726655128477766557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_HanbokSelect
+  targetText: {fileID: 0}
 --- !u!1 &8041496643811781464
 GameObject:
   m_ObjectHideFlags: 0
@@ -4904,7 +5069,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564375527124837580, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_Alpha
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3901988616141036200, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -5116,6 +5281,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3354047798155064177, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2700915239728081550}
+    - targetCorrespondingSourceObject: {fileID: 4377129796306706504, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8916320598418270665}
   m_SourcePrefab: {fileID: 100100000, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
 --- !u!224 &3939204671173799362 stripped
 RectTransform:
@@ -5155,6 +5323,7 @@ MonoBehaviour:
   GotoHomeButton: {fileID: 2017296952725764369}
   _QRFocus: {fileID: 1100804173074914087}
   photoRenderTexture: {fileID: 0}
+  PrivacyPolicy: {fileID: 5408817034389278536}
 --- !u!114 &2700915239728081550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5172,3 +5341,22 @@ MonoBehaviour:
   adCountParent: {fileID: 0}
   countDownText_AD: {fileID: 0}
   resultToQR: {fileID: 0}
+--- !u!1 &8335639055353257976 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4377129796306706504, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+  m_PrefabInstance: {fileID: 5697216073046671280}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8916320598418270665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335639055353257976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Photo_HanbokTry
+  targetText: {fileID: 0}

@@ -363,6 +363,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 920517393087470734, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+      propertyPath: m_Name
+      value: Text_Attraction
+      objectReference: {fileID: 0}
     - target: {fileID: 1715348037960066351, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -460,12 +464,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3554382351656374474, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+      propertyPath: m_fontSize
+      value: 43.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3554382351656374474, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
       propertyPath: m_enableAutoSizing
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3927472050875677168, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
       propertyPath: m_Material
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7523773181074432569, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+      propertyPath: m_Name
+      value: Text_History
       objectReference: {fileID: 0}
     - target: {fileID: 7695720659583511780, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
       propertyPath: m_Material
@@ -474,7 +486,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7523773181074432569, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7780128434563346343}
+    - targetCorrespondingSourceObject: {fileID: 920517393087470734, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4595440311500313457}
+    - targetCorrespondingSourceObject: {fileID: 2125122271799794613, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7331018416244211464}
+    - targetCorrespondingSourceObject: {fileID: 7306245771977316395, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 95882225380696470}
   m_SourcePrefab: {fileID: 100100000, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
 --- !u!114 &50632469511208076 stripped
 MonoBehaviour:
@@ -487,11 +511,87 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe08be3d0281ca64dab9a188a0c23666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2841433975032785052 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 920517393087470734, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+  m_PrefabInstance: {fileID: 3145932102986511378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4595440311500313457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2841433975032785052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Palace_Attraction
+  targetText: {fileID: 0}
+--- !u!1 &3951182883890655143 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2125122271799794613, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+  m_PrefabInstance: {fileID: 3145932102986511378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7331018416244211464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951182883890655143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Palace_OpeningTime
+  targetText: {fileID: 0}
 --- !u!224 &4352372143821410621 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1715348037960066351, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
   m_PrefabInstance: {fileID: 3145932102986511378}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4882279455421060651 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7523773181074432569, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+  m_PrefabInstance: {fileID: 3145932102986511378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7780128434563346343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4882279455421060651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Palace_History
+  targetText: {fileID: 0}
+--- !u!1 &5678026779049749561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7306245771977316395, guid: 6b2cfd133e46bdc48918b99008063b7f, type: 3}
+  m_PrefabInstance: {fileID: 3145932102986511378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &95882225380696470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5678026779049749561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Palace_Fee
+  targetText: {fileID: 0}
 --- !u!1001 &5404953287203661833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -628,7 +728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564375527124837580, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_Alpha
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4377129796306706504, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_IsActive

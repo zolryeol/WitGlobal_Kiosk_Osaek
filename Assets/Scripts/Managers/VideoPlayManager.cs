@@ -26,8 +26,12 @@ public class VideoPlayManager : MonoBehaviour
     // 영상다오면 파라미터로 받아서 해당 영상 플레이시킬것
     public void PlayVideo(VideoType videoType)
     {
+        if (_VideoPlayer.clip == ResourceManager.Instance.VideoClipDic[videoType])
+        {
+            Debug.Log("같은영상 " + videoType);
+            return;
+        }
         _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[videoType];
-        _VideoPlayer.isLooping = true;
         _VideoPlayer.Play();
     }
 
