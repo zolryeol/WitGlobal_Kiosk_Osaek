@@ -15,7 +15,7 @@ public class VideoPlayManager : MonoBehaviour
     public VideoClip SelectPhotoHanbok;
     public VideoClip WaitCreatePhoto;
 
-    public TextMeshPro SubTitle;
+    public TextMeshProUGUI SubTitle;
     public GameObject PackLogo;
 
     public void Init()

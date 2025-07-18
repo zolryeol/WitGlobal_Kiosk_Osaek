@@ -50,7 +50,7 @@ public class ResourceManager : MonoBehaviour
 #if UNITY_EDITOR
         string hanbokPath = Path.Combine(Application.dataPath, "Editor", "HanbokForEditor");
 #else
-    string hanbokPath = Path.Combine(Application.dataPath, "../Data/Hanbok");
+        string hanbokPath = Path.Combine(Application.dataPath, "../Data/Hanbok");
 #endif
 
         if (!Directory.Exists(hanbokPath))
@@ -84,7 +84,9 @@ public class ResourceManager : MonoBehaviour
                     Texture2D tex = new Texture2D(2, 2);
                     tex.LoadImage(bytes);
 
-                    Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+                    // Full Rect로 Sprite 생성
+                    Rect fullRect = new Rect(0, 0, tex.width, tex.height);
+                    Sprite sprite = Sprite.Create(tex, fullRect, new Vector2(0.5f, 0.5f), 100, 0, SpriteMeshType.FullRect);
                     sprite.name = Path.GetFileNameWithoutExtension(ipath);
 
                     spriteList.Add((sprite.name, sprite));

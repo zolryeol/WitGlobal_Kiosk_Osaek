@@ -23,7 +23,7 @@ public class ElgatoController : MonoBehaviour
 
     Page_Photo page_photo;
 
-    [SerializeField] PhotoResultToQR resultToQR;
+    PhotoResultToQR resultToQR;
 
     private void Awake()
     {

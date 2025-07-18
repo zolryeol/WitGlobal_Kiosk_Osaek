@@ -6,26 +6,25 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class HanbokContentButton : MonoBehaviour, ISelectableButton
 {
     public bool IsSelected { get; private set; } = false;
 
-    [SerializeField]
-    string hanbokFileName = "";
-
+    [SerializeField] string hanbokFileName = "";
+    [SerializeField] Image hanbokSprite; // 반드시 Inspector에 할당하거나 자동 연결됨
 
     Button button;
-
-    Image backGroundImage; // 사각 배경 클릭하면 이미지 교체
-    Image hanbokSprite;
+    Image backGroundImage; // 버튼 배경
 
     private void Awake()
     {
         button = GetComponent<Button>();
         backGroundImage = GetComponent<Image>();
 
-        hanbokSprite = transform.GetComponentsInChildren<Image>().FirstOrDefault(c => c.gameObject != this.gameObject);
+        if (hanbokSprite == null)
+        {
+            hanbokSprite = GetComponentsInChildren<Image>(true).FirstOrDefault(img => img.gameObject != this.gameObject);
+        }
     }
 
     private void Start()
@@ -42,11 +41,8 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
     public void SetElgamoHanbokIndex()
     {
         var elgato = FindAnyObjectByType<ElgatoController>();
-
         string numberPart = new string(hanbokFileName.Where(char.IsDigit).ToArray());
-        
         int index = int.TryParse(numberPart, out int result) ? result : -1;
-
         elgato.hanbokIndex = index;
     }
 
@@ -54,16 +50,14 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
     {
         IsSelected = selected;
 
-        if (IsSelected == true)
+        if (IsSelected)
         {
             backGroundImage.sprite = ResourceManager.Instance.HanbokSelected_Background;
-            //CommonFunction.ChangeColorBtnAndTxt(transform);
-            SetElgamoHanbokIndex(); // 한복인덱스 설정
+            SetElgamoHanbokIndex();
         }
         else
         {
             backGroundImage.sprite = ResourceManager.Instance.HanbokNormal_Background;
-            //CommonFunction.ChangeColorBtnAndTxt(transform, false);
         }
     }
 
@@ -71,6 +65,35 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
     {
         UIManager.Instance.DeselectAllCustomButtons(UIManager.Instance.HanbokContentButtons);
         SetSelected(true);
+    }
+
+    /// <summary>
+    /// 한복 이미지가 비율 유지되도록 초기 설정을 적용합니다.
+    /// </summary>
+    private void ConfigureHanbokImageTransform()
+    {
+        if (hanbokSprite == null) return;
+
+        RectTransform rt = hanbokSprite.GetComponent<RectTransform>();
+        rt.anchorMin = new Vector2(0.5f, 0.5f);
+        rt.anchorMax = new Vector2(0.5f, 0.5f);
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.anchoredPosition = Vector2.zero;
+        rt.sizeDelta = new Vector2(100, 100); // 초기값 (기준용)
+
+        var fitter = hanbokSprite.GetComponent<AspectRatioFitter>();
+        if (fitter == null)
+        {
+            fitter = hanbokSprite.gameObject.AddComponent<AspectRatioFitter>();
+        }
+        fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+
+        var layout = hanbokSprite.GetComponent<LayoutElement>();
+        if (layout == null)
+        {
+            layout = hanbokSprite.gameObject.AddComponent<LayoutElement>();
+        }
+        layout.ignoreLayout = true;
     }
 
     internal void FetchHanbokSprite(int v, (int, Sprite) value)

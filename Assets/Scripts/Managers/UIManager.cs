@@ -38,6 +38,7 @@ public class UIManager : MonoBehaviour
     public Category_Base NowSelectedCategory = Category_Base.Default; // 현재 선택된 카테고리
 
     public Scrollbar FoodAndShopScrollbar; // 뭐먹지, 뭐사지 스크롤바
+    public Scrollbar HanbokScrollbar; // 사진찍기 한복선택 스크롤바
 
     [Header("ContentFetcher")]
     public PalaceContentFetcher PalaceContentFetcher;
@@ -289,19 +290,19 @@ public class UIManager : MonoBehaviour
         InitScrollbarValue(FoodAndShopScrollbar);
     }
 
-    public void InitScrollbarValue(Scrollbar scrollbar)
+    public void InitScrollbarValue(Scrollbar scrollbar, bool isHorizon = false)
     {
-        StartCoroutine(SetScrollbarToTopNextFrame(scrollbar));
+        StartCoroutine(SetScrollbarToTopNextFrame(scrollbar, isHorizon));
     }
-
-    private IEnumerator SetScrollbarToTopNextFrame(Scrollbar targetScrollbar)
+    private IEnumerator SetScrollbarToTopNextFrame(Scrollbar targetScrollbar, bool isHorizon = false)
     {
         for (int i = 0; i < 2; ++i) // 임시방편
         {
             yield return null;
         }
 
-        targetScrollbar.value = 1f;
+        if (isHorizon) targetScrollbar.value = 0;
+        else targetScrollbar.value = 1f;
         Debug.Log("스크롤바 value = 1 (코루틴)");
     }
     public void SelectFirstCategory<T>(List<T> targetButtonList) where T : MonoBehaviour  // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해

@@ -11,7 +11,9 @@ public class PrefabManager : MonoBehaviour
     public GameObject EventInfoPrefab;
     public GameObject EventInfoDetailPrefab;
     public GameObject HanbokCategoryButtonPrefab;
+    public GameObject HanbokPagePrefab;
     public GameObject HanbokContentButtonPrefab;
+   
     public Sprite NoImageSprite;
 
     public void Init()

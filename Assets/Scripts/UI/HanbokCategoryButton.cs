@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,35 +45,51 @@ public class HanbokCategoryButton : Button, ISelectableButton
         UIManager.Instance.DeselectAllCustomButtons(UIManager.Instance.HanbokCategorieButtons);
         SetSelected(true);
         SelectFirstHanbokContent();
+        UIManager.Instance.InitScrollbarValue(UIManager.Instance.HanbokScrollbar, true);
     }
     public void FetchHanbokContent()
     {
-        for (int i = 0; i < UIManager.Instance.HanbokContentButtons.Count; ++i)
+        var _hanbokContentButton = UIManager.Instance.HanbokContentButtons;
+
+        for (int i = 0; i < _hanbokContentButton.Count; ++i)
         {
             if (i < HanbokSpriteList.Count)
             {
-                UIManager.Instance.HanbokContentButtons[i].gameObject.SetActive(true);
+                _hanbokContentButton[i].gameObject.SetActive(true);
 
                 (string fileName, Sprite sprite) = HanbokSpriteList[i];
-                UIManager.Instance.HanbokContentButtons[i].FetchHanbokSprite(fileName, sprite);
+                _hanbokContentButton[i].FetchHanbokSprite(fileName, sprite);
             }
             else
             {
-                UIManager.Instance.HanbokContentButtons[i].gameObject.SetActive(false);
+                _hanbokContentButton[i].gameObject.SetActive(false);
             }
+        }
+
+        // 자식 버튼이 모두 비활성화된 HanbokPage는 비활성화
+        var pages = _hanbokContentButton.Select(btn => btn.transform.parent).Distinct();
+
+        foreach (var page in pages)
+        {
+            bool anyActive = page.GetComponentsInChildren<HanbokContentButton>(true)
+                                .Any(b => b.gameObject.activeSelf);
+            page.gameObject.SetActive(anyActive);
         }
     }
     public void SelectFirstHanbokContent()// 첫번째 콘텐츠 선택시키기
     {
-        for (int i = 0; i < UIManager.Instance.HanbokContentButtons.Count; ++i)
+        var _hanbokContentButton = UIManager.Instance.HanbokContentButtons;
+
+
+        for (int i = 0; i < _hanbokContentButton.Count; ++i)
         {
             if (i == 0)
             {
-                UIManager.Instance.HanbokContentButtons[i].SetSelected(true);
+                _hanbokContentButton[i].SetSelected(true);
             }
             else
             {
-                UIManager.Instance.HanbokContentButtons[i].SetSelected(false);
+                _hanbokContentButton[i].SetSelected(false);
             }
         }
 
