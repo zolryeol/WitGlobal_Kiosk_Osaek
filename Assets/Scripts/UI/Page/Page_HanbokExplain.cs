@@ -9,4 +9,6 @@ public class Page_HanbokExplain : MonoBehaviour
     {
 
     }
+
+    
 }
