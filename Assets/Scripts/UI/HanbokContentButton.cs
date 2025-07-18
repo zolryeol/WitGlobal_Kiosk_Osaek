@@ -16,6 +16,7 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
     Button button;
     Image backGroundImage; // 버튼 배경
 
+    [SerializeField] int tempIndex = 0;
     private void Awake()
     {
         button = GetComponent<Button>();
@@ -36,6 +37,11 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
     {
         hanbokFileName = _fileName;
         hanbokSprite.sprite = _sprite;
+
+        if (int.TryParse(_fileName, out int result))
+        {
+            tempIndex = result;
+        }
     }
 
     public void SetElgamoHanbokIndex()
@@ -43,6 +49,9 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
         var elgato = FindAnyObjectByType<ElgatoController>();
         string numberPart = new string(hanbokFileName.Where(char.IsDigit).ToArray());
         int index = int.TryParse(numberPart, out int result) ? result : -1;
+
+        Debug.Log($"한복인덱스 = {index}");
+
         elgato.hanbokIndex = index;
     }
 
