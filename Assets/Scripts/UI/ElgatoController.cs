@@ -102,7 +102,7 @@ public class ElgatoController : MonoBehaviour
 
         Debug.Log($"한복 인덱스 = {hanbokIndex}");
 
-        yield return StartCoroutine(PostImageToServer(filePath, 1, folderPath));
+        yield return StartCoroutine(PostImageToServer(filePath, hanbokIndex, folderPath));
 
         faceCamTexture.Stop();
         faceCamTexture = null;

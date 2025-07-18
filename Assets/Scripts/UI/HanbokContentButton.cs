@@ -44,7 +44,7 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
         var elgato = FindAnyObjectByType<ElgatoController>();
 
         string numberPart = new string(hanbokFileName.Where(char.IsDigit).ToArray());
-
+        
         int index = int.TryParse(numberPart, out int result) ? result : -1;
 
         elgato.hanbokIndex = index;

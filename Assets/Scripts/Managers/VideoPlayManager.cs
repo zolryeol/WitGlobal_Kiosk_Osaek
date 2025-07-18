@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -14,6 +15,8 @@ public class VideoPlayManager : MonoBehaviour
     public VideoClip SelectPhotoHanbok;
     public VideoClip WaitCreatePhoto;
 
+    public TextMeshPro SubTitle;
+    public GameObject PackLogo;
 
     public void Init()
     {
@@ -26,6 +29,9 @@ public class VideoPlayManager : MonoBehaviour
     // 영상다오면 파라미터로 받아서 해당 영상 플레이시킬것
     public void PlayVideo(VideoType videoType)
     {
+        if (videoType == VideoType.Default) PackLogo.SetActive(true);
+        else PackLogo.SetActive(false);
+
         if (_VideoPlayer.clip == ResourceManager.Instance.VideoClipDic[videoType])
         {
             Debug.Log("같은영상 " + videoType);
