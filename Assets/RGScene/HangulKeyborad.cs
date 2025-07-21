@@ -12,13 +12,13 @@ public class HangulKeyborad : MonoBehaviour
 
     //public GameObject[] NumberKey;
     public GameObject[] LangKey;
-    public GameObject[] LangKey2; //숫자패드쪽
 
-    public GameObject goShiftKey;
+    public GameObject ShiftKey;
 
-    public bool isNowKrMode = true;
-    public bool isShiftOn = false;
-    //private bool isMan = true; //Gender Info //남녀확인
+    bool isNowKrMode = true;
+    bool isShiftOn = false;
+
+    [SerializeField] Button enterButton;
 
     //private int selectTapNum = 0;
 
@@ -36,8 +36,6 @@ public class HangulKeyborad : MonoBehaviour
     string[] korShiftKey = { "ㅃ", "ㅉ", "ㄸ", "ㄲ", "ㅆ", "ㅛ",
         "ㅕ","ㅑ", "ㅒ","ㅖ", "ㅁ","ㄴ", "ㅇ","ㄹ", "ㅎ", "ㅗ", "ㅓ", "ㅏ", "ㅣ", "ㅋ", "ㅌ","ㅊ", "ㅍ","ㅠ", "ㅜ","ㅡ"};
 
-    string[] NumKey = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-
     //한글키보드
     char[] chosung_index = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' }; //19개
     char[] joongsung_index = { 'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ' }; //22개
@@ -52,10 +50,42 @@ public class HangulKeyborad : MonoBehaviour
     char chKorInput = ' '; //받은 글자
                            //kor UniCode = (start * 21 + mid )*28 + End + 0xAC00
 
-    //InputKey
-    public void OnClicked(TextMeshProUGUI text)
+    private void Start()
     {
-        OnClickedOnKor(InputField, text);
+        Init();
+    }
+
+    public void Init()
+    {
+        enterButton.onClick.AddListener(OnEnterClicked);
+
+        foreach (GameObject key in LangKey)
+        {
+            key.transform.GetChild(0).gameObject.SetActive(isNowKrMode);
+            key.transform.GetChild(1).gameObject.SetActive(!isNowKrMode);
+        }
+
+        isShiftOn = false;
+
+        InputField.text = string.Empty;
+    }
+
+    //InputKey
+    public void OnClicked(TextMeshProUGUI textkr, TextMeshProUGUI texten)
+    {
+        if (isNowKrMode)
+        {
+            OnClickedOnKor(InputField, textkr);
+        }
+        else
+        {
+            OnClickedOnKor(InputField, texten);
+        }
+
+        if (isShiftOn)
+        {
+            OnShiftClicked();
+        }
     }
 
     void OnClickedOnKor(TMP_InputField inputfiled, TextMeshProUGUI text)
@@ -418,8 +448,9 @@ public class HangulKeyborad : MonoBehaviour
     }
     public void OnEnterClicked()
     {
-        Debug.Log("enter");
+        if (InputField.text.Length <= 0) return;
 
+        Debug.Log("enter");
     }
     //InputKey_Backspace
     public void OnBackspaceClicked()
@@ -429,6 +460,14 @@ public class HangulKeyborad : MonoBehaviour
         caretPosition--;
     }
 
+    //InputKey_Space
+    public void OnSpaceClicked()
+    {
+        if (InputField.text.Length <= 0) return;
+
+        InputField.text = InputField.text.Insert(InputField.text.Length, " ");
+    }
+
     //ShiftKey Change
     public void OnShiftClicked()
     {
@@ -436,11 +475,11 @@ public class HangulKeyborad : MonoBehaviour
 
         if (isShiftOn)
         {
-            goShiftKey.transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 255);
+            ShiftKey.transform.GetComponent<Image>().color = new Color(0, 0, 255);
         }
         else
         {
-            goShiftKey.transform.GetChild(0).GetComponent<Image>().color = new Color(255, 255, 255);
+            ShiftKey.transform.GetComponent<Image>().color = new Color(255, 255, 255);
         }
 
         if (isNowKrMode)
@@ -449,14 +488,14 @@ public class HangulKeyborad : MonoBehaviour
             {
                 for (int i = 0; i < LangKey.Length; ++i)
                 {
-                    LangKey[i].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = EngShiftKey[i];
+                    LangKey[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = korShiftKey[i];
                 }
             }
             else
             {
                 for (int i = 0; i < LangKey.Length; ++i)
                 {
-                    LangKey[i].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = EngKey[i];
+                    LangKey[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = korKey[i];
                 }
             }
         }
@@ -466,14 +505,14 @@ public class HangulKeyborad : MonoBehaviour
             {
                 for (int i = 0; i < LangKey.Length; ++i)
                 {
-                    LangKey[i].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = korShiftKey[i];
+                    LangKey[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = EngShiftKey[i];
                 }
             }
             else
             {
                 for (int i = 0; i < LangKey.Length; ++i)
                 {
-                    LangKey[i].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = korKey[i];
+                    LangKey[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = EngKey[i];
                 }
             }
         }
@@ -482,61 +521,16 @@ public class HangulKeyborad : MonoBehaviour
     //korean/EnglishKey Change
     public void OnKorEngClicked()
     {
-
         isNowKrMode = !isNowKrMode;
 
-        if (isNowKrMode)
+        Debug.Log($"isNowKrMode = {isNowKrMode}");
+
+        foreach (GameObject key in LangKey)
         {
-            if (isShiftOn)
-            {
-                for (int i = 0; i < LangKey.Length; ++i)
-                {
-                    LangKey[i].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = EngShiftKey[i];
-                    LangKey[i].transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = korShiftKey[i];
-                }
-            }
-            else
-            {
-                for (int i = 0; i < LangKey.Length; ++i)
-                {
-                    LangKey[i].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = EngKey[i];
-                    LangKey[i].transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = korKey[i];
-                }
-            }
-        }
-        else
-        {
-            if (isShiftOn)
-            {
-                for (int i = 0; i < LangKey.Length; ++i)
-                {
-                    LangKey[i].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = korShiftKey[i];
-                    LangKey[i].transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = EngShiftKey[i];
-                }
-            }
-            else
-            {
-                for (int i = 0; i < LangKey.Length; ++i)
-                {
-                    LangKey[i].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = korKey[i];
-                    LangKey[i].transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = EngKey[i];
-                }
-            }
+            key.transform.GetChild(0).gameObject.SetActive(isNowKrMode);
+            key.transform.GetChild(1).gameObject.SetActive(!isNowKrMode);
         }
 
+        isShiftOn = false;
     }
-    void Start()
-    {
-        //대문자로 되어 있는거 소문자로 변환 해준거
-        //foreach (GameObject key in LangKey)
-        //{
-        //    key.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
-        //        key.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text.ToLower();
-        //}
-    }
-
-    void Update()
-    {
-    }
-
 }

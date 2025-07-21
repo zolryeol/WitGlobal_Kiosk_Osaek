@@ -2,17 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 public class KeyboardUIControl : MonoBehaviour
 {
-    public VirtualKeyboard virtualKeyboard;
+    [SerializeField] Button button;
+    [SerializeField] GameObject keyboard;
 
-    public TMP_InputField searchInput;
-    void Start()
+    private void Awake()
     {
-        searchInput.onSelect.AddListener(OnInputFieldSelected);
+        button.onClick.AddListener(OnKeyboard);
     }
-    void OnInputFieldSelected(string _)
+    private void Start()
     {
-        virtualKeyboard.OpenKeyboard(searchInput);
+        keyboard.SetActive(false);
+    }
+
+    void OnKeyboard()
+    {
+        Debug.Log("키보드 온");
+        if (keyboard.activeSelf)
+        {
+            keyboard.SetActive(false);
+        }
+        else
+        {
+            keyboard.SetActive(true);
+        }
     }
 }

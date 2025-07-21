@@ -24,10 +24,7 @@ public class KeyboardKeyButton : MonoBehaviour
         switch (EtcKey)
         {
             case KeyboardETC.Default:
-                if (hk.isNowKrMode)
-                    button.onClick.AddListener(() => hk.OnClicked(textKr));
-                else
-                    button.onClick.AddListener(() => hk.OnClicked(textEn));
+                button.onClick.AddListener(() => hk.OnClicked(textKr, textEn));
                 break;
             case KeyboardETC.Shift:
                 button.onClick.AddListener(() => hk.OnShiftClicked());
@@ -41,8 +38,16 @@ public class KeyboardKeyButton : MonoBehaviour
             case KeyboardETC.BackSpace:
                 button.onClick.AddListener(() => hk.OnBackspaceClicked());
                 break;
+            case KeyboardETC.Space:
+                button.onClick.AddListener(() => hk.OnSpaceClicked());
+                break;
             default:
                 break;
         }
     }
+
+    //public (TextMeshProUGUI, TextMeshProUGUI) GetUpdateText()
+    //{
+    //    return (textKr, textEn);
+    //}
 }

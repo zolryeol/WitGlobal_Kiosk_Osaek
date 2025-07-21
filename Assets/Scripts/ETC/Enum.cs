@@ -134,6 +134,7 @@ public enum KeyboardETC
     Enter,
     BackSpace,
     Symbol,
+    Space,
 }
 
 public enum VideoType
