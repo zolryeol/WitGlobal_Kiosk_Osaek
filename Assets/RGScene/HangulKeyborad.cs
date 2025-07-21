@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HangulKeyborad : MonoBehaviour
 {
-    public TMP_InputField korField;
+    public TMP_InputField InputField;
     ////VirtualKeyboard
     public GameObject wndKeyBoard;
 
@@ -15,11 +15,9 @@ public class HangulKeyborad : MonoBehaviour
     public GameObject[] LangKey2; //숫자패드쪽
 
     public GameObject goShiftKey;
-    public GameObject goSymbolkey;
 
-    private bool isEngOn = true;
-    private bool isSymbolAct = false;
-    private bool isShift = false;
+    public bool isNowKrMode = true;
+    public bool isShiftOn = false;
     //private bool isMan = true; //Gender Info //남녀확인
 
     //private int selectTapNum = 0;
@@ -40,11 +38,6 @@ public class HangulKeyborad : MonoBehaviour
 
     string[] NumKey = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 
-    string[] SymbolKey = { "\'", "~", "-", "_", "=", "+",
-        "\\", "|", "[","]", ";", ":", "'", "\"", "{", "}", "<", ">", "?", ",", ".","/","♥", "★", "●", "■"};
-
-    string[] SymbolKey2 = { "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" };
-
     //한글키보드
     char[] chosung_index = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' }; //19개
     char[] joongsung_index = { 'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ' }; //22개
@@ -62,7 +55,7 @@ public class HangulKeyborad : MonoBehaviour
     //InputKey
     public void OnClicked(TextMeshProUGUI text)
     {
-        OnClickedOnKor(korField, text);
+        OnClickedOnKor(InputField, text);
     }
 
     void OnClickedOnKor(TMP_InputField inputfiled, TextMeshProUGUI text)
@@ -431,20 +424,17 @@ public class HangulKeyborad : MonoBehaviour
     //InputKey_Backspace
     public void OnBackspaceClicked()
     {
-        if (korField.text.Length <= 0) return;
-        korField.text = korField.text.Substring(0, korField.text.Length - 1);
+        if (InputField.text.Length <= 0) return;
+        InputField.text = InputField.text.Substring(0, InputField.text.Length - 1);
         caretPosition--;
     }
 
     //ShiftKey Change
     public void OnShiftClicked()
     {
-        if (isSymbolAct)
-            OnSymbolClicked();
+        isShiftOn = !isShiftOn;
 
-        isShift = !isShift;
-
-        if (isShift)
+        if (isShiftOn)
         {
             goShiftKey.transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 255);
         }
@@ -453,9 +443,9 @@ public class HangulKeyborad : MonoBehaviour
             goShiftKey.transform.GetChild(0).GetComponent<Image>().color = new Color(255, 255, 255);
         }
 
-        if (isEngOn)
+        if (isNowKrMode)
         {
-            if (isShift)
+            if (isShiftOn)
             {
                 for (int i = 0; i < LangKey.Length; ++i)
                 {
@@ -472,7 +462,7 @@ public class HangulKeyborad : MonoBehaviour
         }
         else
         {
-            if (isShift)
+            if (isShiftOn)
             {
                 for (int i = 0; i < LangKey.Length; ++i)
                 {
@@ -492,14 +482,12 @@ public class HangulKeyborad : MonoBehaviour
     //korean/EnglishKey Change
     public void OnKorEngClicked()
     {
-        if (isSymbolAct)
-            OnSymbolClicked();
 
-        isEngOn = !isEngOn;
+        isNowKrMode = !isNowKrMode;
 
-        if (isEngOn)
+        if (isNowKrMode)
         {
-            if (isShift)
+            if (isShiftOn)
             {
                 for (int i = 0; i < LangKey.Length; ++i)
                 {
@@ -518,7 +506,7 @@ public class HangulKeyborad : MonoBehaviour
         }
         else
         {
-            if (isShift)
+            if (isShiftOn)
             {
                 for (int i = 0; i < LangKey.Length; ++i)
                 {
@@ -537,54 +525,14 @@ public class HangulKeyborad : MonoBehaviour
         }
 
     }
-
-    //SymbolKey Change
-    public void OnSymbolClicked()
-    {
-        isSymbolAct = !isSymbolAct;
-
-        //두드려보고 확인해볼 것//
-        isShift = false;
-        goShiftKey.transform.GetChild(0).GetComponent<Image>().color = new Color(255, 255, 255);
-
-        if (isSymbolAct)
-        {
-            for (int i = 0; i < SymbolKey.Length; ++i)
-            {
-                LangKey[i].GetComponentInChildren<TextMeshProUGUI>().text = SymbolKey[i];
-                LangKey[i].transform.GetChild(1).gameObject.SetActive(false);
-                LangKey[i].transform.GetChild(0).GetComponent<LayoutElement>().preferredWidth = 88;
-                LangKey[i].transform.GetChild(0).GetComponent<LayoutElement>().preferredHeight = 88;
-            }
-            for (int i = 0; i < SymbolKey2.Length; ++i)
-            {
-                LangKey2[i].GetComponentInChildren<TextMeshProUGUI>().text = SymbolKey2[i];
-            }
-        }
-        else
-        {
-            for (int i = 0; i < EngShiftKey.Length; ++i)
-            {
-                LangKey[i].GetComponentInChildren<TextMeshProUGUI>().text = EngShiftKey[i];
-                LangKey[i].transform.GetChild(1).gameObject.SetActive(true);
-                LangKey[i].transform.GetChild(0).GetComponent<LayoutElement>().preferredWidth = 44;
-                LangKey[i].transform.GetChild(0).GetComponent<LayoutElement>().preferredHeight = 44;
-            }
-            for (int i = 0; i < NumKey.Length; ++i)
-            {
-                LangKey2[i].GetComponentInChildren<TextMeshProUGUI>().text = NumKey[i];
-            }
-        }
-    }
-
     void Start()
     {
         //대문자로 되어 있는거 소문자로 변환 해준거
-        foreach (GameObject key in LangKey)
-        {
-            key.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
-                key.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text.ToLower();
-        }
+        //foreach (GameObject key in LangKey)
+        //{
+        //    key.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+        //        key.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text.ToLower();
+        //}
     }
 
     void Update()

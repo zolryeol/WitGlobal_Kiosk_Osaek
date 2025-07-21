@@ -3,24 +3,31 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class KeyboardKeyButton : MonoBehaviour
 {
     Button button;
-    TextMeshProUGUI text;
+    TextMeshProUGUI textKr;
+    TextMeshProUGUI textEn;
     public KeyboardETC EtcKey = KeyboardETC.Default;
     private void Awake()
     {
         button = GetComponent<Button>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        textKr = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        textEn = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
+        button.onClick.AddListener(() => Debug.Log($"버튼누름 {gameObject.name}"));
 
         var hk = FindAnyObjectByType<HangulKeyborad>();
 
         switch (EtcKey)
         {
             case KeyboardETC.Default:
-                if (text != null)
-                    button.onClick.AddListener(() => hk.OnClicked(text));
+                if (hk.isNowKrMode)
+                    button.onClick.AddListener(() => hk.OnClicked(textKr));
+                else
+                    button.onClick.AddListener(() => hk.OnClicked(textEn));
                 break;
             case KeyboardETC.Shift:
                 button.onClick.AddListener(() => hk.OnShiftClicked());
@@ -33,9 +40,6 @@ public class KeyboardKeyButton : MonoBehaviour
                 break;
             case KeyboardETC.BackSpace:
                 button.onClick.AddListener(() => hk.OnBackspaceClicked());
-                break;
-            case KeyboardETC.Symbol:
-                button.onClick.AddListener(() => hk.OnSymbolClicked());
                 break;
             default:
                 break;
