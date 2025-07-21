@@ -29,16 +29,23 @@ public class VideoPlayManager : MonoBehaviour
     // 영상다오면 파라미터로 받아서 해당 영상 플레이시킬것
     public void PlayVideo(VideoType videoType)
     {
-        if (videoType == VideoType.Default) PackLogo.SetActive(true);
-        else PackLogo.SetActive(false);
+        bool isSameClip = (_VideoPlayer.clip == ResourceManager.Instance.VideoClipDic[videoType]);
 
-        if (_VideoPlayer.clip == ResourceManager.Instance.VideoClipDic[videoType])
-        {
-            Debug.Log("같은영상 " + videoType);
-            return;
-        }
+        // 로고 표시 여부
+        PackLogo.SetActive(videoType == VideoType.Default);
+
+        // 클립 설정
         _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[videoType];
-        _VideoPlayer.Play();
+        _VideoPlayer.Stop();               // 영상 초기화
+        _VideoPlayer.time = 0;             // 0초로 강제 이동
+        _VideoPlayer.Prepare();            // 준비 시작
+
+        // 준비되면 재생
+        _VideoPlayer.prepareCompleted += (vp) =>
+        {
+            vp.Play();
+            Debug.Log((isSameClip ? "같은" : "다른") + " 영상 재생됨: " + videoType);
+        };
     }
 
     public void ActivateDisplay2()
