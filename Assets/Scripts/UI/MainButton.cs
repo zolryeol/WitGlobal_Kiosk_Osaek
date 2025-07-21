@@ -68,6 +68,10 @@ public class MainButton : MonoBehaviour, ILocalizable
             firstButton = buttonParent.GetChild(1).GetComponent<Button>(); // 두번째버튼
             button.onClick.AddListener(() => firstButton.onClick.Invoke());
         }
+        else if (categoryETC == Category_ETC.HanbokExplain)
+        {
+            button.onClick.AddListener(() => UIManager.Instance.InitScrollbarValue(UIManager.Instance.HanbokExplainScrollbar, true));
+        }
     }
     private void SelectFirstCategory() // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
     {

@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8750363105790895078
 RectTransform:
   m_ObjectHideFlags: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetCanvasGroup: {fileID: 0}
   category: 0
-  categoryETC: 0
+  categoryETC: 3
   FirstCategory: {fileID: 0}
   body: {fileID: 0}
   buttonParent: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3426406046508487565
 RectTransform:
   m_ObjectHideFlags: 0
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetCanvasGroup: {fileID: 0}
   category: 0
-  categoryETC: 0
+  categoryETC: 2
   FirstCategory: {fileID: 0}
   body: {fileID: 0}
   buttonParent: {fileID: 0}
@@ -797,6 +797,7 @@ GameObject:
   - component: {fileID: 4064158851700296533}
   - component: {fileID: 651787888566034340}
   - component: {fileID: 1215479090855644966}
+  - component: {fileID: 3165531984599381430}
   m_Layer: 5
   m_Name: Text01
   m_TagString: Untagged
@@ -920,3 +921,17 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3165531984599381430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148926341324045834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9402ce017813e4c921b54eb16383cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MainButton_Map
+  targetText: {fileID: 0}

@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
 
     public Scrollbar FoodAndShopScrollbar; // 뭐먹지, 뭐사지 스크롤바
     public Scrollbar HanbokScrollbar; // 사진찍기 한복선택 스크롤바
+    public Scrollbar HanbokExplainScrollbar; // 한복 설명 스크롤바
 
     [Header("ContentFetcher")]
     public PalaceContentFetcher PalaceContentFetcher;

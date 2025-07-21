@@ -28,7 +28,7 @@ public enum Category_ETC // ShopManager에서 다루지 않는 Category들
 {
     Default,
     Palace, // 고궁
-    Hanbok, // 한복
+    HanbokExplain, // 한복
     Map, // 지도
     Here, // 지역소개
     Greeting, // 하이 인사 (AI 정보)

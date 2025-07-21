@@ -27,8 +27,8 @@ public class HanbokCategoryCreator : MonoBehaviour, IPrefabInstancer
             hanbokBtn.HanbokSpriteList = hanbokcategoryButton.Value;
             UIManager.Instance.HanbokCategorieButtons.Add(hanbokBtn);
 
-            var lt = hanbokBtn.transform.GetChild(0).AddComponent<LocalizerText>();
-            lt.SetKey($"Hanbok_{index}");
+            var lt = hanbokBtn.transform.GetChild(0).AddComponent<LocalizerText>(); // 한복 카테고리 텍스트 로컬라이저
+            lt.SetKey($"Hanbok_{index}"); 
             index++;
         }
 
