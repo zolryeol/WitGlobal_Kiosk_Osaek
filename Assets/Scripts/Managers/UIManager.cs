@@ -146,7 +146,6 @@ public class UIManager : MonoBehaviour
         _targetCanvasGroup.blocksRaycasts = true;
     }
 
-
     public void OnDetailPage()
     {
         if (DetailPage.alpha < 1)
@@ -288,6 +287,27 @@ public class UIManager : MonoBehaviour
             }
         }
 
+        InitScrollbarValue(FoodAndShopScrollbar);
+    }
+
+    public void FetchingContent(string str)
+    {
+        var shops = ShopManager.Instance.GetShopsBySearch(str);
+
+        Debug.Log("콘텐츠 갯수 = " + shops.Count);
+
+        for (int i = 0; i < ShopContentCreator.MaxContentCount; ++i)
+        {
+            if (i < shops.Count)
+            {
+                ShopContents[i].gameObject.SetActive(true);
+                ShopContents[i].FetchContent(shops[i]);
+            }
+            else
+            {
+                ShopContents[i].gameObject.SetActive(false);
+            }
+        }
         InitScrollbarValue(FoodAndShopScrollbar);
     }
 

@@ -328,6 +328,34 @@ public class ShopManager : MonoBehaviour
     //    }
     //}
 
+    public List<BaseShopInfoData> GetShopsBySearch(string searchString)
+    {
+        // 완전 일치
+        var exactMatches = shopList
+            .Where(shop => shop.ShopName[0] == searchString || shop.ShopName[1] == searchString)
+            .ToList();
+
+        // 앞부분 일치 (완전 일치 제외)
+        var startsWithMatches = shopList
+            .Where(shop =>
+                ((shop.ShopName[0].StartsWith(searchString) && shop.ShopName[0] != searchString) ||
+                 (shop.ShopName[1].StartsWith(searchString) && shop.ShopName[1] != searchString)))
+            .ToList();
+
+        // 부분 포함 (앞부분 일치, 완전 일치 제외)
+        var containsMatches = shopList
+            .Where(shop =>
+                ((shop.ShopName[0].Contains(searchString) && !shop.ShopName[0].StartsWith(searchString) && shop.ShopName[0] != searchString) ||
+                 (shop.ShopName[1].Contains(searchString) && !shop.ShopName[1].StartsWith(searchString) && shop.ShopName[1] != searchString)))
+            .ToList();
+
+        var result = new List<BaseShopInfoData>();
+        result.AddRange(exactMatches);
+        result.AddRange(startsWithMatches);
+        result.AddRange(containsMatches);
+
+        return result;
+    }
     public BaseShopInfoData GetShopInfoByShopName(string _shopName)
     {
         var nowLang = (int)UIManager.Instance.NowLanguage;

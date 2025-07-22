@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class HangulKeyborad : MonoBehaviour
 {
+    [SerializeField] CanvasGroup listPageCanvasGroup;
+
     public TMP_InputField InputField;
     ////VirtualKeyboard
     public GameObject wndKeyBoard;
@@ -48,7 +50,16 @@ public class HangulKeyborad : MonoBehaviour
     string[] Mcombo = { "ㅗㅏ", "ㅗㅐ", "ㅗㅣ", "ㅜㅓ", "ㅜㅔ", "ㅜㅣ", "ㅡㅣ" };
 
     char chKorInput = ' '; //받은 글자
-                           //kor UniCode = (start * 21 + mid )*28 + End + 0xAC00
+
+    //kor UniCode = (start * 21 + mid )*28 + End + 0xAC00
+
+    private void Awake()
+    {
+        if (listPageCanvasGroup == null)
+        {
+            listPageCanvasGroup = GameObject.Find("Page_ShopList").GetComponent<CanvasGroup>();
+        }
+    }
 
     private void Start()
     {
@@ -451,6 +462,9 @@ public class HangulKeyborad : MonoBehaviour
         if (InputField.text.Length <= 0) return;
 
         Debug.Log("enter");
+
+        UIManager.Instance.OpenPage(listPageCanvasGroup);
+        UIManager.Instance.FetchingContent(InputField.text);
     }
     //InputKey_Backspace
     public void OnBackspaceClicked()
