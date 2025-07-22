@@ -332,21 +332,26 @@ public class ShopManager : MonoBehaviour
     {
         // 완전 일치
         var exactMatches = shopList
-            .Where(shop => shop.ShopName[0] == searchString || shop.ShopName[1] == searchString)
-            .ToList();
+          .Where(shop =>
+              shop.ShopName[0] == searchString ||
+              string.Equals(shop.ShopName[1], searchString, System.StringComparison.OrdinalIgnoreCase))
+          .ToList();
 
         // 앞부분 일치 (완전 일치 제외)
         var startsWithMatches = shopList
             .Where(shop =>
-                ((shop.ShopName[0].StartsWith(searchString) && shop.ShopName[0] != searchString) ||
-                 (shop.ShopName[1].StartsWith(searchString) && shop.ShopName[1] != searchString)))
+                (shop.ShopName[0].StartsWith(searchString) && shop.ShopName[0] != searchString) ||
+                (shop.ShopName[1].StartsWith(searchString, System.StringComparison.OrdinalIgnoreCase) &&
+                 !string.Equals(shop.ShopName[1], searchString, System.StringComparison.OrdinalIgnoreCase)))
             .ToList();
 
         // 부분 포함 (앞부분 일치, 완전 일치 제외)
         var containsMatches = shopList
             .Where(shop =>
-                ((shop.ShopName[0].Contains(searchString) && !shop.ShopName[0].StartsWith(searchString) && shop.ShopName[0] != searchString) ||
-                 (shop.ShopName[1].Contains(searchString) && !shop.ShopName[1].StartsWith(searchString) && shop.ShopName[1] != searchString)))
+                (shop.ShopName[0].Contains(searchString) && !shop.ShopName[0].StartsWith(searchString) && shop.ShopName[0] != searchString) ||
+                (shop.ShopName[1].IndexOf(searchString, System.StringComparison.OrdinalIgnoreCase) >= 0 &&
+                 !shop.ShopName[1].StartsWith(searchString, System.StringComparison.OrdinalIgnoreCase) &&
+                 !string.Equals(shop.ShopName[1], searchString, System.StringComparison.OrdinalIgnoreCase)))
             .ToList();
 
         var result = new List<BaseShopInfoData>();
