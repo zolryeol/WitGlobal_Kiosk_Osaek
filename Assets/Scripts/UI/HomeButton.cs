@@ -11,5 +11,7 @@ public class HomeButton : Button
         this.onClick.AddListener(() => UIManager.Instance.CloseAllPages());
         this.onClick.AddListener(() => UIManager.Instance.DeselectAllCustomButtons(UIManager.Instance.SecondCategorieButtons));
         this.onClick.AddListener(() => UIManager.Instance.DeselectAllCustomButtons(UIManager.Instance.HanbokCategorieButtons));
+        this.onClick.AddListener(() => UIManager.Instance.OpenKeyboard());
+
     }
 }

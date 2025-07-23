@@ -72,6 +72,8 @@ public class MainButton : MonoBehaviour, ILocalizable
         {
             button.onClick.AddListener(() => UIManager.Instance.InitScrollbarValue(UIManager.Instance.HanbokExplainScrollbar, true));
         }
+
+        button.onClick.AddListener(() => UIManager.Instance.CloseKeyboard());
     }
     private void SelectFirstCategory() // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
     {

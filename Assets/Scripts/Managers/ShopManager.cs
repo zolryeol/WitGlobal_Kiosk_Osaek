@@ -1,4 +1,5 @@
 using Google.Apis.Sheets.v4.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -330,34 +331,71 @@ public class ShopManager : MonoBehaviour
 
     public List<BaseShopInfoData> GetShopsBySearch(string searchString)
     {
-        // 완전 일치
-        var exactMatches = shopList
-          .Where(shop =>
-              shop.ShopName[0] == searchString ||
-              string.Equals(shop.ShopName[1], searchString, System.StringComparison.OrdinalIgnoreCase))
-          .ToList();
-
-        // 앞부분 일치 (완전 일치 제외)
-        var startsWithMatches = shopList
-            .Where(shop =>
-                (shop.ShopName[0].StartsWith(searchString) && shop.ShopName[0] != searchString) ||
-                (shop.ShopName[1].StartsWith(searchString, System.StringComparison.OrdinalIgnoreCase) &&
-                 !string.Equals(shop.ShopName[1], searchString, System.StringComparison.OrdinalIgnoreCase)))
-            .ToList();
-
-        // 부분 포함 (앞부분 일치, 완전 일치 제외)
-        var containsMatches = shopList
-            .Where(shop =>
-                (shop.ShopName[0].Contains(searchString) && !shop.ShopName[0].StartsWith(searchString) && shop.ShopName[0] != searchString) ||
-                (shop.ShopName[1].IndexOf(searchString, System.StringComparison.OrdinalIgnoreCase) >= 0 &&
-                 !shop.ShopName[1].StartsWith(searchString, System.StringComparison.OrdinalIgnoreCase) &&
-                 !string.Equals(shop.ShopName[1], searchString, System.StringComparison.OrdinalIgnoreCase)))
-            .ToList();
+        if (string.IsNullOrWhiteSpace(searchString) || searchString.Length < 1)
+        {
+            Debug.Log("검색창 비어있다");
+            return new List<BaseShopInfoData>();
+        }
 
         var result = new List<BaseShopInfoData>();
-        result.AddRange(exactMatches);
-        result.AddRange(startsWithMatches);
-        result.AddRange(containsMatches);
+        var added = new HashSet<BaseShopInfoData>();
+
+        // 검색 대상 언어 인덱스
+        int[] searchLangs;
+
+        switch (UIManager.Instance.NowLanguage)
+        {
+            case Language.Korean:
+                searchLangs = new[] { (int)Language.Korean, (int)Language.English };
+                break;
+            case Language.English:
+            case Language.Japanese:
+            case Language.Chinese:
+                searchLangs = new[] { (int)Language.English, (int)Language.Korean };
+                break;
+            default:
+                searchLangs = new[] { (int)Language.English, (int)Language.Korean };
+                break;
+        }
+
+        foreach (var shop in shopList)
+        {
+            foreach (int langIdx in searchLangs)
+            {
+                string name = shop.ShopName[langIdx];
+
+                if (string.IsNullOrEmpty(name))
+                {
+                    Debug.LogWarning($"shopID={shop.ShopID}의 {((Language)langIdx)} 이름이 null 또는 비어 있음");
+                    continue;
+                }
+                // 완전 일치
+                if (string.Equals(name, searchString, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (added.Add(shop))
+                        result.Add(shop);
+                    break;
+                }
+
+                // 앞부분 일치
+                if (name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(name, searchString, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (added.Add(shop))
+                        result.Add(shop);
+                    break;
+                }
+
+                // 부분 포함
+                if (name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0 &&
+                    !name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (added.Add(shop))
+                        result.Add(shop);
+                    break;
+                }
+            }
+        }
 
         return result;
     }

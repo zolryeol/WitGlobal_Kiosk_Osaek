@@ -19,6 +19,8 @@ public class ShopContentDetail : ShopContent
 
     public override void FetchContent(BaseShopInfoData data)
     {
+        UIManager.Instance.CloseKeyboard();
+
         var nowLanguage = UIManager.Instance.NowLanguage;
         base.FetchContent(data);
 

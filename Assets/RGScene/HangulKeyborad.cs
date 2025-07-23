@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HangulKeyborad : MonoBehaviour
 {
     [SerializeField] CanvasGroup listPageCanvasGroup;
-
+    [SerializeField] TextMeshProUGUI SearchHeader;
     public TMP_InputField InputField;
     ////VirtualKeyboard
     public GameObject wndKeyBoard;
@@ -16,6 +16,8 @@ public class HangulKeyborad : MonoBehaviour
     public GameObject[] LangKey;
 
     public GameObject ShiftKey;
+
+    [SerializeField] KeyboardUIControl keyboardUIControl;
 
     bool isNowKrMode = true;
     bool isShiftOn = false;
@@ -59,6 +61,11 @@ public class HangulKeyborad : MonoBehaviour
         {
             listPageCanvasGroup = GameObject.Find("Page_ShopList").GetComponent<CanvasGroup>();
         }
+
+        if (keyboardUIControl == null)
+        {
+            keyboardUIControl = GetComponentInChildren<KeyboardUIControl>();
+        }
     }
 
     private void Start()
@@ -83,6 +90,18 @@ public class HangulKeyborad : MonoBehaviour
 
     public void Reset()
     {
+        if (UIManager.Instance.NowLanguage == Language.Korean)
+        {
+            isNowKrMode = true;
+        }
+        else isNowKrMode = false;
+
+        foreach (GameObject key in LangKey)
+        {
+            key.transform.GetChild(0).gameObject.SetActive(isNowKrMode);
+            key.transform.GetChild(1).gameObject.SetActive(!isNowKrMode);
+        }
+
         isShiftOn = false;
 
         InputField.text = string.Empty;
@@ -470,8 +489,12 @@ public class HangulKeyborad : MonoBehaviour
 
         Debug.Log("enter");
 
+
         UIManager.Instance.OpenPage(listPageCanvasGroup);
+        SearchHeader.text = InputField.text;
         UIManager.Instance.FetchingContent(InputField.text);
+        UIManager.Instance.OffCategoryButton();
+        keyboardUIControl.CloseKeyboard();
     }
     //InputKey_Backspace
     public void OnBackspaceClicked()

@@ -27,5 +27,7 @@ public class AIButton : MonoBehaviour
 
         button.onClick.AddListener(() => UIManager.Instance.OpenPage(PageAICanvasGroup));
         button.onClick.AddListener(aiSelector.ResetAll);
+
+        button.onClick.AddListener(() => UIManager.Instance.CloseKeyboard());
     }
 }

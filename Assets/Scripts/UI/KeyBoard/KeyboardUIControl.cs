@@ -14,6 +14,12 @@ public class KeyboardUIControl : MonoBehaviour
     {
         hangulKeyborad = transform.parent.GetComponent<HangulKeyborad>();
         button.onClick.AddListener(OnKeyboard);
+
+        if (closePanelButton == null)
+        {
+            closePanelButton = transform.Find("ClosePanel").GetComponent<Button>();
+        }
+
         closePanelButton.onClick.AddListener(CloseKeyboard);
     }
     private void Start()
@@ -26,22 +32,24 @@ public class KeyboardUIControl : MonoBehaviour
         Debug.Log("키보드 온");
         if (keyboard.activeSelf)
         {
-            keyboard.SetActive(false);
+            CloseKeyboard();
         }
         else
         {
-            keyboard.SetActive(true);
+            OpenKeyboard();
         }
     }
 
-    void CloseKeyboard()
+    public void CloseKeyboard()
     {
         keyboard.SetActive(false);
+        closePanelButton.gameObject.SetActive(false);
         hangulKeyborad.Reset();
     }
 
-    void OpenKeyboard()
+    public void OpenKeyboard()
     {
         keyboard.SetActive(true);
+        closePanelButton.gameObject.SetActive(true);
     }
 }

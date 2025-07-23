@@ -65,6 +65,10 @@ public class UIManager : MonoBehaviour
     public List<LocalizerText> localizerTexts = new();
     public LocalizerText PublicHeader; // shop페이지의 공용헤더
 
+    [Header("키보드")]
+    [Space(30)]
+    public HangulKeyborad keyboard;
+
     public Stack PageStack = new(); // 페이지스택
     public void Init()
     {
@@ -139,6 +143,11 @@ public class UIManager : MonoBehaviour
     public void OpenPage(CanvasGroup _targetCanvasGroup, Action ac = null)
     {
         ac?.Invoke();
+        if (1f <= _targetCanvasGroup.alpha)
+        {
+            Debug.LogWarning($"페이지 {_targetCanvasGroup.name}는 이미 열려 있습니다.");
+            return;
+        }
         PageStack.Push(_targetCanvasGroup);
         Debug.Log($"페이지 스텍 카운트 = {PageStack.Count}");
         _targetCanvasGroup.alpha = 1f;
@@ -194,6 +203,7 @@ public class UIManager : MonoBehaviour
             Debug.Log($"카운트가 0 이라서 기본 비디오 재생");
 
             VideoPlayManager.Instance.PlayVideo(VideoType.Default);
+            OpenKeyboard(); // 키보드 열기
         }
     }
 
@@ -292,6 +302,7 @@ public class UIManager : MonoBehaviour
 
     public void FetchingContent(string str)
     {
+        str = str.Trim(); // 공백 제거
         var shops = ShopManager.Instance.GetShopsBySearch(str);
 
         Debug.Log("콘텐츠 갯수 = " + shops.Count);
@@ -351,6 +362,38 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void OffCategoryButton() //검색용
+    {
+        var secondCateStrList = 0;
+
+        for (int i = 0; i < UIManager.SecondCategoryMaxCount; i++)
+        {
+            var secondCategoryButton = UIManager.Instance.SecondCategorieButtons[i];
+
+            if (i < secondCateStrList)
+            {
+                secondCategoryButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                secondCategoryButton.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void CloseKeyboard()
+    {
+        if (keyboard.gameObject.activeSelf)
+            keyboard.gameObject.SetActive(false);
+    }
+    public void OpenKeyboard()
+    {
+        if (keyboard.gameObject.activeSelf == false)
+        {
+            keyboard.gameObject.SetActive(true);
+            keyboard.Reset();
+        }
+    }
     private void Update()
     {
 
