@@ -44,6 +44,7 @@ public class ElgatoController : MonoBehaviour
         if (devices.Length == 0)
         {
             Debug.LogError("No webcam found");
+            page_photo.InitPage();
             yield break;
         }
 
