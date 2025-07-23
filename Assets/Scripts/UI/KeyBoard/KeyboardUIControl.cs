@@ -7,10 +7,14 @@ public class KeyboardUIControl : MonoBehaviour
 {
     [SerializeField] Button button;
     [SerializeField] GameObject keyboard;
+    [SerializeField] Button closePanelButton;
+    HangulKeyborad hangulKeyborad;
 
     private void Awake()
     {
+        hangulKeyborad = transform.parent.GetComponent<HangulKeyborad>();
         button.onClick.AddListener(OnKeyboard);
+        closePanelButton.onClick.AddListener(CloseKeyboard);
     }
     private void Start()
     {
@@ -28,5 +32,16 @@ public class KeyboardUIControl : MonoBehaviour
         {
             keyboard.SetActive(true);
         }
+    }
+
+    void CloseKeyboard()
+    {
+        keyboard.SetActive(false);
+        hangulKeyborad.Reset();
+    }
+
+    void OpenKeyboard()
+    {
+        keyboard.SetActive(true);
     }
 }

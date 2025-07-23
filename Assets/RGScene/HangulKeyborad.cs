@@ -81,6 +81,13 @@ public class HangulKeyborad : MonoBehaviour
         InputField.text = string.Empty;
     }
 
+    public void Reset()
+    {
+        isShiftOn = false;
+
+        InputField.text = string.Empty;
+    }
+
     //InputKey
     public void OnClicked(TextMeshProUGUI textkr, TextMeshProUGUI texten)
     {
