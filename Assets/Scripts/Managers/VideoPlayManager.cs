@@ -19,12 +19,14 @@ public class VideoPlayManager : MonoBehaviour
     public TextMeshProUGUI SubTitle;
     public GameObject PackLogo;
     private VideoType _currentVideoType;
+
+    private Coroutine _retryDisplayCoroutine;
     public void Init()
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        ActivateDisplay2();
+        _retryDisplayCoroutine = StartCoroutine(TryActivateDisplay2());
     }
 
     // 영상다오면 파라미터로 받아서 해당 영상 플레이시킬것
@@ -162,4 +164,41 @@ public class VideoPlayManager : MonoBehaviour
         }
     }
 
+
+    IEnumerator TryActivateDisplay2()
+    {
+        int maxRetryCount = 10;
+        float retryInterval = 1f; // 1초 간격
+        int currentRetry = 0;
+
+        while (currentRetry < maxRetryCount)
+        {
+            if (Display.displays.Length > 1)
+            {
+                Display.displays[1].Activate();
+
+                if (_VideoPlayer != null && Display2Texture != null)
+                {
+                    _VideoPlayer.targetTexture = Display2Texture;
+
+                    PlayVideo(VideoType.Default); // 기본 영상 재생
+                    Debug.Log("[VideoPlayManager] Display 2 활성화 및 기본 영상 재생 성공");
+                    yield break;
+                }
+                else
+                {
+                    Debug.LogError("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
+                    yield break;
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"[VideoPlayManager] Display 2 감지 실패, 재시도 {currentRetry + 1}/{maxRetryCount}...");
+                currentRetry++;
+                yield return new WaitForSeconds(retryInterval);
+            }
+        }
+
+        Debug.LogError("[VideoPlayManager] Display 2를 최종적으로 감지하지 못했습니다.");
+    }
 }
