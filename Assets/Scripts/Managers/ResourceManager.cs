@@ -30,9 +30,12 @@ public class ResourceManager : MonoBehaviour
     //public Dictionary<string, List<Sprite>> HanbokSpritesDic { get; private set; } = new();
     public Dictionary<string, List<(string, Sprite)>> HanbokSpritesDic { get; private set; } = new(); // 폴더명, 파일명,이미지
 
-    [Header("비디오")]
-    public Dictionary<VideoType, VideoClip> VideoClipDic = new();
 
+    [Header("비디오")]
+    private Dictionary<VideoType, VideoPlayer> PreloadedPlayers = new();
+    private Dictionary<VideoType, string> VideoPaths = new();
+
+    public Dictionary<VideoType, VideoClip> VideoClipDic = new();
     public void Init()
     {
         Instance = this;
@@ -40,7 +43,11 @@ public class ResourceManager : MonoBehaviour
         LoadShopImages();
         LoadPalaceImages();
         LoadHanbokImages();
+#if UNITY_EDITOR
         LoadVideos();
+#else
+        PreloadLocalVideos();
+#endif
     }
 
     private void LoadHanbokImages()
@@ -211,9 +218,53 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
+    private void PreloadLocalVideos()
+    {
+        string videoFolder = Path.Combine(Application.dataPath, "../Data/Video");
+
+        if (!Directory.Exists(videoFolder))
+        {
+            Debug.LogError($"[ResourceManager] 영상 폴더가 존재하지 않습니다: {videoFolder}");
+            return;
+        }
+
+        string[] mp4Files = Directory.GetFiles(videoFolder, "*.mp4");
+
+        foreach (string fullPath in mp4Files)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(fullPath); // ex: "Intro"
+            if (!System.Enum.TryParse<VideoType>(fileName, out var videoType))
+            {
+                Debug.LogWarning($"[ResourceManager] {fileName}는 VideoType enum에 없습니다.");
+                continue;
+            }
+
+            string fileUrl = "file:///" + fullPath.Replace("\\", "/"); // Windows 경로 대응
+
+            GameObject go = new GameObject($"VideoPlayer_{videoType}");
+            go.transform.SetParent(this.transform);
+            var vp = go.AddComponent<VideoPlayer>();
+            vp.playOnAwake = false;
+            vp.source = VideoSource.Url;
+            vp.url = fileUrl;
+            vp.audioOutputMode = VideoAudioOutputMode.None;
+            vp.Prepare();
+
+            PreloadedPlayers[videoType] = vp;
+            VideoPaths[videoType] = fileUrl;
+        }
+
+        Debug.Log($"[ResourceManager] 영상 {PreloadedPlayers.Count}개 Preload 완료");
+    }
+    public bool TryGetPreloadedVideoPlayer(VideoType type, out VideoPlayer vp)
+    {
+        return PreloadedPlayers.TryGetValue(type, out vp);
+    }
 
     public void LoadVideos()
     {
+        VideoClipDic.Clear();
+
         var videos = Resources.LoadAll<VideoClip>("Video");
         foreach (var v in videos)
         {
@@ -227,7 +278,6 @@ public class ResourceManager : MonoBehaviour
             }
         }
     }
-
 
     private string[] GetImageFiles(string folderPath) // png,jpg,jpeg 가져오기
     {

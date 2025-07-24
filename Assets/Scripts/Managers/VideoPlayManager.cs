@@ -18,7 +18,7 @@ public class VideoPlayManager : MonoBehaviour
 
     public TextMeshProUGUI SubTitle;
     public GameObject PackLogo;
-
+    private VideoType _currentVideoType;
     public void Init()
     {
         Instance = this;
@@ -28,32 +28,92 @@ public class VideoPlayManager : MonoBehaviour
     }
 
     // 영상다오면 파라미터로 받아서 해당 영상 플레이시킬것
+    //public void PlayVideo(VideoType videoType)
+    //{
+    //    bool isSameClip = (_VideoPlayer.clip == ResourceManager.Instance.VideoClipDic[videoType]);
+
+    //    if (isSameClip)
+    //    {
+    //        Debug.Log("같은 영상이 이미 재생 중입니다. 재생 생략: " + videoType);
+    //        return;
+    //    }
+
+    //    // 로고 표시 여부
+    //    PackLogo.SetActive(videoType == VideoType.Default);
+
+    //    // 클립 설정
+    //    _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[videoType];
+    //    _VideoPlayer.Stop();               // 영상 초기화
+    //    _VideoPlayer.time = 0;             // 0초로 강제 이동
+    //    _VideoPlayer.Prepare();            // 준비 시작
+
+    //    // 준비되면 재생
+    //    _VideoPlayer.prepareCompleted += (vp) =>
+    //    {
+    //        vp.Play();
+    //        ShowSubtitle(videoType);
+    //        Debug.Log((isSameClip ? "같은" : "다른") + " 영상 재생됨: " + videoType);
+    //    };
+    //}
+
     public void PlayVideo(VideoType videoType)
     {
-        bool isSameClip = (_VideoPlayer.clip == ResourceManager.Instance.VideoClipDic[videoType]);
-
-        if (isSameClip)
+#if UNITY_EDITOR
+        if (!ResourceManager.Instance.VideoClipDic.TryGetValue(videoType, out var clip))
         {
-            Debug.Log("같은 영상이 이미 재생 중입니다. 재생 생략: " + videoType);
+            Debug.LogError($"[VideoPlayManager] VideoClip 없음: {videoType}");
             return;
         }
 
-        // 로고 표시 여부
+        bool isSameClip = (_VideoPlayer.clip == clip);
+        if (isSameClip)
+        {
+            Debug.Log($"[VideoPlayManager] 같은 영상 생략: {videoType}");
+            return;
+        }
+
         PackLogo.SetActive(videoType == VideoType.Default);
 
-        // 클립 설정
-        _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[videoType];
-        _VideoPlayer.Stop();               // 영상 초기화
-        _VideoPlayer.time = 0;             // 0초로 강제 이동
-        _VideoPlayer.Prepare();            // 준비 시작
+        _VideoPlayer.prepareCompleted -= OnPrepareCompleted;
+        _VideoPlayer.source = VideoSource.VideoClip;
+        _VideoPlayer.clip = clip;
+        _VideoPlayer.Stop();
+        _VideoPlayer.time = 0;
+        _VideoPlayer.prepareCompleted += OnPrepareCompleted;
+        _VideoPlayer.Prepare();
 
-        // 준비되면 재생
-        _VideoPlayer.prepareCompleted += (vp) =>
-        {
-            vp.Play();
-            ShowSubtitle(videoType);
-            Debug.Log((isSameClip ? "같은" : "다른") + " 영상 재생됨: " + videoType);
-        };
+#else
+    if (!ResourceManager.Instance.TryGetPreloadedVideoPlayer(videoType, out var preparedVP))
+    {
+        Debug.LogError($"[VideoPlayManager] PreloadedVideoPlayer 없음: {videoType}");
+        return;
+    }
+
+    if (!preparedVP.isPrepared)
+    {
+        Debug.LogWarning($"[VideoPlayManager] 준비 안됨: {videoType}");
+        return;
+    }
+
+    PackLogo.SetActive(videoType == VideoType.Default);
+
+    _VideoPlayer.prepareCompleted -= OnPrepareCompleted;
+    _VideoPlayer.source = VideoSource.Url;
+    _VideoPlayer.url = preparedVP.url;
+    _VideoPlayer.Stop();
+    _VideoPlayer.time = 0;
+    _VideoPlayer.prepareCompleted += OnPrepareCompleted;
+    _VideoPlayer.Prepare();
+#endif
+
+        _currentVideoType = videoType;
+    }
+
+    private void OnPrepareCompleted(VideoPlayer vp)
+    {
+        vp.Play();
+        ShowSubtitle(_currentVideoType);
+        Debug.Log($"[VideoPlayManager] 영상 재생됨: {_currentVideoType}");
     }
     private void ShowSubtitle(VideoType videoType)
     {
@@ -85,7 +145,10 @@ public class VideoPlayManager : MonoBehaviour
                 if (_VideoPlayer.isActiveAndEnabled) return;
 
                 _VideoPlayer.targetTexture = Display2Texture;
+
                 _VideoPlayer.Play();
+
+                PlayVideo(VideoType.Default); // 기본 영상 재생
             }
             else
             {

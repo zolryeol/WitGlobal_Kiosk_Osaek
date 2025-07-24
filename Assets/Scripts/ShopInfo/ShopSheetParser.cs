@@ -18,15 +18,7 @@ public class ShopSheetParser
             return result;
         }
 
-        // 헤더는 불포함
-
-        if (rows == null || rows.Count < 2)
-        {
-            Debug.LogWarning("비디오 자막 시트에 데이터가 충분하지 않습니다.");
-            return result;
-        }
-
-        for (int i = 1; i < rows.Count; i++)
+        for (int i = 0; i < rows.Count; i++)
         {
             var row = rows[i];
             // Num과 Key가 필수
