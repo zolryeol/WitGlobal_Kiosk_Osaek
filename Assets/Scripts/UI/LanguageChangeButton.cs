@@ -17,6 +17,7 @@ public class LanguageChangeButton : MonoBehaviour
         languagePageCanvasGroup = GameObject.Find("Page_Language").GetComponent<CanvasGroup>();
 
         button.onClick.AddListener(() => UIManager.Instance.OpenPage(languagePageCanvasGroup));
+        button.onClick.AddListener(() => UIManager.Instance.CloseKeyboard());
 
         UIManager.Instance.ChangeLanguageEvent += ChangeLanguageImage;
     }

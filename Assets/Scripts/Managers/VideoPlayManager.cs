@@ -32,6 +32,12 @@ public class VideoPlayManager : MonoBehaviour
     {
         bool isSameClip = (_VideoPlayer.clip == ResourceManager.Instance.VideoClipDic[videoType]);
 
+        if (isSameClip)
+        {
+            Debug.Log("같은 영상이 이미 재생 중입니다. 재생 생략: " + videoType);
+            return;
+        }
+
         // 로고 표시 여부
         PackLogo.SetActive(videoType == VideoType.Default);
 

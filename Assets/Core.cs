@@ -6,7 +6,7 @@ using UnityEngine;
 public class Core : MonoBehaviour
 {
     [SerializeField] private ResourceManager resourceManager;
-    [SerializeField] private LoadManager shopManger;
+    [SerializeField] private LoadManager loadManager;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private PrefabManager prefabManager;
     [SerializeField] private ExchangeRateManager exchangeRateManager;
@@ -24,7 +24,7 @@ public class Core : MonoBehaviour
     {
         resourceManager = FindObjectOfType<ResourceManager>();
         prefabManager = FindObjectOfType<PrefabManager>();
-        shopManger = FindObjectOfType<LoadManager>();
+        loadManager = FindObjectOfType<LoadManager>();
         uiManager = FindObjectOfType<UIManager>();
         exchangeRateManager = FindObjectOfType<ExchangeRateManager>();
         videoPlayManager = FindObjectOfType<VideoPlayManager>();
@@ -48,7 +48,7 @@ public class Core : MonoBehaviour
         resourceManager.Init();
 
 
-        await shopManger.Init(); // 데이터 로드가 끝날 때까지 대기 // 테스트용으로 잠시 꺼둠
+        await loadManager.Init(); // 데이터 로드가 끝날 때까지 대기 // 테스트용으로 잠시 꺼둠
 
         uiManager.Init();
 
