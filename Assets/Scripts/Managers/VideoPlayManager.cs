@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
@@ -44,8 +45,25 @@ public class VideoPlayManager : MonoBehaviour
         _VideoPlayer.prepareCompleted += (vp) =>
         {
             vp.Play();
+            ShowSubtitle(videoType);
             Debug.Log((isSameClip ? "같은" : "다른") + " 영상 재생됨: " + videoType);
         };
+    }
+    private void ShowSubtitle(VideoType videoType)
+    {
+        string key = videoType.ToString(); // ex: "Default"
+        var subtitleData = LoadManager.Instance.VideoSubTitleList
+            .FirstOrDefault(sub => sub.key == key);
+
+        if (subtitleData != null)
+        {
+            var langIdx = (int)UIManager.Instance.NowLanguage;
+            SubTitle.text = subtitleData.SubtitleString[langIdx];
+        }
+        else
+        {
+            SubTitle.text = ""; // 자막 없을 경우 비우기
+        }
     }
 
     public void ActivateDisplay2()

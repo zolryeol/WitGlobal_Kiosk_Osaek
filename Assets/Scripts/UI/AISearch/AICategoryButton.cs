@@ -35,7 +35,7 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
     public void SetCategoryInfo(int index)
     {
         // index를 버튼의 인덱스와 카테고리의 Num으로 사용한다고 가정
-        category = ShopManager.Instance.AICategorieList.Find(t => t.Num == index + 1);
+        category = LoadManager.Instance.AICategorieList.Find(t => t.Num == index + 1);
 
         if (category != null)
         {

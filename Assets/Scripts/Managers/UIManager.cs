@@ -277,7 +277,7 @@ public class UIManager : MonoBehaviour
     {
         Category_Base baseCategory = NowSelectedCategory; // 현재 선택된 카테고리로 설정
 
-        var t = ShopManager.Instance.GetShopsBySecondCategory(baseCategory, categoryButtonIndex);
+        var t = LoadManager.Instance.GetShopsBySecondCategory(baseCategory, categoryButtonIndex);
 
         // 랜덤순으로 섞는다.
         t = t.OrderBy(_ => UnityEngine.Random.value).ToList();
@@ -303,7 +303,7 @@ public class UIManager : MonoBehaviour
     public void FetchingContent(string str)
     {
         str = str.Trim(); // 공백 제거
-        var shops = ShopManager.Instance.GetShopsBySearch(str);
+        var shops = LoadManager.Instance.GetShopsBySearch(str);
 
         Debug.Log("콘텐츠 갯수 = " + shops.Count);
 

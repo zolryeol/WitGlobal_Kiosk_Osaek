@@ -17,11 +17,11 @@ public static class GoogleSheetReader
     static readonly string ShopDataRange = "ShopData_Insa!A1:AG"; // 가게 정보
     static readonly string PalaceInfoDataRange = "PalaceInfo_Insa!A3:AD"; // 고궁정보
     static readonly string EventInfoDataRange = "Event_Insa!A3:AG"; // 이벤트 정보
+    static readonly string VideoSubTitleRange = "VideoSubtitle_Insa!A3:J"; // 동영상 자막 정보
 
     static readonly string LocalizationDataRange = "Localization_Insa!A1:F";
 
     static readonly string fileName = "kiosk-insadatasheet-52e5347a7b9c.json";
-
 
 
     public static async Task<ValueRange> ReadShopDataSheetAsync() // shopdata 시트
@@ -85,6 +85,23 @@ public static class GoogleSheetReader
         SheetsService service = GetService(credential);
 
         var request = service.Spreadsheets.Values.Get(DataSheet_Insa, PalaceInfoDataRange);
+        try
+        {
+            var sheet = await request.ExecuteAsync();
+            return sheet;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[GoogleSheetReader] Google Sheets API request failed: {ex.Message}");
+            return null;
+        }
+    }
+
+    public static async Task<ValueRange> ReadVideoSubTitleDataRange()
+    {
+        GoogleCredential credential = GetCredential(); ; // 인증 정보 로드(자격증명) 
+        SheetsService service = GetService(credential);
+        var request = service.Spreadsheets.Values.Get(DataSheet_Insa, VideoSubTitleRange);
         try
         {
             var sheet = await request.ExecuteAsync();

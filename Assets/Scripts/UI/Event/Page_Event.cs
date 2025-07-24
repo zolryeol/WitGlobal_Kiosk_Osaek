@@ -46,7 +46,7 @@ public class Page_Event : MonoBehaviour, IPrefabInstancer
 
     public void FetchingContent(EventState eventState)
     {
-        var targetEvent = ShopManager.Instance.GetEventByState(eventState);
+        var targetEvent = LoadManager.Instance.GetEventByState(eventState);
 
         for (int i = 0; i < contentObjList.Count; ++i)
         {
@@ -92,7 +92,7 @@ public class Page_Event : MonoBehaviour, IPrefabInstancer
 
         Debug.Log("이벤트 콘텐츠 인스턴싱");
 
-        maxCountentCount = ShopManager.Instance.GetEventMaxCount();
+        maxCountentCount = LoadManager.Instance.GetEventMaxCount();
 
         var page = FindObjectOfType<Page_Event>();
 

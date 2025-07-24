@@ -31,7 +31,7 @@ public class LocalizerText : MonoBehaviour
         }
 
 
-        var entry = ShopManager.Instance.LocalizeTextList.Find(t => t.Key == key);
+        var entry = LoadManager.Instance.LocalizeTextList.Find(t => t.Key == key);
 
         if (entry != null)
         {
@@ -45,14 +45,14 @@ public class LocalizerText : MonoBehaviour
     }
     public void UpdateText()
     {
-        if (ShopManager.Instance == null || string.IsNullOrEmpty(key) || targetText == null)
+        if (LoadManager.Instance == null || string.IsNullOrEmpty(key) || targetText == null)
         {
             Debug.LogWarning($"[LocalizerText] 초기화 실패: key 또는 targetText가 비어있거나 ShopManager가 초기화되지 않음.");
             return;
         }
 
         var language = UIManager.Instance.NowLanguage;
-        var entry = ShopManager.Instance.LocalizeTextList.Find(t => t.Key == key);
+        var entry = LoadManager.Instance.LocalizeTextList.Find(t => t.Key == key);
 
         if (entry != null)
         {

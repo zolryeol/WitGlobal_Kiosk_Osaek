@@ -46,7 +46,7 @@ public class AIRecommendCourse : MonoBehaviour
         {
             for (int j = 0; j < AICourseInfoHolder_Small[i].AICourseInfoArr.Length; j++)
             {
-                var data = ShopManager.Instance.GetShopsByAICategory(selectedCategory[j]);
+                var data = LoadManager.Instance.GetShopsByAICategory(selectedCategory[j]);
 
                 int randomIndex = Random.Range(0, data.Count); // 추후 order로 받아오면 지울 것
                 var aicourinfo = AICourseInfoHolder_Small[i].AICourseInfoArr[j];

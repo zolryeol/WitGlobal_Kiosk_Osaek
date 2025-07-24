@@ -30,7 +30,7 @@ public class ShopContentCreator : MonoBehaviour, IPrefabInstancer
     }
     public void CreateContentInstance()
     {
-        MaxContentCount = ShopManager.Instance.GetBaseCategoryMaxCount();
+        MaxContentCount = LoadManager.Instance.GetBaseCategoryMaxCount();
 
         var um = UIManager.Instance;
 

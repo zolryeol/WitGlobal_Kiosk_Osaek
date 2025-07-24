@@ -6,7 +6,7 @@ using UnityEngine;
 public class Core : MonoBehaviour
 {
     [SerializeField] private ResourceManager resourceManager;
-    [SerializeField] private ShopManager shopManger;
+    [SerializeField] private LoadManager shopManger;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private PrefabManager prefabManager;
     [SerializeField] private ExchangeRateManager exchangeRateManager;
@@ -24,7 +24,7 @@ public class Core : MonoBehaviour
     {
         resourceManager = FindObjectOfType<ResourceManager>();
         prefabManager = FindObjectOfType<PrefabManager>();
-        shopManger = FindObjectOfType<ShopManager>();
+        shopManger = FindObjectOfType<LoadManager>();
         uiManager = FindObjectOfType<UIManager>();
         exchangeRateManager = FindObjectOfType<ExchangeRateManager>();
         videoPlayManager = FindObjectOfType<VideoPlayManager>();

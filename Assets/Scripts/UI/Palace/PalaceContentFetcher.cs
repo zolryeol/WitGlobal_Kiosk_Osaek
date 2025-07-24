@@ -29,7 +29,7 @@ public class PalaceContentFetcher : MonoBehaviour
 
             pc.Init(this);
 
-            pc.FetchContent(ShopManager.Instance.PalaceDataList[i]);
+            pc.FetchContent(LoadManager.Instance.PalaceDataList[i]);
 
             palaceContentList.Add(pc);
         }

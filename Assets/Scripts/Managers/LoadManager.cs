@@ -8,9 +8,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 // 스프레드 시트에서 데이터를 불러와서 저장할 예정
-public class ShopManager : MonoBehaviour
+public class LoadManager : MonoBehaviour
 {
-    public static ShopManager Instance { get; private set; }
+    public static LoadManager Instance { get; private set; }
     [SerializeField]
     private List<BaseShopInfoData> shopList = new();
 
@@ -22,6 +22,10 @@ public class ShopManager : MonoBehaviour
     private List<EventData> eventList = new();
     [SerializeField]
     private List<LocalizationText> locaizationList = new();
+    [SerializeField]
+    private List<VideoSubtitleData> videoSubTitleList = new();
+
+    public List<VideoSubtitleData> VideoSubTitleList => videoSubTitleList;
 
     public List<BaseShopInfoData> ShopList => shopList;
     public List<AICategory> AICategorieList => aiCategorieList;
@@ -44,8 +48,24 @@ public class ShopManager : MonoBehaviour
         await LoadPalaceInfoDataAsync();
         await LoadEventDataAsync();
         await LoadLocalizationTextAsync();
-
+        await LoadVideoSubTitleDataAsync();
         Debug.Log("<color=green>[Shop 매니저] 로드 완료</color>");
+    }
+
+
+    private async Task LoadVideoSubTitleDataAsync()
+    {
+        var sheet = await GoogleSheetReader.ReadVideoSubTitleDataRange();
+        if (sheet != null)
+        {
+            // 비디오 자막 데이터 파싱
+            videoSubTitleList = ShopSheetParser.VideoSubTitleParse(sheet);
+            Debug.Log($"[ShopManager] 비디오 자막 데이터 {videoSubTitleList.Count}개 로드 완료");
+        }
+        else
+        {
+            Debug.LogError("[ShopManager] 비디오 자막 데이터를 불러오지 못했습니다.");
+        }
     }
 
     private async Task LoadShopInfoDataAsync()

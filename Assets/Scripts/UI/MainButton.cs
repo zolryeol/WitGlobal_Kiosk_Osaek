@@ -90,7 +90,7 @@ public class MainButton : MonoBehaviour, ILocalizable
     }
     public void OnCategoryButton()
     {
-        var secondCateStrList = ShopManager.Instance.GetSecondCategoryStringTrim(category);
+        var secondCateStrList = LoadManager.Instance.GetSecondCategoryStringTrim(category);
 
         Debug.Log("카테고리 카운트 = " + secondCateStrList.Count);
 

@@ -1,4 +1,5 @@
 using Google.Apis.Sheets.v4.Data;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,51 @@ using UnityEngine.Networking;
 
 public class ShopSheetParser
 {
+    public static List<VideoSubtitleData> VideoSubTitleParse(ValueRange sheet)
+    {
+        var result = new List<VideoSubtitleData>();
+        var rows = sheet?.Values;
+        if (rows == null || rows.Count < 2)
+        {
+            Debug.LogWarning("비디오 자막 시트에 데이터가 충분하지 않습니다.");
+            return result;
+        }
+
+        // 헤더는 불포함
+
+        if (rows == null || rows.Count < 2)
+        {
+            Debug.LogWarning("비디오 자막 시트에 데이터가 충분하지 않습니다.");
+            return result;
+        }
+
+        for (int i = 1; i < rows.Count; i++)
+        {
+            var row = rows[i];
+            // Num과 Key가 필수
+            if (row.Count < 3 || string.IsNullOrWhiteSpace(row[0]?.ToString()) || string.IsNullOrWhiteSpace(row[1]?.ToString()))
+                continue;
+            var data = new VideoSubtitleData();
+            // Num
+            if (int.TryParse(row[0].ToString(), out int num))
+                data.Num = num;
+            else
+                continue;
+            // Key
+            data.key = row[1].ToString();
+            data.fileName = row[2].ToString();
+
+            data.SubtitleString[(int)Language.Korean] = GetCell(row, 3);
+            data.SubtitleString[(int)Language.English] = GetCell(row, 4);
+            data.SubtitleString[(int)Language.Japanese] = GetCell(row, 5);
+            data.SubtitleString[(int)Language.Chinese] = GetCell(row, 6);
+            result.Add(data);
+        }
+        Debug.Log($"✅ 영상자막 {result.Count}개 파싱 완료");
+
+        return result;
+    }
+
     public static List<LocalizationText> LocalizationTextParse(ValueRange sheet)
     {
         var result = new List<LocalizationText>();
@@ -321,6 +367,16 @@ public class ShopSheetParser
     {
         return (row.Count > index && row[index] != null) ? row[index].ToString() : string.Empty;
     }
+}
+
+[Serializable]
+public class VideoSubtitleData
+{
+    public int Num; // 번호
+    public string key; // 키
+    public string fileName;
+    public string[] SubtitleString = new string[(int)Language.EndOfIndex]; // 자막 내용
+    // 행정보 Num , key , Korean, English, Japanese, Chinese
 }
 
 [Serializable]
