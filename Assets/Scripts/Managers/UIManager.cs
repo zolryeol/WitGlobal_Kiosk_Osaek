@@ -648,7 +648,7 @@ public class UIManager : MonoBehaviour
             case Category_ETC.Transport:
                 break;
             case Category_ETC.Search:
-                VideoPlayManager.Instance.PlayVideo(VideoType.Search);
+                VideoPlayManager.Instance.PlayVideo(VideoType.Search_Detail);
                 break;
             default:
                 break;

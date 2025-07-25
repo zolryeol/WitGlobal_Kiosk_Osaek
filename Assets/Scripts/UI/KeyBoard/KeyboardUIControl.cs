@@ -46,6 +46,12 @@ public class KeyboardUIControl : MonoBehaviour
         keyboard.SetActive(false);
         closePanelButton.gameObject.SetActive(false);
         hangulKeyborad.Reset();
+
+        if (UIManager.Instance.PageStack.Count == 0) // 메인페이지 예외처리
+        {
+            button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Default));
+        }
+
     }
 
     public void OpenKeyboard()

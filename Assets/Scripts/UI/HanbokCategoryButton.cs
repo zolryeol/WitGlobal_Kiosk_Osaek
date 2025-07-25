@@ -22,6 +22,7 @@ public class HanbokCategoryButton : Button, ISelectableButton
     {
         base.Start();
         onClick.AddListener(OnButtonClicked);
+        onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Photo_SelectHanbok));
         SetSelected(false); // 초기 상태는 선택되지 않음
     }
 
