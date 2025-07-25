@@ -23,6 +23,7 @@ public class ShopContent : MonoBehaviour
             {
                 UIManager.Instance.OnDetailPage();
                 UIManager.Instance.DetailPage.GetComponent<ShopContentDetail>().FetchContent(baseShopInfoData);
+                UIManager.Instance.PlayVideoByDetail();
             }
             );
         }

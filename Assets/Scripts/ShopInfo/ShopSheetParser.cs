@@ -12,6 +12,7 @@ public class ShopSheetParser
     {
         var result = new List<VideoSubtitleData>();
         var rows = sheet?.Values;
+
         if (rows == null || rows.Count < 2)
         {
             Debug.LogWarning("비디오 자막 시트에 데이터가 충분하지 않습니다.");
@@ -21,30 +22,34 @@ public class ShopSheetParser
         for (int i = 0; i < rows.Count; i++)
         {
             var row = rows[i];
-            // Num과 Key가 필수
+
+            // Num, Key, FileName 필수 체크
             if (row.Count < 3 || string.IsNullOrWhiteSpace(row[0]?.ToString()) || string.IsNullOrWhiteSpace(row[1]?.ToString()))
                 continue;
-            var data = new VideoSubtitleData();
-            // Num
-            if (int.TryParse(row[0].ToString(), out int num))
-                data.Num = num;
-            else
-                continue;
-            // Key
-            data.key = row[1].ToString();
-            data.fileName = row[2].ToString();
 
-            data.SubtitleString[(int)Language.Korean] = GetCell(row, 3);
-            data.SubtitleString[(int)Language.English] = GetCell(row, 4);
-            data.SubtitleString[(int)Language.Japanese] = GetCell(row, 5);
-            data.SubtitleString[(int)Language.Chinese] = GetCell(row, 6);
+            if (!int.TryParse(row[0].ToString(), out int num))
+                continue;
+
+            var data = new VideoSubtitleData
+            {
+                Num = num,
+                key = row[1].ToString(),
+                fileName = row[2].ToString()
+            };
+
+            // 언어별 자막 (index 3 ~ 6)
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                int columnIndex = 3 + lang;
+                data.SubtitleString[lang] = (columnIndex < row.Count) ? row[columnIndex]?.ToString() ?? "" : "";
+            }
+
             result.Add(data);
         }
-        Debug.Log($"✅ 영상자막 {result.Count}개 파싱 완료");
 
+        Debug.Log($"✅ 영상자막 {result.Count}개 파싱 완료");
         return result;
     }
-
     public static List<LocalizationText> LocalizationTextParse(ValueRange sheet)
     {
         var result = new List<LocalizationText>();

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SecondCategoryButton : Button, ILocalizable,ISelectableButton
+public class SecondCategoryButton : Button, ILocalizable, ISelectableButton
 {
     public int SecondCategoryButtonIndex { get; set; } = -1;
 
@@ -23,6 +23,7 @@ public class SecondCategoryButton : Button, ILocalizable,ISelectableButton
         base.Start();
         onClick.AddListener(OnButtonClicked);
         SetSelected(false); // 초기 상태는 선택되지 않음
+        onClick.AddListener(UIManager.Instance.PlayVideoByCategoryButton);
     }
     public void UpdateLocalizedString(string targetString)
     {
@@ -42,7 +43,7 @@ public class SecondCategoryButton : Button, ILocalizable,ISelectableButton
         }
         else
         {
-            CommonFunction.ChangeColorBtnAndTxt(transform,false);
+            CommonFunction.ChangeColorBtnAndTxt(transform, false);
 
             //GetComponent<Image>().color = UIColorPalette.NormalColor;
             //transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.NormalTextColor;

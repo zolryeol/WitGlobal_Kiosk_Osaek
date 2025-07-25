@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
+using Random = UnityEngine.Random;
 
 public class VideoPlayManager : MonoBehaviour
 {
@@ -58,87 +59,67 @@ public class VideoPlayManager : MonoBehaviour
     //    };
     //}
 
-    public void PlayVideo(VideoType videoType)
+    private Dictionary<VideoType, int> videoPlayIndexMap = new();
+
+    private VideoSubtitleData nextSubtitleData;
+    private VideoType currentPlayingType;
+
+    public void PlayVideo(VideoType type)
     {
-#if UNITY_EDITOR
-        if (!ResourceManager.Instance.VideoClipDic.TryGetValue(videoType, out var clip))
+        if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)
         {
-            Debug.LogError($"[VideoPlayManager] VideoClip 없음: {videoType}");
-            _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[VideoType.Default]; // 기본 영상으로 설정
-
-            if (_VideoPlayer.isPaused) _VideoPlayer.Play(); // 영상이 일시정지 상태라면 재생
-
-            return;
-        }
-        bool isSameClip = (_VideoPlayer.clip == clip);
-
-        if (isSameClip)
-        {
-            Debug.Log($"[VideoPlayManager] 같은 영상 생략: {videoType}");
+            Debug.LogWarning($"[VideoPlayManager] 자막 리스트 없음: {type}");
             return;
         }
 
-        PackLogo.SetActive(videoType == VideoType.Default);
+        // 현재 재생 중인 타입 저장
+        currentPlayingType = type;
 
-        _VideoPlayer.prepareCompleted -= OnPrepareCompleted;
-        _VideoPlayer.source = VideoSource.VideoClip;
-        _VideoPlayer.clip = clip;
-        _VideoPlayer.Stop();
-        _VideoPlayer.time = 0;
-        _VideoPlayer.prepareCompleted += OnPrepareCompleted;
+        // 순차 인덱스 계산
+        if (!videoPlayIndexMap.TryGetValue(type, out int currentIndex))
+        {
+            currentIndex = 0;
+        }
+
+        var selected = list[currentIndex];
+        videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
+
+        if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
+        {
+            Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName}");
+            return;
+        }
+
+        _VideoPlayer.prepareCompleted -= OnVideoPrepared;
+        _VideoPlayer.prepareCompleted += OnVideoPrepared;
+
+        _VideoPlayer.loopPointReached -= OnVideoFinished;
+        _VideoPlayer.loopPointReached += OnVideoFinished;
+
+        _VideoPlayer.source = VideoSource.Url;
+        _VideoPlayer.url = player.url;
+
+        // 다음 자막 표시용 임시 저장
+        nextSubtitleData = selected;
+
         _VideoPlayer.Prepare();
-
-#else
-    if (!ResourceManager.Instance.TryGetPreloadedVideoPlayer(videoType, out var preparedVP))
-    {
-        Debug.LogError($"[VideoPlayManager] PreloadedVideoPlayer 없음: {videoType}");
-        _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[VideoType.Default]; // 기본 영상으로 설정
-        if(_VideoPlayer.isPaused) _VideoPlayer.Play(); // 영상이 일시정지 상태라면 재생
     }
-
-    if (!preparedVP.isPrepared)
-    {
-        Debug.LogWarning($"[VideoPlayManager] 준비 안됨: {videoType}");
-        _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[VideoType.Default];
-        if(_VideoPlayer.isPaused) _VideoPlayer.Play(); // 영상이 일시정지 상태라면 재생
-        return;
-    }
-
-    PackLogo.SetActive(videoType == VideoType.Default);
-
-    _VideoPlayer.prepareCompleted -= OnPrepareCompleted;
-    _VideoPlayer.source = VideoSource.Url;
-    _VideoPlayer.url = preparedVP.url;
-    _VideoPlayer.Stop();
-    _VideoPlayer.time = 0;\
-    _VideoPlayer.prepareCompleted += OnPrepareCompleted;
-    _VideoPlayer.Prepare();
-#endif
-
-        _currentVideoType = videoType;
-    }
-
-    private void OnPrepareCompleted(VideoPlayer vp)
+    private void OnVideoPrepared(VideoPlayer vp)
     {
         vp.Play();
-        ShowSubtitle(_currentVideoType);
-        Debug.Log($"[VideoPlayManager] 영상 재생됨: {_currentVideoType}");
+        ShowSubtitle(nextSubtitleData);
     }
-    private void ShowSubtitle(VideoType videoType)
-    {
-        string key = videoType.ToString(); // ex: "Default"
-        var subtitleData = LoadManager.Instance.VideoSubTitleList
-            .FirstOrDefault(sub => sub.key == key);
 
-        if (subtitleData != null)
-        {
-            var langIdx = (int)UIManager.Instance.NowLanguage;
-            SubTitle.text = subtitleData.SubtitleString[langIdx];
-        }
-        else
-        {
-            SubTitle.text = ""; // 자막 없을 경우 비우기
-        }
+    private void OnVideoFinished(VideoPlayer vp)
+    {
+        Debug.Log("📽 영상 재생 완료 → 다음 영상으로");
+        PlayVideo(currentPlayingType);
+    }
+
+    private void ShowSubtitle(VideoSubtitleData data)
+    {
+        int langIndex = (int)UIManager.Instance.NowLanguage;
+        SubTitle.text = data.SubtitleString[langIndex];
     }
 
     public void ActivateDisplay2()
@@ -209,3 +190,4 @@ public class VideoPlayManager : MonoBehaviour
         Debug.LogError("[VideoPlayManager] Display 2를 최종적으로 감지하지 못했습니다.");
     }
 }
+

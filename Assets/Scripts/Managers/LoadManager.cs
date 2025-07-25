@@ -49,6 +49,9 @@ public class LoadManager : MonoBehaviour
         await LoadEventDataAsync();
         await LoadLocalizationTextAsync();
         await LoadVideoSubTitleDataAsync();
+
+        ResourceManager.Instance.BuildVideoMapFromSubtitleList(videoSubTitleList);
+
         Debug.Log("<color=green>[Shop 매니저] 로드 완료</color>");
     }
 
@@ -66,6 +69,7 @@ public class LoadManager : MonoBehaviour
         {
             Debug.LogError("[ShopManager] 비디오 자막 데이터를 불러오지 못했습니다.");
         }
+
     }
 
     private async Task LoadShopInfoDataAsync()

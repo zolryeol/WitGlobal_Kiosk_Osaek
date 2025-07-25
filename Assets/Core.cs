@@ -60,6 +60,8 @@ public class Core : MonoBehaviour
         Loading.SetActive(false);
         //Application.logMessageReceived -= HandleLog;
         debugging.gameObject.SetActive(false);
+
+        videoPlayManager.PlayVideo(VideoType.Default); // 기본 영상 재생
     }
 
     private void HandleLog(string logString, string stackTrace, LogType type)

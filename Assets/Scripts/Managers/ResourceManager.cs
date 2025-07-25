@@ -26,16 +26,11 @@ public class ResourceManager : MonoBehaviour
     public Sprite NoQRImage;
 
     public Sprite[] PhotoBlockingImage = new Sprite[4];
-
-    //public Dictionary<string, List<Sprite>> HanbokSpritesDic { get; private set; } = new();
     public Dictionary<string, List<(string, Sprite)>> HanbokSpritesDic { get; private set; } = new(); // 폴더명, 파일명,이미지
 
+    public Dictionary<VideoType, List<VideoSubtitleData>> VideoMap { get; private set; } = new();
+    public Dictionary<string, VideoPlayer> VideoPlayersByFileName { get; private set; } = new();
 
-    [Header("비디오")]
-    private Dictionary<VideoType, VideoPlayer> PreloadedPlayers = new();
-    private Dictionary<VideoType, string> VideoPaths = new();
-
-    public Dictionary<VideoType, VideoClip> VideoClipDic = new();
     public void Init()
     {
         Instance = this;
@@ -43,11 +38,7 @@ public class ResourceManager : MonoBehaviour
         LoadShopImages();
         LoadPalaceImages();
         LoadHanbokImages();
-#if UNITY_EDITOR
-        LoadVideos();
-#else
         PreloadLocalVideos();
-#endif
     }
 
     private void LoadHanbokImages()
@@ -168,40 +159,6 @@ public class ResourceManager : MonoBehaviour
 
         Debug.Log($"[ResourceManager] 총 {ShopSpritesDic.Count}개 카테고리 로드 완료");
     }
-
-    //private void LoadShopImages() // TXT로 불러오기;
-    //{
-    //    // ShopImage 폴더 하위의 모든 폴더명 가져오기
-    //    TextAsset folderListAsset = Resources.Load<TextAsset>("ShopImageFolders");
-    //    if (folderListAsset == null)
-    //    {
-    //        Debug.LogError("ShopImageFolders.txt를 Resources에 넣어주세요.");
-    //        return;
-    //    }
-
-    //    string[] folderNames = folderListAsset.text.Split('\n');
-
-    //    foreach (string rawFolderName in folderNames)
-    //    {
-    //        string folderName = rawFolderName.Trim();
-    //        if (string.IsNullOrEmpty(folderName))
-
-    //            continue;
-
-    //        // 각 폴더의 모든 Sprite 로드
-    //        Sprite[] sprites = Resources.LoadAll<Sprite>($"ShopImage/{folderName}");
-    //        if (sprites.Length == 0)
-    //        {
-    //            Debug.LogWarning($"ShopImage/{folderName} 폴더에 이미지가 없습니다.");
-    //            continue;
-    //        }
-
-    //        ShopSpritesDic[folderName] = new List<Sprite>(sprites);
-    //    }
-
-    //    Debug.Log($"[ResourceManager] ShopImage 폴더별 이미지 로드 완료: {ShopSpritesDic.Count}개 폴더");
-    //}
-
     private void LoadPalaceImages()
     {
         for (int i = 1; i <= 4; i++)
@@ -218,10 +175,32 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    private void PreloadLocalVideos()
+    public void BuildVideoMapFromSubtitleList(List<VideoSubtitleData> subtitleList)
     {
-        string videoFolder = Path.Combine(Application.dataPath, "../Data/Video");
+        VideoMap.Clear();
 
+        foreach (var data in subtitleList)
+        {
+            if (!System.Enum.TryParse(data.key, out VideoType videoType))
+            {
+                Debug.LogWarning($"[ResourceManager] VideoType 변환 실패: {data.key}");
+                continue;
+            }
+
+            if (!VideoMap.ContainsKey(videoType))
+                VideoMap[videoType] = new List<VideoSubtitleData>();
+
+            VideoMap[videoType].Add(data);
+        }
+    }
+
+    public void PreloadLocalVideos()
+    {
+#if UNITY_EDITOR
+        string videoFolder = "D:/Data/Video";
+#else
+        string videoFolder = Path.Combine(Application.dataPath, "../Data/Video");
+#endif
         if (!Directory.Exists(videoFolder))
         {
             Debug.LogError($"[ResourceManager] 영상 폴더가 존재하지 않습니다: {videoFolder}");
@@ -232,16 +211,10 @@ public class ResourceManager : MonoBehaviour
 
         foreach (string fullPath in mp4Files)
         {
-            string fileName = Path.GetFileNameWithoutExtension(fullPath); // ex: "Intro"
-            if (!System.Enum.TryParse<VideoType>(fileName, out var videoType))
-            {
-                Debug.LogWarning($"[ResourceManager] {fileName}는 VideoType enum에 없습니다.");
-                continue;
-            }
+            string fileName = Path.GetFileNameWithoutExtension(fullPath);
+            string fileUrl = "file:///" + fullPath.Replace("\\", "/");
 
-            string fileUrl = "file:///" + fullPath.Replace("\\", "/"); // Windows 경로 대응
-
-            GameObject go = new GameObject($"VideoPlayer_{videoType}");
+            GameObject go = new GameObject($"VideoPlayer_{fileName}");
             go.transform.SetParent(this.transform);
             var vp = go.AddComponent<VideoPlayer>();
             vp.playOnAwake = false;
@@ -250,33 +223,14 @@ public class ResourceManager : MonoBehaviour
             vp.audioOutputMode = VideoAudioOutputMode.None;
             vp.Prepare();
 
-            PreloadedPlayers[videoType] = vp;
-            VideoPaths[videoType] = fileUrl;
+            VideoPlayersByFileName[fileName] = vp;
         }
 
-        Debug.Log($"[ResourceManager] 영상 {PreloadedPlayers.Count}개 Preload 완료");
+        Debug.Log($"[ResourceManager] 영상 {VideoPlayersByFileName.Count}개 Preload 완료");
     }
-    public bool TryGetPreloadedVideoPlayer(VideoType type, out VideoPlayer vp)
+    public bool TryGetVideoPlayer(string fileName, out VideoPlayer player)
     {
-        return PreloadedPlayers.TryGetValue(type, out vp);
-    }
-
-    public void LoadVideos()
-    {
-        VideoClipDic.Clear();
-
-        var videos = Resources.LoadAll<VideoClip>("Video");
-        foreach (var v in videos)
-        {
-            if (Enum.TryParse<VideoType>(v.name, out var _videoType))
-            {
-                VideoClipDic.Add(_videoType, v);
-            }
-            else
-            {
-                Debug.LogWarning($"'{v.name}'는 VideoType enum에 존재하지 않습니다.");
-            }
-        }
+        return VideoPlayersByFileName.TryGetValue(fileName, out player);
     }
 
     private string[] GetImageFiles(string folderPath) // png,jpg,jpeg 가져오기
@@ -297,10 +251,4 @@ public class ResourceManager : MonoBehaviour
     return Path.Combine(Application.dataPath, "../Data/ShopImage");
 #endif
     }
-}
-public class VideoMetaData
-{
-    public VideoType Type;       // Enum
-    public string FileName;      // 실제 .mp4 파일 이름 (확장자 제외)
-    public string[] Subtitles = new string[(int)Language.EndOfIndex];
 }

@@ -37,6 +37,7 @@ public enum Category_ETC // ShopManager에서 다루지 않는 Category들
     Mission, // 미션
     Exchange,
     Transport,
+    AISelect, // AI 선택
 }
 
 public enum VideoType
@@ -44,22 +45,39 @@ public enum VideoType
     Default,
     SelectPhotoHanbok,
     WaitCreatePhoto,
+    CompletePhoto,
     ToEat,
+    ToEat_Category,
+    ToEat_Detail,
     ToBuy,
+    ToBuy_Category,
+    ToBuy_Detail,
     ToGallery,
+    ToGallery_Category,
+    ToGallery_Detail,
     ToHelp,
+    ToHelp_Category,
+    ToHelp_Detail,
     ToStay,
+    ToStay_Category,
+    ToStay_Detail,
     Palace,
+    Palace_Detail,
     HanbokExplain,
     Map,
     Here,
     Greeting,
     Photo,
     Event,
+    Event_Category,
     Mission, // 미션
     AISearch,
+    AISearch_Category,
+    AISearch_Detail,
     Exchange,
     Transport,
+    ChangeLanguage, // 언어변경
+
 }
 
 #region 하위카테고리 사용하지않음

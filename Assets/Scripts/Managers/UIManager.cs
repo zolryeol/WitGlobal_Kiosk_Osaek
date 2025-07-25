@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour
     public event Action ChangeLanguageEvent; // 언어 변경시 호출될 이벤트들;
 
     public Category_Base NowSelectedCategory = Category_Base.Default; // 현재 선택된 카테고리
+    public Category_ETC NowSelectedETC = Category_ETC.Default; // 현재 선택된 ETC 카테고리
 
     public Scrollbar FoodAndShopScrollbar; // 뭐먹지, 뭐사지 스크롤바
     public Scrollbar HanbokScrollbar; // 사진찍기 한복선택 스크롤바
@@ -87,6 +88,12 @@ public class UIManager : MonoBehaviour
         InitLocalization();
     }
 
+    public void SetNowSelectCategory(Category_Base _baseCategory = Category_Base.Default, Category_ETC _EtcCategory = Category_ETC.Default)
+    {
+        NowSelectedCategory = _baseCategory;
+        NowSelectedETC = _EtcCategory;
+        Debug.Log($"현재 선택된 카테고리: {NowSelectedCategory}, ETC: {NowSelectedETC}");
+    }
     public void InitLocalization()
     {
         localizableImageList = FindObjectsOfType<MonoBehaviour>(true)  // 비활성 오브젝트까지 포함
@@ -395,31 +402,55 @@ public class UIManager : MonoBehaviour
             keyboard.Reset();
         }
     }
-
     private float lastTouchTime = 0f;
-    [SerializeField] private float idleThreshold = 300f; // N초간 터치 없으면 초기화
+    [Header("초기화타임")]
+    [SerializeField] private float idleThreshold = 300f;
+
+    private int lastLoggedSecond = -1;
 
     private void Update()
     {
+        // 터치 입력 감지
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
         {
             lastTouchTime = Time.time;
+            lastLoggedSecond = -1; // 로그 리셋
         }
 
-        // 마우스 클릭도 감지할 경우 (에디터 테스트용)
+        // 마우스 클릭 감지
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             lastTouchTime = Time.time;
+            lastLoggedSecond = -1; // 로그 리셋
         }
 
-        if (Time.time - lastTouchTime > idleThreshold)
+        float elapsed = Time.time - lastTouchTime;
+        float remaining = idleThreshold - elapsed;
+
+        if (remaining > 0f)
         {
+            int remainingSeconds = Mathf.CeilToInt(remaining);
+            if (remainingSeconds != lastLoggedSecond)
+            {
+                //Debug.Log($"⏳ 초기화까지 남은 시간: {remainingSeconds}초");
+                lastLoggedSecond = remainingSeconds;
+            }
+        }
+
+        if (elapsed > idleThreshold)
+        {
+            if (PageStack.Count == 0 && nowLanguage == Language.Korean)
+            {
+                lastTouchTime = Time.time + 99999f;
+                return;
+            }
+
             Debug.Log("⏳ 일정 시간 입력 없음 → 초기화면으로 이동");
             ResetToHomeScreen();
-            lastTouchTime = Time.time + 99999f; // 중복 방지
+            lastTouchTime = Time.time + 99999f;
+            lastLoggedSecond = -1;
         }
     }
-
     private void ResetToHomeScreen()
     {
         NowLanguage = Language.Korean; // 언어 초기화
@@ -441,5 +472,182 @@ public class UIManager : MonoBehaviour
 
         VideoPlayManager.Instance.PlayVideo(VideoType.Default); // 기본 영상 등
         OpenKeyboard(); // 기본 입력 대기
+    }
+
+    public void PlayVideoByCategoryButton()
+    {
+        switch (NowSelectedCategory)
+        {
+            case Category_Base.Default:
+                goto NonBase;
+
+            case Category_Base.ToEat:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToEat_Category);
+                break;
+            case Category_Base.ToBuy:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToBuy_Category);
+                break;
+            case Category_Base.ToGallery:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToGallery_Category);
+                break;
+            case Category_Base.ToHelp:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToHelp_Category);
+                break;
+            case Category_Base.ToStay:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToStay_Category);
+                break;
+            default:
+                break;
+        }
+        return;
+
+    NonBase:
+        switch (NowSelectedETC)
+        {
+            case Category_ETC.Default:
+                break;
+            case Category_ETC.Palace:
+                break;
+            case Category_ETC.HanbokExplain:
+                break;
+            case Category_ETC.Map:
+                break;
+            case Category_ETC.Here:
+                break;
+            case Category_ETC.Greeting:
+                break;
+            case Category_ETC.Photo:
+                break;
+            case Category_ETC.Event:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Event_Category);
+                break;
+            case Category_ETC.Mission:
+                break;
+            case Category_ETC.Exchange:
+                break;
+            case Category_ETC.Transport:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void PlayVideoByMainButton()
+    {
+        switch (NowSelectedCategory)
+        {
+            case Category_Base.Default:
+                goto NonBase;
+            case Category_Base.ToEat:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToEat);
+                break;
+            case Category_Base.ToBuy:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToBuy);
+                break;
+            case Category_Base.ToGallery:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToGallery);
+                break;
+            case Category_Base.ToHelp:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToHelp);
+                break;
+            case Category_Base.ToStay:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToStay);
+                break;
+            default:
+                break;
+        }
+
+    NonBase:
+        switch (NowSelectedETC)
+        {
+            case Category_ETC.Palace:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Palace);
+                break;
+            case Category_ETC.HanbokExplain:
+                VideoPlayManager.Instance.PlayVideo(VideoType.HanbokExplain);
+                break;
+            case Category_ETC.Map:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Map);
+                break;
+            case Category_ETC.Here:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Here);
+                break;
+            case Category_ETC.Greeting:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Greeting);
+                break;
+            case Category_ETC.Photo:
+                VideoPlayManager.Instance.PlayVideo(VideoType.SelectPhotoHanbok);
+                break;
+            case Category_ETC.Event:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Event);
+                break;
+            case Category_ETC.Mission:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Mission);
+                break;
+            case Category_ETC.Exchange:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Exchange);
+                break;
+            case Category_ETC.Transport:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Transport);
+                break;
+            default:
+                break;
+        }
+    }
+    public void PlayVideoByDetail()
+    {
+        switch (NowSelectedCategory)
+        {
+            case Category_Base.Default:
+                goto NonBase;
+
+            case Category_Base.ToEat:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToEat_Detail);
+                break;
+            case Category_Base.ToBuy:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToBuy_Detail);
+                break;
+            case Category_Base.ToGallery:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToGallery_Detail);
+                break;
+            case Category_Base.ToHelp:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToHelp_Detail);
+                break;
+            case Category_Base.ToStay:
+                VideoPlayManager.Instance.PlayVideo(VideoType.ToStay_Detail);
+                break;
+            default:
+                break;
+        }
+        return;
+
+    NonBase:
+        switch (NowSelectedETC)
+        {
+            case Category_ETC.Default:
+                break;
+            case Category_ETC.Palace:
+                break;
+            case Category_ETC.HanbokExplain:
+                break;
+            case Category_ETC.Map:
+                break;
+            case Category_ETC.Here:
+                break;
+            case Category_ETC.Greeting:
+                break;
+            case Category_ETC.Photo:
+                break;
+            case Category_ETC.Event:
+                break;
+            case Category_ETC.Mission:
+                break;
+            case Category_ETC.Exchange:
+                break;
+            case Category_ETC.Transport:
+                break;
+            default:
+                break;
+        }
     }
 }
