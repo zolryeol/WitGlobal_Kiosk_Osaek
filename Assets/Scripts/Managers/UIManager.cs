@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -394,12 +395,51 @@ public class UIManager : MonoBehaviour
             keyboard.Reset();
         }
     }
+
+    private float lastTouchTime = 0f;
+    [SerializeField] private float idleThreshold = 300f; // N초간 터치 없으면 초기화
+
     private void Update()
     {
-
-        if (0 < Input.touchCount)
+        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
         {
-            Debug.Log("터치함");
+            lastTouchTime = Time.time;
         }
+
+        // 마우스 클릭도 감지할 경우 (에디터 테스트용)
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            lastTouchTime = Time.time;
+        }
+
+        if (Time.time - lastTouchTime > idleThreshold)
+        {
+            Debug.Log("⏳ 일정 시간 입력 없음 → 초기화면으로 이동");
+            ResetToHomeScreen();
+            lastTouchTime = Time.time + 99999f; // 중복 방지
+        }
+    }
+
+    private void ResetToHomeScreen()
+    {
+        NowLanguage = Language.Korean; // 언어 초기화
+
+        if (PageStack.Count == 0)
+        {
+            return;
+        }
+
+        CloseAllPages(); // 또는 다른 초기화 함수
+
+        var photo = FindAnyObjectByType<Page_Photo>(); // 사진 예외처리
+        if (0 < photo.GetComponent<CanvasGroup>().alpha)
+        {
+            var elgato = FindAnyObjectByType<ElgatoController>();
+            elgato.StopElgato(); // 엘가토 카메라 정지
+            photo.InitPage(); // 사진 페이지 초기화
+        }
+
+        VideoPlayManager.Instance.PlayVideo(VideoType.Default); // 기본 영상 등
+        OpenKeyboard(); // 기본 입력 대기
     }
 }

@@ -123,7 +123,6 @@ public class MainButton : MonoBehaviour, ILocalizable
                 break;
             case Category_Base.ToBuy:
                 button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ToBuy));
-
                 break;
             case Category_Base.ToGallery:
                 button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ToGallery));

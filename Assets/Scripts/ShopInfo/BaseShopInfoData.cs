@@ -18,12 +18,12 @@ public class BaseShopInfoData
     public string ContactNumber;
     public string NaverLink;
     public Sprite[] spriteImage = new Sprite[6];
-
+    public float NaverRating;
     // Base 클래스의 생성자
     public BaseShopInfoData(int shopId, string[] shopName, string[] address,
     string[] hashTag, string[] shopDescription, string[] baseCategoryString,
     string[] secondCategoryString, string[] aiCategoryString,
-    string openingTime, string contactNumber, string naverLink)
+    string openingTime, string contactNumber, string naverLink, float naverRating)
     {
         ShopID = shopId;
         ShopName = shopName;
@@ -36,6 +36,7 @@ public class BaseShopInfoData
         OpeningTime = openingTime;
         ContactNumber = contactNumber;
         NaverLink = naverLink;
+        NaverRating = naverRating;
     }
 
     public void SetPhoto(Sprite[] sprites)

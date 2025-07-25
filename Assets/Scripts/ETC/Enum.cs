@@ -135,7 +135,7 @@ enum ShopDataRowKey
     ShopName_En = 9, BaseCategory_En = 10, SecondCategory_En = 11, AICategory_En = 12, Address_En = 13, HashTag_En = 14, Description_En = 15,
     ShopName_Jp = 16, BaseCategory_Jp = 17, SecondCategory_Jp = 18, AICategory_Jp = 19, Address_Jp = 20, HashTag_Jp = 21, Description_Jp = 22,
     ShopName_Ch = 23, BaseCategory_Ch = 24, SecondCategory_Ch = 25, AICategory_Ch = 26, Address_Ch = 27, HashTag_Ch = 28, Description_Ch = 29,
-    OpeningTime = 30, ContactNumber = 31, NaverLink = 32,
+    OpeningTime = 30, ContactNumber = 31, NaverLink = 32,NaverRating = 33,
 }
 
 enum AICategoryRowKey

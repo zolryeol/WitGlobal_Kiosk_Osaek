@@ -162,11 +162,19 @@ public class ShopSheetParser
             string contactNumber = GetCell(row, (int)ShopDataRowKey.ContactNumber);
             string naverLink = GetCell(row, (int)ShopDataRowKey.NaverLink);
 
+
+            float naverRating = 0f;
+            if ((int)ShopDataRowKey.NaverRating < row.Count &&
+                float.TryParse(row[(int)ShopDataRowKey.NaverRating]?.ToString(), out float parsed))
+            {
+                naverRating = parsed;
+            }
+
             // 객체 생성 및 초기화
             var shop = new BaseShopInfoData
                 (
                 shopId, shopName, address, hashTag, shopDescription, baseCategoryString,
-                secondCategoryString, aiCategoryString, openingTime, contactNumber, naverLink
+                secondCategoryString, aiCategoryString, openingTime, contactNumber, naverLink, naverRating
                 );
 
             // 이미지 할당 (예외 안전)
@@ -359,6 +367,7 @@ public class ShopSheetParser
     {
         return (row.Count > index && row[index] != null) ? row[index].ToString() : string.Empty;
     }
+
 }
 
 [Serializable]

@@ -298,3 +298,9 @@ public class ResourceManager : MonoBehaviour
 #endif
     }
 }
+public class VideoMetaData
+{
+    public VideoType Type;       // Enum
+    public string FileName;      // 실제 .mp4 파일 이름 (확장자 제외)
+    public string[] Subtitles = new string[(int)Language.EndOfIndex];
+}

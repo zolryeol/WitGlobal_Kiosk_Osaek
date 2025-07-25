@@ -25,6 +25,8 @@ public class ElgatoController : MonoBehaviour
 
     PhotoResultToQR resultToQR;
 
+    Coroutine runningCoroutine;
+
     private void Awake()
     {
         page_photo = GetComponent<Page_Photo>();
@@ -32,7 +34,29 @@ public class ElgatoController : MonoBehaviour
     }
     public void StartElgato()
     {
-        StartCoroutine(StartElgatoCoroutine());
+        if (runningCoroutine != null)
+        {
+            StopCoroutine(runningCoroutine);
+            runningCoroutine = null;
+        }
+
+        runningCoroutine = StartCoroutine(StartElgatoCoroutine());
+    }
+
+    public void StopElgato()
+    {
+        if (runningCoroutine != null)
+        {
+            StopCoroutine(runningCoroutine);
+            runningCoroutine = null;
+        }
+        if (faceCamTexture != null && faceCamTexture.isPlaying)
+        {
+            faceCamTexture.Stop();
+            faceCamTexture = null;
+        }
+        display2RawImage.texture = null;
+        display2RawImage.gameObject.SetActive(false);
     }
 
     IEnumerator StartElgatoCoroutine()

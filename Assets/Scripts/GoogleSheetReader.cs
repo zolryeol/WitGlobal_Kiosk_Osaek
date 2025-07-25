@@ -14,7 +14,7 @@ public static class GoogleSheetReader
     static readonly string DataSheet_Insa = "1AVZoyepjrlWIUtwXamGRYU6TWkKKKgVb7fzwEtbRDaw";
 
     static readonly string AICategoryRange = "AICategory_Insa!A3:E";
-    static readonly string ShopDataRange = "ShopData_Insa!A1:AG"; // 가게 정보
+    static readonly string ShopDataRange = "ShopData_Insa!A1:AH"; // 가게 정보
     static readonly string PalaceInfoDataRange = "PalaceInfo_Insa!A3:AD"; // 고궁정보
     static readonly string EventInfoDataRange = "Event_Insa!A3:AG"; // 이벤트 정보
     static readonly string VideoSubTitleRange = "VideoSubtitle_Insa!A3:G"; // 동영상 자막 정보

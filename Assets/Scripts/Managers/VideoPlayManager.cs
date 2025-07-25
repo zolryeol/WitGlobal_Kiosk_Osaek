@@ -64,10 +64,14 @@ public class VideoPlayManager : MonoBehaviour
         if (!ResourceManager.Instance.VideoClipDic.TryGetValue(videoType, out var clip))
         {
             Debug.LogError($"[VideoPlayManager] VideoClip 없음: {videoType}");
+            _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[VideoType.Default]; // 기본 영상으로 설정
+
+            if (_VideoPlayer.isPaused) _VideoPlayer.Play(); // 영상이 일시정지 상태라면 재생
+
             return;
         }
-
         bool isSameClip = (_VideoPlayer.clip == clip);
+
         if (isSameClip)
         {
             Debug.Log($"[VideoPlayManager] 같은 영상 생략: {videoType}");
@@ -88,12 +92,15 @@ public class VideoPlayManager : MonoBehaviour
     if (!ResourceManager.Instance.TryGetPreloadedVideoPlayer(videoType, out var preparedVP))
     {
         Debug.LogError($"[VideoPlayManager] PreloadedVideoPlayer 없음: {videoType}");
-        return;
+        _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[VideoType.Default]; // 기본 영상으로 설정
+        if(_VideoPlayer.isPaused) _VideoPlayer.Play(); // 영상이 일시정지 상태라면 재생
     }
 
     if (!preparedVP.isPrepared)
     {
         Debug.LogWarning($"[VideoPlayManager] 준비 안됨: {videoType}");
+        _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[VideoType.Default];
+        if(_VideoPlayer.isPaused) _VideoPlayer.Play(); // 영상이 일시정지 상태라면 재생
         return;
     }
 
@@ -103,7 +110,7 @@ public class VideoPlayManager : MonoBehaviour
     _VideoPlayer.source = VideoSource.Url;
     _VideoPlayer.url = preparedVP.url;
     _VideoPlayer.Stop();
-    _VideoPlayer.time = 0;
+    _VideoPlayer.time = 0;\
     _VideoPlayer.prepareCompleted += OnPrepareCompleted;
     _VideoPlayer.Prepare();
 #endif

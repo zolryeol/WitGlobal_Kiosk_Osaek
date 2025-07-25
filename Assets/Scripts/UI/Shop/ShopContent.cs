@@ -12,7 +12,7 @@ public class ShopContent : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI description;
     [SerializeField] protected TextMeshProUGUI hashTag;
     [SerializeField] protected Image[] sprite = new Image[6];
-
+    [SerializeField] protected float naverRating;
     BaseShopInfoData baseShopInfoData;
 
     private void Awake()
@@ -37,7 +37,7 @@ public class ShopContent : MonoBehaviour
         shopName.text = data.ShopName[(int)nowLanguage];
         description.text = data.ShopDescription[(int)nowLanguage];
         hashTag.text = data.HashTag[(int)nowLanguage];
-
+        naverRating = data.NaverRating;
         InsertSprite(data);
     }
 
