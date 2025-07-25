@@ -136,6 +136,8 @@ public class VideoPlayManager : MonoBehaviour
             // ✅ 주의: 자막은 selected 그대로 사용
         }
 
+        _VideoPlayer.Pause();
+
         // 이벤트 중복 제거 후 등록
         _VideoPlayer.prepareCompleted -= OnVideoPrepared;
         _VideoPlayer.prepareCompleted += OnVideoPrepared;
@@ -193,6 +195,8 @@ public class VideoPlayManager : MonoBehaviour
 
         currentPlayingType = previousPlayingType;
         videoPlayIndexMap[previousPlayingType] = (previousPlayingIndex + 1) % list.Count;
+
+        _VideoPlayer.Pause();
 
         _VideoPlayer.prepareCompleted -= OnVideoPrepared;
         _VideoPlayer.prepareCompleted += OnVideoPrepared;
