@@ -29,5 +29,9 @@ public class AIButton : MonoBehaviour
         button.onClick.AddListener(aiSelector.ResetAll);
 
         button.onClick.AddListener(() => UIManager.Instance.CloseKeyboard());
+
+        button.onClick.AddListener(() => UIManager.Instance.NowSelectedCategory = Category_Base.Default);
+
+        button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.AISearch));
     }
 }

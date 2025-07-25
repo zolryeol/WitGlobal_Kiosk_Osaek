@@ -33,8 +33,34 @@ public enum Category_ETC // ShopManager에서 다루지 않는 Category들
     Here, // 지역소개
     Greeting, // 하이 인사 (AI 정보)
     Photo,
+    Event, // 이벤트
+    Mission, // 미션
+    Exchange,
+    Transport,
 }
 
+public enum VideoType
+{
+    Default,
+    SelectPhotoHanbok,
+    WaitCreatePhoto,
+    ToEat,
+    ToBuy,
+    ToGallery,
+    ToHelp,
+    ToStay,
+    Palace,
+    HanbokExplain,
+    Map,
+    Here,
+    Greeting,
+    Photo,
+    Event,
+    Mission, // 미션
+    AISearch,
+    Exchange,
+    Transport,
+}
 
 #region 하위카테고리 사용하지않음
 public enum Category_ToEat
@@ -135,11 +161,4 @@ public enum KeyboardETC
     BackSpace,
     Symbol,
     Space,
-}
-
-public enum VideoType
-{
-    Default,
-    SelectPhotoHanbok,
-    WaitCreatePhoto,
 }

@@ -73,6 +73,8 @@ public class MainButton : MonoBehaviour, ILocalizable
             button.onClick.AddListener(() => UIManager.Instance.InitScrollbarValue(UIManager.Instance.HanbokExplainScrollbar, true));
         }
 
+        SetVideo();
+
         button.onClick.AddListener(() => UIManager.Instance.CloseKeyboard());
     }
     private void SelectFirstCategory() // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
@@ -110,6 +112,68 @@ public class MainButton : MonoBehaviour, ILocalizable
         }
     }
 
+    void SetVideo()
+    {
+        switch (category)
+        {
+            case Category_Base.Default:
+                break;
+            case Category_Base.ToEat:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ToEat));
+                break;
+            case Category_Base.ToBuy:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ToBuy));
+
+                break;
+            case Category_Base.ToGallery:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ToGallery));
+                break;
+            case Category_Base.ToHelp:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ToHelp));
+                break;
+            case Category_Base.ToStay:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ToStay));
+                break;
+            default:
+                break;
+        }
+
+        switch (categoryETC)
+        {
+            case Category_ETC.Palace:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Palace));
+                break;
+            case Category_ETC.HanbokExplain:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.HanbokExplain));
+                break;
+            case Category_ETC.Map:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Map));
+                break;
+            case Category_ETC.Here:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Here));
+                break;
+            case Category_ETC.Greeting:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Greeting));
+                break;
+            case Category_ETC.Photo:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.SelectPhotoHanbok));
+                break;
+            case Category_ETC.Event:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Event));
+                break;
+            case Category_ETC.Mission:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Mission));
+                break;
+            case Category_ETC.Exchange:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Exchange));
+                break;
+            case Category_ETC.Transport:
+                button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Transport));
+                break;
+            default:
+                break;
+        }
+    }
     void ILocalizable.UpdateLocalizedString(string str)
     {
         buttonText.text = str;
