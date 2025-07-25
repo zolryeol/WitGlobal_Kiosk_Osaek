@@ -39,6 +39,8 @@ public class PalaceContentFetcher : MonoBehaviour
         if (palaceDetail.gameObject.activeSelf == false)
         {
             palaceDetail.gameObject.SetActive(true);
+
+            VideoPlayManager.Instance.PlayVideo(VideoType.Palace_Detail);
         }
     }
 

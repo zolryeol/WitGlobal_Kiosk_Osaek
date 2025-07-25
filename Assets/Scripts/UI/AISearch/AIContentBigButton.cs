@@ -23,6 +23,8 @@ public class AIContentBigButton : MonoBehaviour
         // AICourseInfo의 ShopName을 이용하여 ShopManager에서 해당 가게 정보를 BaseShopInfoData 형태로 가져온다.
         BaseShopInfoData data = LoadManager.Instance.GetShopInfoByShopName(_ori.ShopName.text);
         ShopContentDetail.FetchContent(data);
+
+        VideoPlayManager.Instance.PlayVideo(VideoType.AISearch_Detail);
     }
 
 }

@@ -576,7 +576,7 @@ public class UIManager : MonoBehaviour
                 VideoPlayManager.Instance.PlayVideo(VideoType.Greeting);
                 break;
             case Category_ETC.Photo:
-                VideoPlayManager.Instance.PlayVideo(VideoType.SelectPhotoHanbok);
+                VideoPlayManager.Instance.PlayVideo(VideoType.Photo);
                 break;
             case Category_ETC.Event:
                 VideoPlayManager.Instance.PlayVideo(VideoType.Event);
@@ -627,6 +627,7 @@ public class UIManager : MonoBehaviour
             case Category_ETC.Default:
                 break;
             case Category_ETC.Palace:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Palace_Detail);
                 break;
             case Category_ETC.HanbokExplain:
                 break;
@@ -645,6 +646,9 @@ public class UIManager : MonoBehaviour
             case Category_ETC.Exchange:
                 break;
             case Category_ETC.Transport:
+                break;
+            case Category_ETC.Search:
+                VideoPlayManager.Instance.PlayVideo(VideoType.Search);
                 break;
             default:
                 break;

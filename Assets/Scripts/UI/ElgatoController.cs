@@ -255,7 +255,7 @@ public class ElgatoController : MonoBehaviour
 
     IEnumerator ADCountDown()
     {
-        VideoPlayManager.Instance.PlayVideo(VideoType.WaitCreatePhoto);
+        VideoPlayManager.Instance.PlayVideo(VideoType.Photo_Creating);
 
         var wfs = new WaitForSeconds(1);
 

@@ -18,6 +18,7 @@ public class LanguageChangeButton : MonoBehaviour
 
         button.onClick.AddListener(() => UIManager.Instance.OpenPage(languagePageCanvasGroup));
         button.onClick.AddListener(() => UIManager.Instance.CloseKeyboard());
+        button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ChangeLanguage));
 
         UIManager.Instance.ChangeLanguageEvent += ChangeLanguageImage;
     }

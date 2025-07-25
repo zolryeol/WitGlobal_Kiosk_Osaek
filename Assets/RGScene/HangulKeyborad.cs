@@ -489,7 +489,9 @@ public class HangulKeyborad : MonoBehaviour
 
         Debug.Log("enter");
 
+        VideoPlayManager.Instance.PlayVideo(VideoType.Search_Enter);
 
+        UIManager.Instance.SetNowSelectCategory(_EtcCategory: Category_ETC.Search);
         UIManager.Instance.OpenPage(listPageCanvasGroup);
         SearchHeader.text = InputField.text;
         UIManager.Instance.FetchingContent(InputField.text);

@@ -14,6 +14,7 @@ public class KeyboardUIControl : MonoBehaviour
     {
         hangulKeyborad = transform.parent.GetComponent<HangulKeyborad>();
         button.onClick.AddListener(OnKeyboard);
+        button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Search));
 
         if (closePanelButton == null)
         {

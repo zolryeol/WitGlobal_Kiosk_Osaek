@@ -21,6 +21,10 @@ public class VideoPlayManager : MonoBehaviour
     public GameObject PackLogo;
     private VideoType _currentVideoType;
 
+    // BackButton을 위한 전 비디오 저장
+    private VideoType previousPlayingType;
+    private int previousPlayingIndex;
+
     private Coroutine _retryDisplayCoroutine;
     public void Init()
     {
@@ -66,29 +70,113 @@ public class VideoPlayManager : MonoBehaviour
 
     public void PlayVideo(VideoType type)
     {
+        // 기본 타입 fallback 여부 판단용
+        bool fallbackToDefault = false;
+
+        // 1. 자막 리스트 가져오기
         if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)
         {
-            Debug.LogWarning($"[VideoPlayManager] 자막 리스트 없음: {type}");
-            return;
+            Debug.LogWarning($"[VideoPlayManager] 자막 리스트 없음: {type} → Default로 대체");
+
+            // fallback to Default
+            if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out list) || list.Count == 0)
+            {
+                Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
+                return;
+            }
+
+            type = VideoType.Default;
+            fallbackToDefault = true;
         }
 
-        // 현재 재생 중인 타입 저장
+        if (videoPlayIndexMap.TryGetValue(type, out int prevIndex))
+        {
+            previousPlayingType = currentPlayingType;
+            previousPlayingIndex = (prevIndex - 1 + list.Count) % list.Count;
+        }
+
         currentPlayingType = type;
 
-        // 순차 인덱스 계산
-        if (!videoPlayIndexMap.TryGetValue(type, out int currentIndex))
+        // 2. 순차 인덱스 계산
+        int currentIndex = 0;
+        if (!fallbackToDefault && videoPlayIndexMap.TryGetValue(type, out int nextIndex))
         {
-            currentIndex = 0;
+            currentIndex = nextIndex;
         }
 
         var selected = list[currentIndex];
-        videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
+
+        // 다음 인덱스로 갱신 (순차 or 무한 루프)
+        if (!fallbackToDefault)
+            videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
+
+        // 3. 비디오 파일 경로 가져오기
+        if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
+        {
+            Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default로 대체");
+
+            if (!fallbackToDefault && ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out var defaultList) && defaultList.Count > 0)
+            {
+                var defaultSelected = defaultList[0];
+                if (ResourceManager.Instance.TryGetVideoPlayer(defaultSelected.fileName, out var defaultPlayer))
+                {
+                    selected = defaultSelected;
+                    player = defaultPlayer;
+                    currentPlayingType = VideoType.Default;
+                }
+                else
+                {
+                    Debug.LogError("[VideoPlayManager] Default 비디오도 없습니다. 재생 불가");
+                    return;
+                }
+            }
+            else
+            {
+                Debug.LogError("[VideoPlayManager] Default 비디오를 찾을 수 없습니다. 재생 불가");
+                return;
+            }
+        }
+
+        // 이벤트 중복 제거 후 등록
+        _VideoPlayer.prepareCompleted -= OnVideoPrepared;
+        _VideoPlayer.prepareCompleted += OnVideoPrepared;
+
+        _VideoPlayer.loopPointReached -= OnVideoFinished;
+        _VideoPlayer.loopPointReached += OnVideoFinished;
+
+        _VideoPlayer.source = VideoSource.Url;
+        _VideoPlayer.url = player.url;
+
+        nextSubtitleData = selected;
+
+        _VideoPlayer.Prepare();
+    }
+
+    public void PlayPreviousVideo()
+    {
+        if (!ResourceManager.Instance.VideoMap.TryGetValue(previousPlayingType, out var list) || list.Count == 0)
+        {
+            Debug.LogWarning("[VideoPlayManager] 이전 자막 리스트 없음");
+            return;
+        }
+
+        // ✅ 인덱스 유효성 검사
+        if (previousPlayingIndex < 0 || previousPlayingIndex >= list.Count)
+        {
+            Debug.LogError($"[VideoPlayManager] 이전 인덱스 범위 초과: {previousPlayingIndex} (list.Count: {list.Count})");
+            return;
+        }
+
+        var selected = list[previousPlayingIndex];
 
         if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
         {
-            Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName}");
+            Debug.LogWarning($"[VideoPlayManager] 이전 비디오 파일 없음: {selected.fileName}");
             return;
         }
+
+        currentPlayingType = previousPlayingType;
+        videoPlayIndexMap[previousPlayingType] = (previousPlayingIndex + 1) % list.Count;
 
         _VideoPlayer.prepareCompleted -= OnVideoPrepared;
         _VideoPlayer.prepareCompleted += OnVideoPrepared;
@@ -99,7 +187,6 @@ public class VideoPlayManager : MonoBehaviour
         _VideoPlayer.source = VideoSource.Url;
         _VideoPlayer.url = player.url;
 
-        // 다음 자막 표시용 임시 저장
         nextSubtitleData = selected;
 
         _VideoPlayer.Prepare();

@@ -31,7 +31,7 @@ public class AIRecommendCourse : MonoBehaviour
         {
             int index = i;
             courseSelectButton[i].onClick.AddListener(() => OnCourseContentBig(index));
-            courseSelectButton[i].onClick.AddListener(()=> VideoPlayManager.Instance.PlayVideo(VideoType.AISearch_Category));
+            
         }
 
         this.transform.GetComponentInChildren<BackButton>().onClick.AddListener(CloseAllCourseContentBig);

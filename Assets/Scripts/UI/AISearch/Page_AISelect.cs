@@ -55,6 +55,7 @@ public class Page_AISelect : MonoBehaviour
         }
 
         generateButton.onClick.AddListener(UIManager.Instance.OnAIRecommendPage);
+        generateButton.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.AISearch_Category));
 
         UpdateGenerateButtonState();
 

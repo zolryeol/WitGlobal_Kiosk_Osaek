@@ -19,12 +19,14 @@ public class Page_Language : MonoBehaviour
             languageContents[i].myLanguage = (Language)index;
             languageContents[i].Init();
             languageContents[index].button.onClick.AddListener(() => OnButton(index));
+            languageContents[index].button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ChangeLanguage_KR + index));
         }
     }
 
     void OnButton(int index)
     {
         UIManager.Instance.NowLanguage = languageContents[index].myLanguage;
+
 
         foreach (var content in languageContents)
         {

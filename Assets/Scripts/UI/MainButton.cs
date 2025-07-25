@@ -61,7 +61,6 @@ public class MainButton : MonoBehaviour, ILocalizable
         {
             button.onClick.AddListener(() => UIManager.Instance.SelectFirstCategory(UIManager.Instance.HanbokCategorieButtons));
             button.onClick.AddListener(() => UIManager.Instance.HanbokCategorieButtons[0].SelectFirstHanbokContent());
-            button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.SelectPhotoHanbok));
         }
         else if (categoryETC == Category_ETC.Map) // 지도
         {

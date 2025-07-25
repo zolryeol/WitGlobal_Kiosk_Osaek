@@ -123,6 +123,8 @@ public class Page_Photo : MonoBehaviour
 
         Photoresult_Display2.gameObject.SetActive(true);
         Photoresult_Display2.sprite = sprite;
+
+        VideoPlayManager.Instance.PlayVideo(VideoType.Photo_Complete);
     }
 
     public void ActivePrivacyPolicy()

@@ -38,13 +38,16 @@ public enum Category_ETC // ShopManager에서 다루지 않는 Category들
     Exchange,
     Transport,
     AISelect, // AI 선택
+    Search,
 }
 
 public enum VideoType
 {
     Default,
-    SelectPhotoHanbok,
-    WaitCreatePhoto,
+    Photo,
+    Photo_SelectHanbok,
+    Photo_Creating,
+    Photo_Complete,
     CompletePhoto,
     ToEat,
     ToEat_Category,
@@ -67,7 +70,6 @@ public enum VideoType
     Map,
     Here,
     Greeting,
-    Photo,
     Event,
     Event_Category,
     Mission, // 미션
@@ -77,7 +79,13 @@ public enum VideoType
     Exchange,
     Transport,
     ChangeLanguage, // 언어변경
-
+    ChangeLanguage_KR, // 
+    ChangeLanguage_EN, // 
+    ChangeLanguage_JP, // 
+    ChangeLanguage_CH, // 
+    Search,
+    Search_Enter,
+    Search_Detail,
 }
 
 #region 하위카테고리 사용하지않음
