@@ -73,7 +73,7 @@ public class ElgatoController : MonoBehaviour
         }
 
         string camName = devices[0].name;
-        faceCamTexture = new WebCamTexture(camName, 3840, 2160, 30);
+        faceCamTexture = new WebCamTexture(camName, 2160, 3840, 30);
         faceCamTexture.Play();
 
         display2RawImage.texture = faceCamTexture;
@@ -91,6 +91,8 @@ public class ElgatoController : MonoBehaviour
         if (!faceCamTexture.isPlaying)
         {
             Debug.LogError("Camera failed to start.");
+            page_photo.InitPage();
+
             yield break;
         }
 
@@ -109,9 +111,12 @@ public class ElgatoController : MonoBehaviour
         StartCoroutine(ADCountDown()); // 광고 타이머 60초
 
 
-        // ✅ 이미지 캡처 + 잘라내기 (중앙 crop)
-        int cropX = 0; // 필요시 수정
-        int cropWidth = faceCamTexture.width - 2 * cropX;
+
+        int cropMargin = Mathf.FloorToInt(faceCamTexture.width * 0.02f); // 
+        int cropX = cropMargin;
+        int cropWidth = faceCamTexture.width - 2 * cropMargin;
+
+        // 캡처 및 저장
         Texture2D croppedTexture = new Texture2D(cropWidth, faceCamTexture.height);
         Color[] pixels = faceCamTexture.GetPixels(cropX, 0, cropWidth, faceCamTexture.height);
         croppedTexture.SetPixels(pixels);
@@ -157,7 +162,7 @@ public class ElgatoController : MonoBehaviour
         string camName = devices[0].name;
         Debug.Log("Selected Camera: " + camName);
 
-        faceCamTexture = new WebCamTexture(camName, 2160, 3840, 30);
+        faceCamTexture = new WebCamTexture(camName, 1920, 1280, 30);
         faceCamTexture.Play();
 
         display2RawImage.texture = faceCamTexture;
