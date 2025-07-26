@@ -73,7 +73,7 @@ public class ElgatoController : MonoBehaviour
         }
 
         string camName = devices[0].name;
-        faceCamTexture = new WebCamTexture(camName, 2160, 2160, 30);
+        faceCamTexture = new WebCamTexture(camName, 2160, 3840, 30);
         faceCamTexture.Play();
 
         display2RawImage.texture = faceCamTexture;
