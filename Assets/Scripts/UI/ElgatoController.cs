@@ -97,7 +97,7 @@ public class ElgatoController : MonoBehaviour
         }
 
         // ✅ 카운트다운
-        int count = 10;
+        int count = 300;
         while (count > 0)
         {
             if (countDownText != null)
