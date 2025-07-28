@@ -249,7 +249,6 @@ public class ResourceManager : MonoBehaviour
 #if UNITY_EDITOR
             string shopForder = "D:/Data/ShopImage";
         return shopForder;
-        
             //return Path.Combine(Application.dataPath, "Editor", "ShopImageForEditor");
 #else
     // 빌드 시: 실행파일 위치 기준 외부 Data 폴더 사용
