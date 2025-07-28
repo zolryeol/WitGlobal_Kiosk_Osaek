@@ -52,7 +52,7 @@ public class HanbokContentButton : MonoBehaviour, ISelectableButton
 
         Debug.Log($"한복인덱스 = {index}");
 
-        elgato.hanbokIndex = index;
+        elgato.hanbokIndex = index + 20;
     }
 
     public void SetSelected(bool selected)
