@@ -201,7 +201,7 @@ public class ResourceManager : MonoBehaviour
 #if UNITY_EDITOR
         string videoFolder = "D:/Data/Video";
 #else
-        string videoFolder = Path.Combine(Application.dataPath, "../Data/Video");
+    string videoFolder = Path.Combine(Application.dataPath, "../Data/Video");
 #endif
         if (!Directory.Exists(videoFolder))
         {
@@ -209,20 +209,27 @@ public class ResourceManager : MonoBehaviour
             return;
         }
 
-        string[] mp4Files = Directory.GetFiles(videoFolder, "*.mp4");
+        // ✅ .mp4와 .webm 모두 지원
+        string[] videoFiles = Directory.GetFiles(videoFolder)
+            .Where(path =>
+                path.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase) ||
+                path.EndsWith(".webm", StringComparison.OrdinalIgnoreCase))
+            .ToArray();
 
-        foreach (string fullPath in mp4Files)
+        foreach (string fullPath in videoFiles)
         {
             string fileName = Path.GetFileNameWithoutExtension(fullPath);
             string fileUrl = "file:///" + fullPath.Replace("\\", "/");
 
             GameObject go = new GameObject($"VideoPlayer_{fileName}");
             go.transform.SetParent(this.transform);
+
             var vp = go.AddComponent<VideoPlayer>();
             vp.playOnAwake = false;
             vp.source = VideoSource.Url;
             vp.url = fileUrl;
             vp.audioOutputMode = VideoAudioOutputMode.None;
+
             vp.Prepare();
 
             VideoPlayersByFileName[fileName] = vp;

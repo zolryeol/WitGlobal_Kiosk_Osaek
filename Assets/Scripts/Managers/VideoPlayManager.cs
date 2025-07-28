@@ -1,41 +1,30 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using Random = UnityEngine.Random;
 
 public class VideoPlayManager : MonoBehaviour
 {
     public static VideoPlayManager Instance { get; private set; }
-    public VideoPlayer _VideoPlayer; // 
-    public VideoPlayer _VideoPlayer2;
 
-    public RenderTexture Display2Texture; // 디스플레이2용 RenderTexture
-    public RenderTexture Display2Texture2; // 디스플레이2용 RenderTexture
-
+    public VideoPlayer _VideoPlayer;
+    public RenderTexture Display2Texture;
     public RawImage targetRawImage;
-
-    private VideoPlayer activePlayer;
-    private VideoPlayer standbyPlayer;
-
-    private RenderTexture activeTexture;
-    private RenderTexture standbyTexture;
 
     public TextMeshProUGUI SubTitle;
     public TextMeshProUGUI SubTitle2;
-
     public GameObject PackLogo;
-    private VideoType _currentVideoType;
 
-    // BackButton을 위한 전 비디오 저장
+    private VideoType currentPlayingType;
     private VideoType previousPlayingType;
     private int previousPlayingIndex;
 
+    private Dictionary<VideoType, int> videoPlayIndexMap = new();
     private Coroutine _retryDisplayCoroutine;
+    private VideoSubtitleData nextSubtitleData;
+
     public void Init()
     {
         Instance = this;
@@ -43,83 +32,13 @@ public class VideoPlayManager : MonoBehaviour
 
         _retryDisplayCoroutine = StartCoroutine(TryActivateDisplay2());
 
-        activePlayer = _VideoPlayer;
-        standbyPlayer = _VideoPlayer2;
-
-        activeTexture = Display2Texture;
-        standbyTexture = Display2Texture2;
-
         _VideoPlayer.targetTexture = Display2Texture;
-        _VideoPlayer2.targetTexture = Display2Texture2;
+        _VideoPlayer.audioOutputMode = VideoAudioOutputMode.None;
 
         targetRawImage.texture = Display2Texture;
-    }
 
-    // 영상다오면 파라미터로 받아서 해당 영상 플레이시킬것
-    //public void PlayVideo(VideoType videoType)
-    //{
-    //    bool isSameClip = (_VideoPlayer.clip == ResourceManager.Instance.VideoClipDic[videoType]);
-
-    //    if (isSameClip)
-    //    {
-    //        Debug.Log("같은 영상이 이미 재생 중입니다. 재생 생략: " + videoType);
-    //        return;
-    //    }
-
-    //    // 로고 표시 여부
-    //    PackLogo.SetActive(videoType == VideoType.Default);
-
-    //    // 클립 설정
-    //    _VideoPlayer.clip = ResourceManager.Instance.VideoClipDic[videoType];
-    //    _VideoPlayer.Stop();               // 영상 초기화
-    //    _VideoPlayer.time = 0;             // 0초로 강제 이동
-    //    _VideoPlayer.Prepare();            // 준비 시작
-
-    //    // 준비되면 재생
-    //    _VideoPlayer.prepareCompleted += (vp) =>
-    //    {
-    //        vp.Play();
-    //        ShowSubtitle(videoType);
-    //        Debug.Log((isSameClip ? "같은" : "다른") + " 영상 재생됨: " + videoType);
-    //    };
-    //}
-
-    private Dictionary<VideoType, int> videoPlayIndexMap = new();
-
-    private VideoSubtitleData nextSubtitleData;
-    private VideoType currentPlayingType;
-
-    public void PlayVideoBuffered(string videoUrl, VideoSubtitleData subtitleData = null)
-    {
-        standbyPlayer.Stop();
-        standbyPlayer.source = VideoSource.Url;
-        standbyPlayer.url = videoUrl;
-        standbyPlayer.audioOutputMode = VideoAudioOutputMode.None;
-
-        standbyPlayer.prepareCompleted -= OnStandbyPrepared;
-        standbyPlayer.prepareCompleted += OnStandbyPrepared;
-
-        nextSubtitleData = subtitleData;
-        standbyPlayer.Prepare();
-    }
-
-    private void OnStandbyPrepared(VideoPlayer vp)
-    {
-        activePlayer.Stop();
-
-        (activePlayer, standbyPlayer) = (standbyPlayer, activePlayer);
-        (activeTexture, standbyTexture) = (standbyTexture, activeTexture);
-
-        targetRawImage.texture = activeTexture;
-
-        // ✅ loopPointReached 재설정
-        activePlayer.loopPointReached -= OnVideoFinished;
-        activePlayer.loopPointReached += OnVideoFinished;
-
-        activePlayer.Play();
-
-        if (nextSubtitleData != null)
-            ShowSubtitle(nextSubtitleData);
+        _VideoPlayer.loopPointReached += OnVideoFinished;
+        _VideoPlayer.prepareCompleted += OnVideoPrepared;
     }
 
     public void PlayVideo(VideoType type)
@@ -129,7 +48,6 @@ public class VideoPlayManager : MonoBehaviour
         if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)
         {
             Debug.LogWarning($"[VideoPlayManager] 자막 리스트 없음: {type} → Default로 대체");
-
             if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out list) || list.Count == 0)
             {
                 Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
@@ -178,12 +96,27 @@ public class VideoPlayManager : MonoBehaviour
                 return;
             }
 
-            selected = defaultSelected; // 자막까지 Default로 대체
+            selected = defaultSelected;
         }
 
+        nextSubtitleData = selected;
 
-        string videoUrl = player.url;
-        PlayVideoBuffered(videoUrl, selected);
+        _VideoPlayer.Stop();
+        _VideoPlayer.source = VideoSource.Url;
+        _VideoPlayer.url = player.url;
+        _VideoPlayer.Prepare();
+    }
+
+    private void OnVideoPrepared(VideoPlayer vp)
+    {
+        vp.Play();
+        ShowSubtitle(nextSubtitleData);
+    }
+
+    private void OnVideoFinished(VideoPlayer vp)
+    {
+        Debug.Log("📽 영상 재생 완료 → 다음 영상으로");
+        PlayVideo(currentPlayingType);
     }
 
     public void PlayPreviousVideo()
@@ -223,8 +156,11 @@ public class VideoPlayManager : MonoBehaviour
         currentPlayingType = previousPlayingType;
         videoPlayIndexMap[previousPlayingType] = (previousPlayingIndex + 1) % list.Count;
 
-        string url = player.url;
-        PlayVideoBuffered(url, selected);
+        nextSubtitleData = selected;
+        _VideoPlayer.Stop();
+        _VideoPlayer.source = VideoSource.Url;
+        _VideoPlayer.url = player.url;
+        _VideoPlayer.Prepare();
     }
 
     public void PlayPreviousVideoIfValid()
@@ -243,60 +179,18 @@ public class VideoPlayManager : MonoBehaviour
 
         PlayPreviousVideo();
     }
-    private void OnVideoPrepared(VideoPlayer vp)
-    {
-        vp.Play();
-        ShowSubtitle(nextSubtitleData);
-    }
-
-    private void OnVideoFinished(VideoPlayer vp)
-    {
-        Debug.Log("📽 영상 재생 완료 → 다음 영상으로");
-        PlayVideo(currentPlayingType);
-    }
 
     private void ShowSubtitle(VideoSubtitleData data)
     {
         int langIndex = (int)UIManager.Instance.NowLanguage;
         SubTitle.text = data.SubtitleString[langIndex];
         SubTitle2.text = data.SubtitleString[langIndex];
-
     }
-
-    public void ActivateDisplay2()
-    {
-        if (Display.displays.Length > 1)
-        {
-            Display.displays[1].Activate();
-
-            if (_VideoPlayer != null && Display2Texture != null &&
-                _VideoPlayer2 != null && Display2Texture2 != null)
-            {
-                _VideoPlayer.targetTexture = Display2Texture;
-                _VideoPlayer2.targetTexture = Display2Texture2;
-
-                targetRawImage.texture = activeTexture;
-
-                PlayVideo(VideoType.Default);
-            }
-            else
-            {
-                Debug.LogError("둘 중 하나의 VideoPlayer 또는 RenderTexture가 비어 있습니다.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Display 2가 감지되지 않았습니다.");
-        }
-
-        targetRawImage.texture = activeTexture;
-    }
-
 
     IEnumerator TryActivateDisplay2()
     {
         int maxRetryCount = 10;
-        float retryInterval = 1f; // 1초 간격
+        float retryInterval = 1f;
         int currentRetry = 0;
 
         while (currentRetry < maxRetryCount)
@@ -305,20 +199,10 @@ public class VideoPlayManager : MonoBehaviour
             {
                 Display.displays[1].Activate();
 
-
-                if (_VideoPlayer != null && Display2Texture != null &&
-                    _VideoPlayer2 != null && Display2Texture2 != null)
+                if (_VideoPlayer != null && Display2Texture != null)
                 {
                     _VideoPlayer.targetTexture = Display2Texture;
-                    _VideoPlayer2.targetTexture = Display2Texture2;
-
-                    activePlayer = _VideoPlayer;
-                    standbyPlayer = _VideoPlayer2;
-                    activeTexture = Display2Texture;
-                    standbyTexture = Display2Texture2;
-
-                    targetRawImage.texture = activeTexture;
-
+                    targetRawImage.texture = Display2Texture;
                     PlayVideo(VideoType.Default);
                 }
                 else
@@ -326,6 +210,8 @@ public class VideoPlayManager : MonoBehaviour
                     Debug.LogError("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
                     yield break;
                 }
+
+                yield break;
             }
             else
             {
@@ -338,4 +224,3 @@ public class VideoPlayManager : MonoBehaviour
         Debug.LogError("[VideoPlayManager] Display 2를 최종적으로 감지하지 못했습니다.");
     }
 }
-
