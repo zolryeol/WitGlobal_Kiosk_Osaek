@@ -26,6 +26,8 @@ public class ResourceManager : MonoBehaviour
     public Sprite NoQRImage;
 
     public Sprite[] PhotoBlockingImage = new Sprite[4];
+    public Sprite[] PhotoGuideImage = new Sprite[4];
+    public Sprite[] PhotoCountDownImage = new Sprite[10]; // 1~ 10 카운트다운
     public Dictionary<string, List<(string, Sprite)>> HanbokSpritesDic { get; private set; } = new(); // 폴더명, 파일명,이미지
 
     public Dictionary<VideoType, List<VideoSubtitleData>> VideoMap { get; private set; } = new();

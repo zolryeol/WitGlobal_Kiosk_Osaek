@@ -13,7 +13,8 @@ public class ElgatoController : MonoBehaviour
     private WebCamTexture faceCamTexture;
 
     [SerializeField] RawImage display2RawImage; // Display 2에 출력될 RawImage
-    [SerializeField] TextMeshProUGUI countDownText;
+    [SerializeField] Image countDownImage;
+    //[SerializeField] TextMeshProUGUI countDownText; // 이미지로 사용하여 텍스트X
 
     [SerializeField] GameObject adCountParent;
     [SerializeField] TextMeshProUGUI countDownText_AD; // 광고용 1분 카운트다운.
@@ -97,16 +98,17 @@ public class ElgatoController : MonoBehaviour
         }
 
         // ✅ 카운트다운
-        int count = 300;
+        int count = 10;
         while (count > 0)
         {
-            if (countDownText != null)
-                countDownText.text = count.ToString();
+            //if (countDownText != null)
+            //    countDownText.text = count.ToString();
             yield return new WaitForSeconds(1f);
             count--;
+            countDownImage.sprite = ResourceManager.Instance.PhotoCountDownImage[count];
         }
-        if (countDownText != null) countDownText.text = "";
 
+        //if (countDownText != null) countDownText.text = "";
         display2RawImage.gameObject.SetActive(false); // 
         StartCoroutine(ADCountDown()); // 광고 타이머 60초
 

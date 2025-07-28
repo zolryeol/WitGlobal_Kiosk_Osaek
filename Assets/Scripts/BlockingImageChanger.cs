@@ -7,10 +7,11 @@ using UnityEngine.UI;
 public class BlockingImageChanger : MonoBehaviour, ILocalizableImage
 {
     [SerializeField] Image InsaImage;
+    [SerializeField] Image GuideImage;
 
     public void InitLocalizableImage()
     {
-        
+
     }
 
     public void UpdateLocalizableImage()
@@ -18,5 +19,6 @@ public class BlockingImageChanger : MonoBehaviour, ILocalizableImage
         var nowLang = UIManager.Instance.NowLanguage;
 
         InsaImage.sprite = ResourceManager.Instance.PhotoBlockingImage[(int)nowLang];
+        GuideImage.sprite = ResourceManager.Instance.PhotoGuideImage[(int)nowLang];
     }
 }
