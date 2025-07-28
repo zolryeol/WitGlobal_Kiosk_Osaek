@@ -435,7 +435,7 @@ public class UIManager : MonoBehaviour
             int remainingSeconds = Mathf.CeilToInt(remaining);
             if (remainingSeconds != lastLoggedSecond)
             {
-                Debug.Log($"⏳ 초기화까지 남은 시간: {remainingSeconds}초");
+                //Debug.Log($"⏳ 초기화까지 남은 시간: {remainingSeconds}초");
                 lastLoggedSecond = remainingSeconds;
             }
         }

@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: 55}
-  m_SizeDelta: {x: 804, y: 110}
+  m_AnchoredPosition: {x: -2, y: 28.0615}
+  m_SizeDelta: {x: 804, y: 56.1232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2481328296708707795
 CanvasRenderer:
@@ -258,8 +258,8 @@ RectTransform:
   m_Children:
   - {fileID: 844757903423658716}
   - {fileID: 7078547265004581815}
-  - {fileID: 4115189822036855570}
   - {fileID: 7848752029209421550}
+  - {fileID: 4115189822036855570}
   - {fileID: 2159341980745996649}
   - {fileID: 7131616717061224521}
   - {fileID: 585783221628705912}
@@ -367,6 +367,7 @@ MonoBehaviour:
   shopID: 0
   ID: {fileID: 2653922850218380601}
   shopName: {fileID: 4947278870849860674}
+  shopAddress: {fileID: 4298497762730399100}
   description: {fileID: 2994210016332209117}
   hashTag: {fileID: 3814608928735579706}
   sprite:
@@ -376,6 +377,7 @@ MonoBehaviour:
   - {fileID: 5007680639038430983}
   - {fileID: 8239801870693931156}
   - {fileID: 6374095194173987666}
+  naverRating: 0
 --- !u!1 &1250175593610436905
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,12 +390,12 @@ GameObject:
   - component: {fileID: 757485696221315946}
   - component: {fileID: 4298497762730399100}
   m_Layer: 5
-  m_Name: ContentTime
+  m_Name: ContentAddress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7848752029209421550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -410,8 +412,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -78.21155, y: 45}
-  m_SizeDelta: {x: 651.5769, y: 50}
+  m_AnchoredPosition: {x: -2, y: 79.118}
+  m_SizeDelta: {x: 804, y: 45.989}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &757485696221315946
 CanvasRenderer:
@@ -441,7 +443,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Time
+  m_text: Address
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a87d345c148905743a355db3e21758d9, type: 2}
   m_sharedMaterial: {fileID: -5992781668272966291, guid: a87d345c148905743a355db3e21758d9, type: 2}
@@ -471,7 +473,7 @@ MonoBehaviour:
   m_fontSize: 26
   m_fontSizeBase: 26
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 15
   m_fontSizeMax: 26
   m_fontStyle: 0

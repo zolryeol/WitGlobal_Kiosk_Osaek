@@ -141,7 +141,7 @@ public class ElgatoController : MonoBehaviour
         string filePath = Path.Combine(folderPath, $"Captured_{System.DateTime.Now:yyyyMMdd_HHmmss}.png");
         File.WriteAllBytes(filePath, croppedTexture.EncodeToPNG());
 
-        Debug.Log("📸 잘린 이미지 저장 완료: " + filePath);
+        Debug.Log("📸 잘린 이미지 저장 완료: " + filePath); 
 
         Debug.Log($"한복 인덱스 = {hanbokIndex}");
 
@@ -197,7 +197,7 @@ public class ElgatoController : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddBinaryData("image", fileData, Path.GetFileName(imagePath), "image/jpeg");
         form.AddField("option", optionIndex);
-
+    
         string url = Core.PhotoPostUrl;
 
         UnityWebRequest www = UnityWebRequest.Post(url, form);

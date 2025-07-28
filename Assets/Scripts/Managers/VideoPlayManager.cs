@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Video;
 using Random = UnityEngine.Random;
 
@@ -11,7 +12,18 @@ public class VideoPlayManager : MonoBehaviour
 {
     public static VideoPlayManager Instance { get; private set; }
     public VideoPlayer _VideoPlayer; // 
+    public VideoPlayer _VideoPlayer2;
+
     public RenderTexture Display2Texture; // 디스플레이2용 RenderTexture
+    public RenderTexture Display2Texture2; // 디스플레이2용 RenderTexture
+
+    public RawImage targetRawImage;
+
+    private VideoPlayer activePlayer;
+    private VideoPlayer standbyPlayer;
+
+    private RenderTexture activeTexture;
+    private RenderTexture standbyTexture;
 
     public TextMeshProUGUI SubTitle;
     public GameObject PackLogo;
@@ -28,6 +40,17 @@ public class VideoPlayManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         _retryDisplayCoroutine = StartCoroutine(TryActivateDisplay2());
+
+        activePlayer = _VideoPlayer;
+        standbyPlayer = _VideoPlayer2;
+
+        activeTexture = Display2Texture;
+        standbyTexture = Display2Texture2;
+
+        _VideoPlayer.targetTexture = Display2Texture;
+        _VideoPlayer2.targetTexture = Display2Texture2;
+
+        targetRawImage.texture = Display2Texture;
     }
 
     // 영상다오면 파라미터로 받아서 해당 영상 플레이시킬것
@@ -64,6 +87,39 @@ public class VideoPlayManager : MonoBehaviour
     private VideoSubtitleData nextSubtitleData;
     private VideoType currentPlayingType;
 
+    public void PlayVideoBuffered(string videoUrl, VideoSubtitleData subtitleData = null)
+    {
+        standbyPlayer.Stop();
+        standbyPlayer.source = VideoSource.Url;
+        standbyPlayer.url = videoUrl;
+        standbyPlayer.audioOutputMode = VideoAudioOutputMode.None;
+
+        standbyPlayer.prepareCompleted -= OnStandbyPrepared;
+        standbyPlayer.prepareCompleted += OnStandbyPrepared;
+
+        nextSubtitleData = subtitleData;
+        standbyPlayer.Prepare();
+    }
+
+    private void OnStandbyPrepared(VideoPlayer vp)
+    {
+        activePlayer.Stop();
+
+        (activePlayer, standbyPlayer) = (standbyPlayer, activePlayer);
+        (activeTexture, standbyTexture) = (standbyTexture, activeTexture);
+
+        targetRawImage.texture = activeTexture;
+
+        // ✅ loopPointReached 재설정
+        activePlayer.loopPointReached -= OnVideoFinished;
+        activePlayer.loopPointReached += OnVideoFinished;
+
+        activePlayer.Play();
+
+        if (nextSubtitleData != null)
+            ShowSubtitle(nextSubtitleData);
+    }
+
     public void PlayVideo(VideoType type)
     {
         bool fallbackToDefault = false;
@@ -82,21 +138,18 @@ public class VideoPlayManager : MonoBehaviour
             fallbackToDefault = true;
         }
 
-        // 🔧 1. 순차 인덱스 계산
         int currentIndex = 0;
         if (!fallbackToDefault && videoPlayIndexMap.TryGetValue(type, out int nextIndex))
         {
             currentIndex = nextIndex;
         }
 
-        // ✅ 2. 이전 재생 정보 저장 (fallback 아닐 때만)
         if (!fallbackToDefault)
         {
             previousPlayingType = currentPlayingType;
             previousPlayingIndex = currentIndex;
         }
 
-        // 🔄 3. 현재 타입 저장 및 인덱스 갱신
         currentPlayingType = type;
 
         if (!fallbackToDefault)
@@ -106,47 +159,29 @@ public class VideoPlayManager : MonoBehaviour
 
         var selected = list[currentIndex];
 
-        // 다음 인덱스로 갱신 (순차 or 무한 루프)
-        if (!fallbackToDefault)
-            videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
-
-        // 3. 비디오 파일 경로 가져오기
         if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
         {
-            Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 영상 재생, 자막은 유지");
+            Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 영상으로 대체");
 
-            // Default 영상으로 대체
             if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out var defaultList) || defaultList.Count == 0)
             {
                 Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
                 return;
             }
 
-            var defaultVideoData = defaultList[0];
-            if (!ResourceManager.Instance.TryGetVideoPlayer(defaultVideoData.fileName, out player))
+            var defaultSelected = defaultList[0];
+            if (!ResourceManager.Instance.TryGetVideoPlayer(defaultSelected.fileName, out player))
             {
                 Debug.LogError("[VideoPlayManager] Default 비디오 파일도 없습니다. 재생 불가");
                 return;
             }
 
-            // ✅ 주의: 자막은 selected 그대로 사용
+            selected = defaultSelected; // 자막까지 Default로 대체
         }
 
-        _VideoPlayer.Pause();
 
-        // 이벤트 중복 제거 후 등록
-        _VideoPlayer.prepareCompleted -= OnVideoPrepared;
-        _VideoPlayer.prepareCompleted += OnVideoPrepared;
-
-        _VideoPlayer.loopPointReached -= OnVideoFinished;
-        _VideoPlayer.loopPointReached += OnVideoFinished;
-
-        _VideoPlayer.source = VideoSource.Url;
-        _VideoPlayer.url = player.url;
-
-        nextSubtitleData = selected;
-
-        _VideoPlayer.Prepare();
+        string videoUrl = player.url;
+        PlayVideoBuffered(videoUrl, selected);
     }
 
     public void PlayPreviousVideo()
@@ -165,45 +200,29 @@ public class VideoPlayManager : MonoBehaviour
 
         var selected = list[previousPlayingIndex];
 
-        // 🎯 영상이 없을 경우 default 영상으로 대체
         if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
         {
             Debug.LogWarning($"[VideoPlayManager] 이전 비디오 파일 없음: {selected.fileName} → Default 영상으로 대체");
 
-
-            // Default 영상 가져오기
             if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out var defaultList) || defaultList.Count == 0)
             {
                 Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
                 return;
             }
 
-            var defaultSelected = defaultList[0];
-            if (!ResourceManager.Instance.TryGetVideoPlayer(defaultSelected.fileName, out player))
+            selected = defaultList[0];
+            if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out player))
             {
                 Debug.LogError("[VideoPlayManager] Default 비디오 파일도 없습니다. 재생 불가");
                 return;
             }
         }
 
-        // ✅ 자막은 항상 이전 selected로 지정
-        nextSubtitleData = selected;
-
         currentPlayingType = previousPlayingType;
         videoPlayIndexMap[previousPlayingType] = (previousPlayingIndex + 1) % list.Count;
 
-        _VideoPlayer.Pause();
-
-        _VideoPlayer.prepareCompleted -= OnVideoPrepared;
-        _VideoPlayer.prepareCompleted += OnVideoPrepared;
-
-        _VideoPlayer.loopPointReached -= OnVideoFinished;
-        _VideoPlayer.loopPointReached += OnVideoFinished;
-
-        _VideoPlayer.source = VideoSource.Url;
-        _VideoPlayer.url = player.url;
-
-        _VideoPlayer.Prepare();
+        string url = player.url;
+        PlayVideoBuffered(url, selected);
     }
 
     public void PlayPreviousVideoIfValid()
@@ -244,30 +263,29 @@ public class VideoPlayManager : MonoBehaviour
     {
         if (Display.displays.Length > 1)
         {
-            // Display 2 활성화
             Display.displays[1].Activate();
 
-            // VideoPlayer 설정
-            if (_VideoPlayer != null && Display2Texture != null)
+            if (_VideoPlayer != null && Display2Texture != null &&
+                _VideoPlayer2 != null && Display2Texture2 != null)
             {
-                if (_VideoPlayer.isActiveAndEnabled) return;
-
                 _VideoPlayer.targetTexture = Display2Texture;
+                _VideoPlayer2.targetTexture = Display2Texture2;
 
-                _VideoPlayer.Play();
+                targetRawImage.texture = activeTexture;
 
-                PlayVideo(VideoType.Default); // 기본 영상 재생
+                PlayVideo(VideoType.Default);
             }
             else
             {
-                Debug.LogError("VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
+                Debug.LogError("둘 중 하나의 VideoPlayer 또는 RenderTexture가 비어 있습니다.");
             }
         }
         else
         {
-            //StartCoroutine(RetryFindDisplay());
             Debug.LogWarning("Display 2가 감지되지 않았습니다.");
         }
+
+        targetRawImage.texture = activeTexture;
     }
 
 
@@ -283,13 +301,21 @@ public class VideoPlayManager : MonoBehaviour
             {
                 Display.displays[1].Activate();
 
-                if (_VideoPlayer != null && Display2Texture != null)
+
+                if (_VideoPlayer != null && Display2Texture != null &&
+                    _VideoPlayer2 != null && Display2Texture2 != null)
                 {
                     _VideoPlayer.targetTexture = Display2Texture;
+                    _VideoPlayer2.targetTexture = Display2Texture2;
 
-                    PlayVideo(VideoType.Default); // 기본 영상 재생
-                    Debug.Log("[VideoPlayManager] Display 2 활성화 및 기본 영상 재생 성공");
-                    yield break;
+                    activePlayer = _VideoPlayer;
+                    standbyPlayer = _VideoPlayer2;
+                    activeTexture = Display2Texture;
+                    standbyTexture = Display2Texture2;
+
+                    targetRawImage.texture = activeTexture;
+
+                    PlayVideo(VideoType.Default);
                 }
                 else
                 {

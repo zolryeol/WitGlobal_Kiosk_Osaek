@@ -103,8 +103,6 @@ public class ResourceManager : MonoBehaviour
 
         Debug.Log($"[ResourceManager] Hanbok 총 {HanbokSpritesDic.Count}개 카테고리 로드 완료");
     }
-
-
     private void LoadShopImages() //  ShopSprite 불러오기
     {
         ShopSpritesDic.Clear();

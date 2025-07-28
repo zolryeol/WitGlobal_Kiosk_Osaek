@@ -9,6 +9,7 @@ public class ShopContent : MonoBehaviour
     [SerializeField] protected int shopID;
     [SerializeField] protected TextMeshProUGUI ID;
     [SerializeField] protected TextMeshProUGUI shopName;
+    [SerializeField] protected TextMeshProUGUI shopAddress;
     [SerializeField] protected TextMeshProUGUI description;
     [SerializeField] protected TextMeshProUGUI hashTag;
     [SerializeField] protected Image[] sprite = new Image[6];
@@ -36,6 +37,7 @@ public class ShopContent : MonoBehaviour
         baseShopInfoData = data;
 
         shopName.text = data.ShopName[(int)nowLanguage];
+        shopAddress.text = data.Address[(int)nowLanguage];
         description.text = data.ShopDescription[(int)nowLanguage];
         hashTag.text = data.HashTag[(int)nowLanguage];
         naverRating = data.NaverRating;
