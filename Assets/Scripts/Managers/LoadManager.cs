@@ -316,12 +316,20 @@ public class LoadManager : MonoBehaviour
         if (_aicategory == null)
         {
             Debug.LogError("[ShopManager] AICategory가 null입니다.");
-            return new List<BaseShopInfoData>(); // 빈 리스트 반환
+            return new List<BaseShopInfoData>();
         }
 
+        int langIdx = (int)Language.Korean;
+        string aiCategoryStr = _aicategory.AICategoryString[langIdx];
+        string aiCategoryRight = aiCategoryStr.Contains("-") ? aiCategoryStr.Split('-')[1].Trim() : aiCategoryStr.Trim();
+
         return ShopList.Where(shop =>
-            shop.AICategoryString[(int)Language.Korean] == _aicategory.AICategoryString[(int)Language.Korean] ||
-            shop.SecondCategoryString[(int)Language.Korean] == _aicategory.AICategoryString[(int)Language.Korean]
+            shop.AICategoryString[langIdx] == aiCategoryStr ||
+            (
+                shop.SecondCategoryString[langIdx].Contains("-") &&
+                aiCategoryStr.Contains("-") &&
+                shop.SecondCategoryString[langIdx].Split('-')[1].Trim() == aiCategoryRight
+            )
         ).Distinct().ToList();
     }
 

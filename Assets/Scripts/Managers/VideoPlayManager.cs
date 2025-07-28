@@ -26,6 +26,8 @@ public class VideoPlayManager : MonoBehaviour
     private RenderTexture standbyTexture;
 
     public TextMeshProUGUI SubTitle;
+    public TextMeshProUGUI SubTitle2;
+
     public GameObject PackLogo;
     private VideoType _currentVideoType;
 
@@ -257,6 +259,8 @@ public class VideoPlayManager : MonoBehaviour
     {
         int langIndex = (int)UIManager.Instance.NowLanguage;
         SubTitle.text = data.SubtitleString[langIndex];
+        SubTitle2.text = data.SubtitleString[langIndex];
+
     }
 
     public void ActivateDisplay2()

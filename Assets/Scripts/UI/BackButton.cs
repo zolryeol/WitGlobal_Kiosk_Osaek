@@ -11,7 +11,10 @@ public class BackButton : Button
 
         this.onClick.AddListener(() => VideoPlayManager.Instance.PlayPreviousVideoIfValid());
         this.onClick.AddListener(() =>
-            UIManager.Instance.ClosePage((CanvasGroup)UIManager.Instance.PageStack.Pop()));
+        {
+            if (0 < UIManager.Instance.PageStack.Count)
+                UIManager.Instance.ClosePage((CanvasGroup)UIManager.Instance.PageStack.Pop());
+        });
 
     }
 }

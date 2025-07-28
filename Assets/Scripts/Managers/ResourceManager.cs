@@ -48,7 +48,9 @@ public class ResourceManager : MonoBehaviour
         HanbokSpritesDic.Clear();
 
 #if UNITY_EDITOR
-        string hanbokPath = Path.Combine(Application.dataPath, "Editor", "HanbokForEditor");
+        //string hanbokPath = Path.Combine(Application.dataPath, "Editor", "HanbokForEditor");
+        string hanbokPath = "D:/Data/Hanbok";
+
 #else
         string hanbokPath = Path.Combine(Application.dataPath, "../Data/Hanbok");
 #endif
@@ -245,7 +247,10 @@ public class ResourceManager : MonoBehaviour
     private string GetShopImageRootPath()
     {
 #if UNITY_EDITOR
-        return Path.Combine(Application.dataPath, "Editor", "ShopImageForEditor");
+            string shopForder = "D:/Data/ShopImage";
+        return shopForder;
+        
+            //return Path.Combine(Application.dataPath, "Editor", "ShopImageForEditor");
 #else
     // 빌드 시: 실행파일 위치 기준 외부 Data 폴더 사용
     return Path.Combine(Application.dataPath, "../Data/ShopImage");
