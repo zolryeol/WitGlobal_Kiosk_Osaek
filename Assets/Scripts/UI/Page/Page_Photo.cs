@@ -41,6 +41,8 @@ public class Page_Photo : MonoBehaviour
     {
         photoRenderTexture.SetActive(false);
 
+        elgatoController.adCountParent.SetActive(false);
+
         InActiveQRFocus();
         Photoresult_Display2.sprite = null;
         InActiveButton(confirmButton);

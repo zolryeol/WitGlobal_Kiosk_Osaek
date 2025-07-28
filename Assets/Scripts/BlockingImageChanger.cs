@@ -11,7 +11,8 @@ public class BlockingImageChanger : MonoBehaviour, ILocalizableImage
 
     public void InitLocalizableImage()
     {
-
+        InsaImage.sprite = ResourceManager.Instance.PhotoBlockingImage[(int)Language.Korean];
+        GuideImage.sprite = ResourceManager.Instance.PhotoGuideImage[(int)Language.Korean];
     }
 
     public void UpdateLocalizableImage()

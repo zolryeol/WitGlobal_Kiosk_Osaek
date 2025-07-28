@@ -336,14 +336,17 @@ public class UIManager : MonoBehaviour
     }
     private IEnumerator SetScrollbarToTopNextFrame(Scrollbar targetScrollbar, bool isHorizon = false)
     {
-        for (int i = 0; i < 2; ++i) // 임시방편
-        {
-            yield return null;
-        }
+        yield return null; // 프레임 1
+        yield return null; // 프레임 2
 
-        if (isHorizon) targetScrollbar.value = 0;
-        else targetScrollbar.value = 1f;
-        Debug.Log("스크롤바 value = 1 (코루틴)");
+        //Canvas.ForceUpdateCanvases(); // 👈 레이아웃 즉시 강제 갱신
+
+        if (isHorizon)
+            targetScrollbar.value = 0;
+        else
+            targetScrollbar.value = 1f;
+
+        Debug.Log("📌 스크롤바 위치 초기화 완료 (value = " + targetScrollbar.value + ")");
     }
     public void SelectFirstCategory<T>(List<T> targetButtonList) where T : MonoBehaviour  // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
     {
@@ -404,7 +407,7 @@ public class UIManager : MonoBehaviour
     }
     private float lastTouchTime = 0f;
     [Header("초기화타임")]
-    [SerializeField] private float idleThreshold = 300f;
+    [SerializeField] private float idleThreshold = 40f;
 
     private int lastLoggedSecond = -1;
 
@@ -432,7 +435,7 @@ public class UIManager : MonoBehaviour
             int remainingSeconds = Mathf.CeilToInt(remaining);
             if (remainingSeconds != lastLoggedSecond)
             {
-                //Debug.Log($"⏳ 초기화까지 남은 시간: {remainingSeconds}초");
+                Debug.Log($"⏳ 초기화까지 남은 시간: {remainingSeconds}초");
                 lastLoggedSecond = remainingSeconds;
             }
         }
@@ -460,15 +463,15 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        CloseAllPages(); // 또는 다른 초기화 함수
-
         var photo = FindAnyObjectByType<Page_Photo>(); // 사진 예외처리
         if (0 < photo.GetComponent<CanvasGroup>().alpha)
         {
             var elgato = FindAnyObjectByType<ElgatoController>();
             elgato.StopElgato(); // 엘가토 카메라 정지
+            elgato.StopAD(); // 엘가토 비디오 정지
             photo.InitPage(); // 사진 페이지 초기화
         }
+        CloseAllPages(); // 또는 다른 초기화 함수
 
         VideoPlayManager.Instance.PlayVideo(VideoType.Default); // 기본 영상 등
         OpenKeyboard(); // 기본 입력 대기

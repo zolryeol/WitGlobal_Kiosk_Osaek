@@ -16,8 +16,8 @@ public class ElgatoController : MonoBehaviour
     [SerializeField] Image countDownImage;
     //[SerializeField] TextMeshProUGUI countDownText; // 이미지로 사용하여 텍스트X
 
-    [SerializeField] GameObject adCountParent;
     [SerializeField] TextMeshProUGUI countDownText_AD; // 광고용 1분 카운트다운.
+    public GameObject adCountParent;
     public string LatestResultImagePath { get; private set; }
     public int hanbokIndex { get; set; } = 1;
     public bool IsSuccessed { get; set; } = false;
@@ -27,6 +27,7 @@ public class ElgatoController : MonoBehaviour
     PhotoResultToQR resultToQR;
 
     Coroutine runningCoroutine;
+    Coroutine runningCoroutineAD;
 
     private void Awake()
     {
@@ -44,6 +45,15 @@ public class ElgatoController : MonoBehaviour
         runningCoroutine = StartCoroutine(StartElgatoCoroutine());
     }
 
+    public void StopAD()
+    {
+        if (runningCoroutineAD != null)
+        {
+            StopCoroutine(runningCoroutineAD);
+            runningCoroutineAD = null;
+        }
+        adCountParent.SetActive(false);
+    }
     public void StopElgato()
     {
         if (runningCoroutine != null)
@@ -99,7 +109,7 @@ public class ElgatoController : MonoBehaviour
 
         // ✅ 카운트다운
         int count = 10;
-        while (count > 0)
+        while (0 < count)
         {
             //if (countDownText != null)
             //    countDownText.text = count.ToString();
@@ -107,10 +117,11 @@ public class ElgatoController : MonoBehaviour
             count--;
             countDownImage.sprite = ResourceManager.Instance.PhotoCountDownImage[count];
         }
+        yield return new WaitForSeconds(1f);
 
         //if (countDownText != null) countDownText.text = "";
         display2RawImage.gameObject.SetActive(false); // 
-        StartCoroutine(ADCountDown()); // 광고 타이머 60초
+        runningCoroutineAD = StartCoroutine(ADCountDown()); // 광고 타이머 60초
 
 
 
@@ -164,7 +175,7 @@ public class ElgatoController : MonoBehaviour
         string camName = devices[0].name;
         Debug.Log("Selected Camera: " + camName);
 
-        faceCamTexture = new WebCamTexture(camName, 1920, 3840, 30);
+        faceCamTexture = new WebCamTexture(camName, 2880, 1620, 30);
         faceCamTexture.Play();
 
         display2RawImage.texture = faceCamTexture;

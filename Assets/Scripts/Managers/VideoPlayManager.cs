@@ -13,10 +13,6 @@ public class VideoPlayManager : MonoBehaviour
     public VideoPlayer _VideoPlayer; // 
     public RenderTexture Display2Texture; // 디스플레이2용 RenderTexture
 
-    public VideoClip DefaultClip;
-    public VideoClip SelectPhotoHanbok;
-    public VideoClip WaitCreatePhoto;
-
     public TextMeshProUGUI SubTitle;
     public GameObject PackLogo;
     private VideoType _currentVideoType;
