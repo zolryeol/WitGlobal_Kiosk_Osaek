@@ -43,14 +43,16 @@ public class LoadManager : MonoBehaviour
 
     public async Task Init()
     {
-        await LoadShopInfoDataAsync();
-        await LoadAICategoryDataAsync();
-        await LoadPalaceInfoDataAsync();
-        await LoadEventDataAsync();
-        await LoadLocalizationTextAsync();
-        await LoadVideoSubTitleDataAsync();
+        var shopTask = LoadShopInfoDataAsync();
+        var aiTask = LoadAICategoryDataAsync();
+        var palaceTask = LoadPalaceInfoDataAsync();
+        var eventTask = LoadEventDataAsync();
+        var locaTask = LoadLocalizationTextAsync();
+        var videoTask = LoadVideoSubTitleDataAsync();
 
-        ResourceManager.Instance.BuildVideoMapFromSubtitleList(videoSubTitleList);
+        await Task.WhenAll(shopTask, aiTask, palaceTask, eventTask, locaTask, videoTask);
+
+        ResourceManager.Instance.BuildVideoMapFromSubtitleList(VideoSubTitleList);
 
         Debug.Log("<color=green>[Shop 매니저] 로드 완료</color>");
     }
