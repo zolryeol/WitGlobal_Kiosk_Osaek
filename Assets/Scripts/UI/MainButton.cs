@@ -73,13 +73,8 @@ public class MainButton : MonoBehaviour, ILocalizable
         {
             button.onClick.AddListener(() => UIManager.Instance.InitScrollbarValue(UIManager.Instance.HanbokExplainScrollbar, true));
         }
-        else if (categoryETC == Category_ETC.Greeting)
-        {
-            button.onClick.AddListener(() => SelectFirstCategory());
-        }
 
-
-            button.onClick.AddListener(() => UIManager.Instance.PlayVideoByMainButton()); // 영상재생
+        button.onClick.AddListener(() => UIManager.Instance.PlayVideoByMainButton()); // 영상재생
 
         button.onClick.AddListener(() => UIManager.Instance.CloseKeyboard());
     }

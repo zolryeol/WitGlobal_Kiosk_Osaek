@@ -13,7 +13,7 @@ public class Page_Greeting : MonoBehaviour
     SecondCategoryButton[] secondCategoryButtons = new SecondCategoryButton[3];
     [SerializeField]
     GameObject[] pages = new GameObject[3];
-  
+
     public void Init()
     {
         for (int i = 0; i < secondCategoryButtons.Length; i++)
@@ -37,5 +37,17 @@ public class Page_Greeting : MonoBehaviour
     public void Reset()
     {
         secondCategoryButtons[0].SetSelected(true);
+    }
+
+    public void SelectFirstCategory()
+    {
+        // 첫번째 버튼 선택 상태로 설정
+        UIManager.Instance.DeselectAllCustomButtons(secondCategoryButtons.ToList());
+        secondCategoryButtons[0].SetSelected(true);
+        for (int i = 0; i < pages.Length; i++)
+        {
+            pages[i].SetActive(false);
+        }
+        pages[0].SetActive(true);
     }
 }
