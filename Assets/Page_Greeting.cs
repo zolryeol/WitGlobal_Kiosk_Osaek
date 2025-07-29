@@ -13,13 +13,7 @@ public class Page_Greeting : MonoBehaviour
     SecondCategoryButton[] secondCategoryButtons = new SecondCategoryButton[3];
     [SerializeField]
     GameObject[] pages = new GameObject[3];
-
-    
-
-    private void Awake()
-    {
-        Init();
-    }
+  
     public void Init()
     {
         for (int i = 0; i < secondCategoryButtons.Length; i++)

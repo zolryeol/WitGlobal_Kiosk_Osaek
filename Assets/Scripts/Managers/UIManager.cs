@@ -51,6 +51,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Page_Transport page_Tarnsport;
     [SerializeField] Page_Event page_Event;
     [SerializeField] Page_Language page_Language;
+    [SerializeField] Page_Greeting page_Greeting;
 
 
     [Header("PagesCanvasGroup")]
@@ -148,6 +149,9 @@ public class UIManager : MonoBehaviour
 
         page_Language = FindAnyObjectByType<Page_Language>();
         page_Language.Init();
+
+        page_Greeting = FindAnyObjectByType<Page_Greeting>();
+        page_Greeting.Init();
     }
 
     public void OpenPage(CanvasGroup _targetCanvasGroup, Action ac = null)
