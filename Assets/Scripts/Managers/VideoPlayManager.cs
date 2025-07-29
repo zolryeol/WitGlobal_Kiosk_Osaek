@@ -23,6 +23,7 @@ public class VideoPlayManager : MonoBehaviour
     private Dictionary<VideoType, int> videoPlayIndexMap = new();
     private Coroutine _retryDisplayCoroutine;
     private VideoSubtitleData nextSubtitleData;
+    public VideoType CurrentPlayingType => currentPlayingType;
 
     public void Init()
     {
@@ -42,6 +43,8 @@ public class VideoPlayManager : MonoBehaviour
 
     public void PlayVideo(VideoType type)
     {
+        //if (currentPlayingType == type) return;
+
         bool fallbackToDefault = false;
 
         if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)

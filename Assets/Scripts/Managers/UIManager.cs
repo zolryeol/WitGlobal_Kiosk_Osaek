@@ -485,18 +485,23 @@ public class UIManager : MonoBehaviour
                 goto NonBase;
 
             case Category_Base.ToEat:
+                if (VideoPlayManager.Instance.CurrentPlayingType == VideoType.ToEat_Category) return;
                 VideoPlayManager.Instance.PlayVideo(VideoType.ToEat_Category);
                 break;
             case Category_Base.ToBuy:
+                if (VideoPlayManager.Instance.CurrentPlayingType == VideoType.ToBuy_Category) return;
                 VideoPlayManager.Instance.PlayVideo(VideoType.ToBuy_Category);
                 break;
             case Category_Base.ToGallery:
+                if (VideoPlayManager.Instance.CurrentPlayingType == VideoType.ToGallery_Category) return;
                 VideoPlayManager.Instance.PlayVideo(VideoType.ToGallery_Category);
                 break;
             case Category_Base.ToHelp:
+                if (VideoPlayManager.Instance.CurrentPlayingType == VideoType.ToHelp_Category) return;
                 VideoPlayManager.Instance.PlayVideo(VideoType.ToHelp_Category);
                 break;
             case Category_Base.ToStay:
+                if (VideoPlayManager.Instance.CurrentPlayingType == VideoType.ToStay_Category) return;
                 VideoPlayManager.Instance.PlayVideo(VideoType.ToStay_Category);
                 break;
             default:
