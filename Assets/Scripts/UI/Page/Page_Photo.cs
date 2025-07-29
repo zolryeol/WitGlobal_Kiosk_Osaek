@@ -34,7 +34,7 @@ public class Page_Photo : MonoBehaviour
         savePhotoButton.onClick.AddListener(ActiveQRFocus);
         closeQRFocusButton.onClick.AddListener(InActiveQRFocus);
         GotoHomeButton.onClick.AddListener(InitPage);
-        GotoHomeButton.onClick.AddListener(() => UIManager.Instance.CloseAllPages());
+        //GotoHomeButton.onClick.AddListener(() => UIManager.Instance.CloseAllPages());
     }
 
     public void InitPage()
