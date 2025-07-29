@@ -279,7 +279,7 @@ public class ElgatoController : MonoBehaviour
 
         adCountParent.SetActive(true);
 
-        int count = 5;
+        int count = 60;
 
         while (count > 0)
         {
