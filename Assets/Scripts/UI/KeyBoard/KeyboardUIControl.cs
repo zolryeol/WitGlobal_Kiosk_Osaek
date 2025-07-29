@@ -26,6 +26,7 @@ public class KeyboardUIControl : MonoBehaviour
     private void Start()
     {
         keyboard.SetActive(false);
+        closePanelButton.gameObject.SetActive(false);
     }
 
     void OnKeyboard()

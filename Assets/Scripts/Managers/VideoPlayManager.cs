@@ -23,6 +23,7 @@ public class VideoPlayManager : MonoBehaviour
     private Dictionary<VideoType, int> videoPlayIndexMap = new();
     private Coroutine _retryDisplayCoroutine;
     private VideoSubtitleData nextSubtitleData;
+    
     public VideoType CurrentPlayingType => currentPlayingType;
 
     public void Init()

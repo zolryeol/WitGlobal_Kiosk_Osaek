@@ -82,6 +82,8 @@ public class UIManager : MonoBehaviour
         InitMainButtons();
         InitAISelect();
 
+        InitSecondCategoryButtons();
+
         InitContentFetcher();
         InitPages();
 
@@ -242,6 +244,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void InitSecondCategoryButtons()
+    {
+        SecondCategorieButtons = FindObjectsOfType<SecondCategoryButton>(true).ToList();
+        foreach (var button in SecondCategorieButtons)
+        {
+            button.Init();
+        }
+        Debug.Log("세컨드 카테고리 버튼 초기화 완료");
+    }
     public void InitMainButtons()
     {
         var mainButtons = FindObjectsOfType<MainButton>();

@@ -18,13 +18,21 @@ public class SecondCategoryButton : Button, ILocalizable, ISelectableButton
         categoryText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    protected override void Start()
+    public void Init()
     {
         base.Start();
         onClick.AddListener(OnButtonClicked);
         SetSelected(false); // 초기 상태는 선택되지 않음
         onClick.AddListener(UIManager.Instance.PlayVideoByCategoryButton);
     }
+
+    //protected override void Start()
+    //{
+    //    base.Start();
+    //    onClick.AddListener(OnButtonClicked);
+    //    SetSelected(false); // 초기 상태는 선택되지 않음
+    //    onClick.AddListener(UIManager.Instance.PlayVideoByCategoryButton);
+    //}
     public void UpdateLocalizedString(string targetString)
     {
         categoryText.text = targetString;

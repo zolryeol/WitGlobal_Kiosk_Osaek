@@ -20,6 +20,7 @@ public class Core : MonoBehaviour
     [SerializeField] TextMeshProUGUI debugging;
     private string logBuffer = "";
     private const int MaxLines = 30;
+
     private void Awake()
     {
         resourceManager = FindObjectOfType<ResourceManager>();
