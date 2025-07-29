@@ -51,6 +51,8 @@ public class Page_Photo : MonoBehaviour
 
         resultImage.gameObject.SetActive(false);
         resultParent.SetActive(false);
+
+        VideoPlayManager.Instance.PackLogo.SetActive(true);
     }
 
     void OnSelectButton()
@@ -60,6 +62,8 @@ public class Page_Photo : MonoBehaviour
 
     void OnConfirmButton()
     {
+        VideoPlayManager.Instance.PackLogo.SetActive(false);
+
         blocking.SetActive(true);
         //elgatoController.StartElgatoDirect();
         //elgatoController.StartElgato();

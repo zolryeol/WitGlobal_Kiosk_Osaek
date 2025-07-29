@@ -14,7 +14,6 @@ public class VideoPlayManager : MonoBehaviour
     public RawImage targetRawImage;
 
     public TextMeshProUGUI SubTitle;
-    public TextMeshProUGUI SubTitle2;
     public GameObject PackLogo;
 
     private VideoType currentPlayingType;
@@ -184,7 +183,6 @@ public class VideoPlayManager : MonoBehaviour
     {
         int langIndex = (int)UIManager.Instance.NowLanguage;
         SubTitle.text = data.SubtitleString[langIndex];
-        SubTitle2.text = data.SubtitleString[langIndex];
     }
 
     IEnumerator TryActivateDisplay2()

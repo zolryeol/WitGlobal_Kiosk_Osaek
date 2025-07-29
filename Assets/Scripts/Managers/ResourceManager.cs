@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -69,6 +71,10 @@ public class ResourceManager : MonoBehaviour
             if (string.IsNullOrEmpty(folderName)) continue;
 
             string[] imageFiles = GetImageFiles(folderPath);
+
+            // 자연 정렬 추가
+            Array.Sort(imageFiles, (a, b) => NaturalSortComparer(a, b));
+
             if (imageFiles.Length == 0)
             {
                 Debug.LogWarning($"[ResourceManager] Hanbok/{folderName} 폴더에 이미지가 없습니다.");
@@ -86,7 +92,6 @@ public class ResourceManager : MonoBehaviour
                     Texture2D tex = new Texture2D(2, 2);
                     tex.LoadImage(bytes);
 
-                    // Full Rect로 Sprite 생성
                     Rect fullRect = new Rect(0, 0, tex.width, tex.height);
                     Sprite sprite = Sprite.Create(tex, fullRect, new Vector2(0.5f, 0.5f), 100, 0, SpriteMeshType.FullRect);
                     sprite.name = Path.GetFileNameWithoutExtension(ipath);
@@ -105,6 +110,8 @@ public class ResourceManager : MonoBehaviour
 
         Debug.Log($"[ResourceManager] Hanbok 총 {HanbokSpritesDic.Count}개 카테고리 로드 완료");
     }
+
+
     private void LoadShopImages() //  ShopSprite 불러오기
     {
         ShopSpritesDic.Clear();
@@ -261,5 +268,16 @@ public class ResourceManager : MonoBehaviour
     // 빌드 시: 실행파일 위치 기준 외부 Data 폴더 사용
     return Path.Combine(Application.dataPath, "../Data/ShopImage");
 #endif
+    }
+
+    private static int NaturalSortComparer(string a, string b)
+    {
+        return ExtractNumber(Path.GetFileNameWithoutExtension(a)).CompareTo(ExtractNumber(Path.GetFileNameWithoutExtension(b)));
+    }
+
+    private static int ExtractNumber(string s)
+    {
+        Match m = Regex.Match(s, @"\d+");
+        return m.Success ? int.Parse(m.Value) : 0;
     }
 }
