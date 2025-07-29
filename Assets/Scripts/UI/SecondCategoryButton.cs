@@ -18,6 +18,11 @@ public class SecondCategoryButton : Button, ILocalizable, ISelectableButton
         categoryText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
+    protected override void Start()
+    {
+        Init();
+    }
+
     public void Init()
     {
         base.Start();

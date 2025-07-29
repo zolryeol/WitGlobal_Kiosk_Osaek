@@ -83,7 +83,7 @@ public class UIManager : MonoBehaviour
         InitMainButtons();
         InitAISelect();
 
-        InitSecondCategoryButtons();
+        //InitSecondCategoryButtons(); 문제
 
         InitContentFetcher();
         InitPages();
