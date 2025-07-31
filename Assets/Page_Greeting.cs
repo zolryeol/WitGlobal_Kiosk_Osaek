@@ -10,13 +10,13 @@ using UnityEngine;
 public class Page_Greeting : MonoBehaviour
 {
     [SerializeField]
-    SecondCategoryButton[] secondCategoryButtons = new SecondCategoryButton[3];
+    List<SecondCategoryButton> secondCategoryButtons = new();
     [SerializeField]
     GameObject[] pages = new GameObject[3];
 
     public void Init()
     {
-        for (int i = 0; i < secondCategoryButtons.Length; i++)
+        for (int i = 0; i < secondCategoryButtons.Count; i++)
         {
             secondCategoryButtons[i].SecondCategoryButtonIndex = i;
             int index = i;

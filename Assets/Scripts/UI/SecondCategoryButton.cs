@@ -25,7 +25,7 @@ public class SecondCategoryButton : Button, ILocalizable, ISelectableButton
 
     public void Init()
     {
-        base.Start();
+        //base.Start();
         onClick.AddListener(OnButtonClicked);
         SetSelected(false); // 초기 상태는 선택되지 않음
         onClick.AddListener(UIManager.Instance.PlayVideoByCategoryButton);
