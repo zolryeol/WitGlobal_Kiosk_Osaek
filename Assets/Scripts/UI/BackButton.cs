@@ -7,7 +7,7 @@ public class BackButton : Button
 {
     protected override void Start()
     {
-        base.Start();
+        //base.Start();
 
         this.onClick.AddListener(() => VideoPlayManager.Instance.PlayPreviousVideoIfValid());
         this.onClick.AddListener(() =>

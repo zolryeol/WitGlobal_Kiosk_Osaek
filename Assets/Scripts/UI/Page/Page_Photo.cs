@@ -41,6 +41,7 @@ public class Page_Photo : MonoBehaviour
     {
         photoRenderTexture.SetActive(false);
 
+        elgatoController.StopElgato();
         elgatoController.adCountParent.SetActive(false);
 
         InActiveQRFocus();
@@ -52,7 +53,7 @@ public class Page_Photo : MonoBehaviour
         resultImage.gameObject.SetActive(false);
         resultParent.SetActive(false);
 
-        VideoPlayManager.Instance.PackLogo.SetActive(true);
+        //VideoPlayManager.Instance.PackLogo.SetActive(true);
     }
 
     void OnSelectButton()
@@ -62,13 +63,14 @@ public class Page_Photo : MonoBehaviour
 
     void OnConfirmButton()
     {
-        VideoPlayManager.Instance.PackLogo.SetActive(false);
+        //VideoPlayManager.Instance.PackLogo.SetActive(false);
 
         blocking.SetActive(true);
         //elgatoController.StartElgatoDirect();
         //elgatoController.StartElgato();
 
         photoRenderTexture.SetActive(true);
+
         elgatoController.StartElgato();
         //StartCoroutine(CaptureAndShowResult());
     }
