@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
-using static UnityEditor.Progress;
 
 // 스프레드 시트에서 데이터를 불러와서 저장할 예정
 public class LoadManager : MonoBehaviour

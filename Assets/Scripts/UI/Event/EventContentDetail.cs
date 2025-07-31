@@ -23,7 +23,18 @@ public class EventContentDetail : EventContent
         eventAge.text = data.Age[nowLanguage].ToString();
         eventFee.text = data.Fee[nowLanguage].ToString();
         eventDescription.text = data.DescriptionString[nowLanguage].ToString();
+
+
+        if (string.IsNullOrEmpty(data.QRImageUrl))
+        {
+            qrCodeImage.texture = CommonFunction.ConvertSpriteToTexture(ResourceManager.Instance.NoQRImage);
+        }
+        else
+        {
+            qrCodeImage.texture = CommonFunction.GenerateQRCode(data.QRImageUrl);
+        }
     }
+
 
 
 }
