@@ -37,7 +37,7 @@ public class PhotoResultToQR : MonoBehaviour
 
         WWWForm form = new WWWForm();
         form.AddBinaryData("file", imageBytes, fileName, "application/octet-stream");
-        form.AddField("kiosk_name", "KIOSK_A"); // 하드코딩된 키오스크 이름 (필요시 수정 가능)
+        form.AddField("kiosk_name", "KIOSK_LEE_COM"); // 하드코딩된 키오스크 이름 (필요시 수정 가능)
 
         using UnityWebRequest request = UnityWebRequest.Post(uploadURL, form);
         yield return request.SendWebRequest();
