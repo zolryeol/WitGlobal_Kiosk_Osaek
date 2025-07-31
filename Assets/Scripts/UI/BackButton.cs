@@ -9,7 +9,10 @@ public class BackButton : Button
     {
         //base.Start();
 
+        this.onClick.RemoveAllListeners(); // 중복 방지
+
         this.onClick.AddListener(() => VideoPlayManager.Instance.PlayPreviousVideoIfValid());
+
         this.onClick.AddListener(() =>
         {
             if (0 < UIManager.Instance.PageStack.Count)
