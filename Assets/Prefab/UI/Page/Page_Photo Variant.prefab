@@ -513,9 +513,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2492568067689860008}
-  m_HandleRect: {fileID: 0}
+  m_HandleRect: {fileID: 8345087914599589371}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1382,10 +1382,10 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 920
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
+  m_Spacing: 100
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -2855,7 +2855,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4795994219118669586}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -3856,6 +3856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InsaImage: {fileID: 4014140187638295375}
+  GuideImage: {fileID: 0}
 --- !u!1 &7263050492535645369
 GameObject:
   m_ObjectHideFlags: 0
@@ -3890,7 +3891,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -72, y: 597.4}
+  m_AnchoredPosition: {x: -72, y: 498}
   m_SizeDelta: {x: 593.3275, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8588689094028341386
@@ -4795,7 +4796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -405.5, y: 597.4}
+  m_AnchoredPosition: {x: -405.5, y: 498.00006}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2983614347207688094
@@ -4934,8 +4935,8 @@ MonoBehaviour:
   m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
-  m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_DecelerationRate: 0.15
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 7018271152133506120}
   m_HorizontalScrollbar: {fileID: 8789694053167162591}
   m_VerticalScrollbar: {fileID: 0}
@@ -5354,9 +5355,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   display2RawImage: {fileID: 0}
-  countDownText: {fileID: 0}
-  adCountParent: {fileID: 0}
+  countDownImage: {fileID: 0}
   countDownText_AD: {fileID: 0}
+  adCountParent: {fileID: 0}
 --- !u!1 &8335639055353257976 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4377129796306706504, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
