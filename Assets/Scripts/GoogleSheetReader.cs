@@ -15,7 +15,7 @@ public static class GoogleSheetReader
     static readonly string AICategoryRange = "AICategory_Insa!A3:E";
     static readonly string ShopDataRange = "ShopData_Insa!A1:AH";
     static readonly string PalaceInfoDataRange = "PalaceInfo_Insa!A3:AD";
-    static readonly string EventInfoDataRange = "Event_Insa!A3:AG";
+    static readonly string EventInfoDataRange = "Event_Insa!A3:AH";
     static readonly string VideoSubTitleRange = "VideoSubtitle_Insa!A3:G";
     static readonly string LocalizationDataRange = "Localization_Insa!A1:F";
 

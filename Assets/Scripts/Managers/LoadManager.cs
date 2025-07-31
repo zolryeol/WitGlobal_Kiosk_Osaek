@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using static UnityEditor.Progress;
 
 // 스프레드 시트에서 데이터를 불러와서 저장할 예정
 public class LoadManager : MonoBehaviour
@@ -117,12 +118,13 @@ public class LoadManager : MonoBehaviour
             Debug.LogError("[ShopManager] 이벤트 데이터를 불러오지 못했습니다.");
         }
 
-        // 이미지불러오기
-        //foreach (var item in eventList)
-        //{
-        //    Sprite sprite = await LoadEventThumbnailSpriteAsync(item);
-        //    item.ThumbNailImage = sprite;
-        //}
+        //이미지불러오기
+        foreach (var item in eventList)
+        {
+            Sprite sprite = await LoadEventThumbnailSpriteAsync(item);
+            item.ThumbNailImage = sprite;
+            
+        }
     }
 
     // 코루틴을 Task로 래핑
@@ -449,6 +451,7 @@ public class LoadManager : MonoBehaviour
         if (string.IsNullOrEmpty(data.ImageUrl))
         {
             onLoaded?.Invoke(null);
+            Debug.Log($"<color=green>[ShopManager] 이벤트 썸네일 이미지 URL 비어있음</color>");
             yield break;
         }
 
@@ -463,10 +466,12 @@ public class LoadManager : MonoBehaviour
                     new Rect(0, 0, texture.width, texture.height),
                     new Vector2(0.5f, 0.5f));
                 onLoaded?.Invoke(sprite);
+
+                Debug.Log($"<color=green>[ShopManager] 이벤트 썸네일 이미지 로드성공 </color=green>");
             }
             else
             {
-                Debug.LogWarning("썸네일 이미지 로드 실패: " + uwr.error);
+                Debug.LogWarning("<color=red>썸네일 이미지 로드 실패: <color/>" + uwr.error);
                 onLoaded?.Invoke(null);
             }
         }
