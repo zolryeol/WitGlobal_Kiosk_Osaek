@@ -13,6 +13,7 @@ public class EventContentDetail : EventContent
     [SerializeField]
     private TextMeshProUGUI eventDescription;
 
+
     public override void FetchContent(EventData data)
     {
         var nowLanguage = (int)UIManager.Instance.NowLanguage;
@@ -24,5 +25,5 @@ public class EventContentDetail : EventContent
         eventDescription.text = data.DescriptionString[nowLanguage].ToString();
     }
 
-    
+
 }

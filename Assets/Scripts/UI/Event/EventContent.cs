@@ -14,7 +14,7 @@ public class EventContent : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI hashTag;
 
     [SerializeField] Image thumbnail;
-    [SerializeField] RawImage QRImage;
+    [SerializeField] protected RawImage qrCodeImage;
 
     Button button;
 
@@ -43,6 +43,7 @@ public class EventContent : MonoBehaviour
         contactNum.text = data.ContactNum;
 
         thumbnail.sprite = data.ThumbNailImage;
+
     }
 }
 

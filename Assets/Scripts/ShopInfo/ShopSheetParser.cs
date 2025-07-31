@@ -361,7 +361,13 @@ public class ShopSheetParser
             eventData.OpeningTime = GetCell(row, 30);   // 운영시간
             eventData.ContactNum = GetCell(row, 31);    // 전화번호
             eventData.Period = GetCell(row, 32);        // 기간
-            eventData.ImageUrl = GetCell(row, 33);      // 이미지URL
+
+            //eventData.ImageUrl = GetCell(row, 33);      // 이미지URL
+            string rawUrl = GetCell(row, 33);
+            eventData.ImageUrl = ConvertGoogleDriveToDirectImageUrl(rawUrl);
+
+            eventData.QRImageUrl = GetCell(row, 34); // QR 코드 이미지 URL
+
 
             result.Add(eventData);
         }
@@ -371,6 +377,26 @@ public class ShopSheetParser
     private static string GetCell(IList<object> row, int index)
     {
         return (row.Count > index && row[index] != null) ? row[index].ToString() : string.Empty;
+    }
+
+    static string ConvertGoogleDriveToDirectImageUrl(string url)
+    {
+        const string prefix = "https://drive.google.com/file/d/";
+        const string suffix = "/view";
+
+        if (url.StartsWith(prefix) && url.Contains(suffix))
+        {
+            int start = prefix.Length;
+            int end = url.IndexOf(suffix);
+            string fileId = url.Substring(start, end - start);
+
+            Debug.Log("<color=green>이벤트 썸네일 변환 성공</color=green>");
+
+            return $"https://drive.google.com/uc?export=view&id={fileId}";
+        }
+
+        Debug.Log("<color=red>이벤트 썸네일 변환 실패</color=red>");
+        return url; // 변환 실패 시 그대로 반환
     }
 
 }
@@ -427,7 +453,7 @@ public class EventData
     public string Period; // 기간
 
     public string ImageUrl;
-
+    public string QRImageUrl; // QR 코드 이미지 URL
     public Sprite ThumbNailImage;
 }
 
