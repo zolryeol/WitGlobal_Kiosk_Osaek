@@ -249,7 +249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1571135445875560715}
   m_Layer: 5
-  m_Name: Bnt_MainIcon
+  m_Name: MainIconsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,6 +298,10 @@ PrefabInstance:
     - target: {fileID: 2322226004632345913, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
       propertyPath: m_Name
       value: Palace
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929223557313326735, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: categoryETC
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6758398612544003929, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
       propertyPath: m_Pivot.x
@@ -522,6 +526,30 @@ PrefabInstance:
     - target: {fileID: 7609222520400286779, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
       propertyPath: m_text
       value: "\uC548\uB155\uC778\uC0AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127240103830556074, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127240103830556074, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127240103830556074, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127240103830556074, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectFirstCategory
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127240103830556074, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Page_Greeting, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127240103830556074, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -831,6 +859,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Transport
       objectReference: {fileID: 0}
+    - target: {fileID: 2929223557313326735, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: categoryETC
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6758398612544003929, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1055,6 +1087,10 @@ PrefabInstance:
       propertyPath: m_text
       value: "\uC778\uC0AC\uB3D9\uBBF8"
       objectReference: {fileID: 0}
+    - target: {fileID: 9127240103830556074, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1234,6 +1270,10 @@ PrefabInstance:
     - target: {fileID: 2322226004632345913, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
       propertyPath: m_Name
       value: Exchange
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929223557313326735, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: categoryETC
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6758398612544003929, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
       propertyPath: m_Pivot.x
@@ -1662,6 +1702,10 @@ PrefabInstance:
     - target: {fileID: 2322226004632345913, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
       propertyPath: m_Name
       value: HereInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929223557313326735, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
+      propertyPath: categoryETC
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6758398612544003929, guid: 5f45d3cdfe8b60c469690e9f66f7fb03, type: 3}
       propertyPath: m_Pivot.x

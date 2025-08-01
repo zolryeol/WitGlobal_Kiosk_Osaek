@@ -50,10 +50,20 @@ public class MainButton : MonoBehaviour, ILocalizable
                 firstButton = buttonParent.GetChild(0).GetComponent<Button>();
             }
 
-            button.onClick.AddListener(() => OnCategoryButton()); // 카테고리 버튼 클릭시 서브 카테고리 버튼 활성화
-            button.onClick.AddListener(() => SelectFirstCategory()); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
-            button.onClick.AddListener(() => UIManager.Instance.FetchingContent(0)); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
-            button.onClick.AddListener(() => HeaderChange());
+            if (categoryETC == Category_ETC.Toilet) // 화장실 예외처리
+            {
+                button.onClick.AddListener(() => OnCategoryButton()); // 카테고리 버튼 클릭시 서브 카테고리 버튼 활성화
+                firstButton = buttonParent.GetChild(LoadManager.Instance.ToiletIndex).GetComponent<Button>(); // 8번째버튼
+                button.onClick.AddListener(() => firstButton.onClick.Invoke());
+                button.onClick.AddListener(() => HeaderChange());
+            }
+            else
+            {
+                button.onClick.AddListener(() => OnCategoryButton()); // 카테고리 버튼 클릭시 서브 카테고리 버튼 활성화
+                button.onClick.AddListener(() => SelectFirstCategory()); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
+                button.onClick.AddListener(() => UIManager.Instance.FetchingContent(0)); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
+                button.onClick.AddListener(() => HeaderChange());
+            }
         }
 
         // 베이스 카테고리가 아닐경우 예외처리
@@ -91,6 +101,7 @@ public class MainButton : MonoBehaviour, ILocalizable
                                                                                 //Canvas.ForceUpdateCanvases(); // 강제 갱신
         }
     }
+
     public void OnCategoryButton()
     {
         var secondCateStrList = LoadManager.Instance.GetSecondCategoryStringTrim(category);

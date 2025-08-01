@@ -39,6 +39,7 @@ public enum Category_ETC // ShopManager에서 다루지 않는 Category들
     Transport,
     AISelect, // AI 선택
     Search,
+    Toilet,
 }
 
 public enum VideoType

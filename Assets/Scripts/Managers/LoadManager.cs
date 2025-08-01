@@ -33,6 +33,9 @@ public class LoadManager : MonoBehaviour
     public List<EventData> EventDataList => eventList;
     public List<LocalizationText> LocalizeTextList => locaizationList;
 
+
+    public int ToiletIndex = -1;
+
     private void Awake()
     {
         Instance = this;
@@ -53,6 +56,8 @@ public class LoadManager : MonoBehaviour
         await Task.WhenAll(shopTask, aiTask, palaceTask, eventTask, locaTask, videoTask);
 
         ResourceManager.Instance.BuildVideoMapFromSubtitleList(VideoSubTitleList);
+
+        ToiletIndex = GetSecondCategoryIndex();
 
         Debug.Log("<color=green>[Shop 매니저] 로드 완료</color>");
     }
@@ -122,7 +127,7 @@ public class LoadManager : MonoBehaviour
         {
             Sprite sprite = await LoadEventThumbnailSpriteAsync(item);
             item.ThumbNailImage = sprite;
-            
+
         }
     }
 
@@ -262,6 +267,35 @@ public class LoadManager : MonoBehaviour
             .ToList();
 
         return sorted;
+    }
+
+    public int GetSecondCategoryIndex(string toiletStr = "화장실")
+    {
+        // shoplist중에 secondcategorystring[(int)Language.Korean] 의 문자열중 toiletStr과 일치하는 것을 찾는다.
+        // 일치하는 것이 있다면 '-'문자를 찾아서 split한다.
+        // split된 문자열의 첫번째 부분을 int로 변환하여 반환한다.
+
+        var baseCategoryStr = CommonFunction.GetBaseCategoryString(Category_Base.ToHelp);
+        var targetShop = ShopList.FirstOrDefault(shop =>
+            shop.BaseCategoryString[(int)Language.Korean] == baseCategoryStr &&
+            shop.SecondCategoryString[(int)Language.Korean].Contains(toiletStr));
+
+        if (targetShop != null)
+        {
+            var raw = targetShop.SecondCategoryString[(int)Language.Korean];
+            if (raw.Contains("-"))
+            {
+                var parts = raw.Split('-');
+                if (parts.Length > 0 && int.TryParse(parts[0].Trim(), out int number))
+                {
+                    Debug.LogWarning("화장실의 인덱스 = " + number);
+                    return number - 1; // 첫번째 부분을 int로 변환하여 반환 / 인덱스 1부터 시작 하므로 -1
+                }
+            }
+        }
+
+        Debug.LogWarning("화장실 못찾았습니다.");
+        return -1;
     }
 
     public List<(int, string)> GetSecondCategoryList(Category_Base baseCategory)
