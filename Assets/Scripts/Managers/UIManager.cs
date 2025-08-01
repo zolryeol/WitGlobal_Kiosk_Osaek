@@ -83,8 +83,6 @@ public class UIManager : MonoBehaviour
         InitMainButtons();
         InitAISelect();
 
-        //InitSecondCategoryButtons(); 문제
-
         InitContentFetcher();
         InitPages();
 
@@ -248,15 +246,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void InitSecondCategoryButtons()
+    public void InitHanbokCategoryButton()
     {
-        SecondCategorieButtons = FindObjectsOfType<SecondCategoryButton>(true).ToList();
-        foreach (var button in SecondCategorieButtons)
+        HanbokCategorieButtons = FindObjectsOfType<HanbokCategoryButton>(true).OrderBy(b => b.transform.GetSiblingIndex()).ToList();
+        foreach (var button in HanbokCategorieButtons)
         {
             button.Init();
         }
-        Debug.Log("세컨드 카테고리 버튼 초기화 완료");
+        Debug.Log("한복 카테고리 버튼 초기화 완료");
     }
+
     public void InitMainButtons()
     {
         var mainButtons = FindObjectsOfType<MainButton>();

@@ -18,12 +18,18 @@ public class HanbokCategoryButton : Button, ISelectableButton
     {
         categoryText = GetComponentInChildren<TextMeshProUGUI>();
     }
+
     protected override void Start()
     {
-        base.Start();
+        Init();
+    }
+
+    public void Init()
+    {
         onClick.AddListener(OnButtonClicked);
         onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Photo_SelectHanbok));
         SetSelected(false); // 초기 상태는 선택되지 않음
+        Debug.Log("<color=blue>한복카테고리 초기화</color>");
     }
 
     public void SetSelected(bool selected)
