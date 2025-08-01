@@ -299,21 +299,31 @@ public class UIManager : MonoBehaviour
 
     public void FetchingContent(int categoryButtonIndex)
     {
-        Category_Base baseCategory = NowSelectedCategory; // 현재 선택된 카테고리로 설정
+        Category_Base baseCategory = NowSelectedCategory;
 
-        var t = LoadManager.Instance.GetShopsBySecondCategory(baseCategory, categoryButtonIndex);
+        var shops = LoadManager.Instance.GetShopsBySecondCategory(baseCategory, categoryButtonIndex);
 
-        // 랜덤순으로 섞는다.
-        t = t.OrderBy(_ => UnityEngine.Random.value).ToList();
+        // 이미지가 하나라도 있는지 검사 (spriteImage 배열에 null 아닌 항목이 있는지 확인) // 이미지 있는것 우선순위
+        var hasImageList = shops
+            .Where(shop => shop.spriteImage != null && shop.spriteImage.Any(sprite => sprite != null))
+            .OrderBy(_ => UnityEngine.Random.value)
+            .ToList();
 
-        Debug.Log("콘텐츠 갯수 = " + t.Count);
+        var noImageList = shops
+            .Where(shop => shop.spriteImage == null || shop.spriteImage.All(sprite => sprite == null))
+            .OrderBy(_ => UnityEngine.Random.value)
+            .ToList();
+
+        var finalList = hasImageList.Concat(noImageList).ToList();
+
+        Debug.Log("콘텐츠 갯수 = " + finalList.Count);
 
         for (int i = 0; i < ShopContentCreator.MaxContentCount; ++i)
         {
-            if (i < t.Count)
+            if (i < finalList.Count)
             {
                 ShopContents[i].gameObject.SetActive(true);
-                ShopContents[i].FetchContent(t[i]);
+                ShopContents[i].FetchContent(finalList[i]);
             }
             else
             {
