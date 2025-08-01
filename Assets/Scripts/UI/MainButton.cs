@@ -27,19 +27,25 @@ public class MainButton : MonoBehaviour, ILocalizable
 
     TextMeshProUGUI buttonText;
 
+    [SerializeField] bool isCopyButton = false; // map photo toilet 등 복사본들은 true // 예외처리
+
     public void Init()
     {
+        var um = UIManager.Instance;
+
         if (TryGetComponent<Button>(out Button _button))
         {
             button = _button;
         }
         else button = this.AddComponent<Button>();
 
-        button.onClick.AddListener(() => UIManager.Instance.OpenPage(_targetCanvasGroup));
+        if (isCopyButton) button.onClick.AddListener(() => um.CloseAllPages()); // 복사본 버튼은 페이지 닫기
+
+        button.onClick.AddListener(() => um.OpenPage(_targetCanvasGroup));
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
 
         // 카테고리 설정
-        button.onClick.AddListener(() => UIManager.Instance.SetNowSelectCategory(category, categoryETC));
+        button.onClick.AddListener(() => um.SetNowSelectCategory(category, categoryETC));
 
         if (category != Category_Base.Default)
         {
@@ -61,7 +67,7 @@ public class MainButton : MonoBehaviour, ILocalizable
             {
                 button.onClick.AddListener(() => OnCategoryButton()); // 카테고리 버튼 클릭시 서브 카테고리 버튼 활성화
                 button.onClick.AddListener(() => SelectFirstCategory()); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
-                button.onClick.AddListener(() => UIManager.Instance.FetchingContent(0)); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
+                button.onClick.AddListener(() => um.FetchingContent(0)); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
                 button.onClick.AddListener(() => HeaderChange());
             }
         }
@@ -69,24 +75,25 @@ public class MainButton : MonoBehaviour, ILocalizable
         // 베이스 카테고리가 아닐경우 예외처리
         if (categoryETC == Category_ETC.Photo) // 촬영버튼
         {
-            button.onClick.AddListener(() => UIManager.Instance.SelectFirstCategory(UIManager.Instance.HanbokCategorieButtons));
-            button.onClick.AddListener(() => UIManager.Instance.HanbokCategorieButtons[0].SelectFirstHanbokContent());
+            button.onClick.AddListener(() => um.SelectFirstCategory(um.HanbokCategorieButtons));
+            button.onClick.AddListener(() => um.HanbokCategorieButtons[0].SelectFirstHanbokContent());
         }
         else if (categoryETC == Category_ETC.Map) // 지도
         {
             body = _targetCanvasGroup.transform.Find("Body").transform;
             buttonParent = body.Find("ButtonsParent").transform;
             firstButton = buttonParent.GetChild(1).GetComponent<Button>(); // 두번째버튼
+
             button.onClick.AddListener(() => firstButton.onClick.Invoke());
         }
         else if (categoryETC == Category_ETC.HanbokExplain) // 한복설명
         {
-            button.onClick.AddListener(() => UIManager.Instance.InitScrollbarValue(UIManager.Instance.HanbokExplainScrollbar, true));
+            button.onClick.AddListener(() => um.InitScrollbarValue(um.HanbokExplainScrollbar, true));
         }
 
-        button.onClick.AddListener(() => UIManager.Instance.PlayVideoByMainButton()); // 영상재생
+        button.onClick.AddListener(() => um.PlayVideoByMainButton()); // 영상재생
 
-        button.onClick.AddListener(() => UIManager.Instance.CloseKeyboard());
+        button.onClick.AddListener(() => um.CloseKeyboard());
     }
     private void SelectFirstCategory() // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
     {
