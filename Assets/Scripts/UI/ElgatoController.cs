@@ -21,6 +21,7 @@ public class ElgatoController : MonoBehaviour
     public string LatestResultImagePath { get; private set; }
     public int hanbokIndex { get; set; } = 1;
     public bool IsSuccessed { get; set; } = false;
+    public bool IsElgatoRunning { get; private set; } = false;
 
     Page_Photo page_photo;
 
@@ -42,6 +43,8 @@ public class ElgatoController : MonoBehaviour
             runningCoroutine = null;
         }
 
+        IsElgatoRunning = true;
+
         runningCoroutine = StartCoroutine(StartElgatoCoroutine());
     }
 
@@ -62,6 +65,8 @@ public class ElgatoController : MonoBehaviour
 
         display2RawImage.texture = null;
         display2RawImage.gameObject.SetActive(false);
+
+        IsElgatoRunning = false;
     }
     public void StopAD()
     {
@@ -285,6 +290,8 @@ public class ElgatoController : MonoBehaviour
 
         while (count > 0)
         {
+            if (!IsElgatoRunning) yield break; // 주간 취소방지
+
             if (countDownText_AD != null)
                 countDownText_AD.text = count.ToString();
 

@@ -28,16 +28,28 @@ public class PhotoResultToQR : MonoBehaviour
         public string download_url;
     }
 
+    private void Awake()
+    {
+        if (elgatoController == null)
+            elgatoController = FindAnyObjectByType<ElgatoController>();
+    }
+
     public IEnumerator FetchImageFile(string filePath)
     {
         //var filePath = elgatoController.LatestResultImagePath;
+
+        if (elgatoController != null && !elgatoController.IsElgatoRunning)
+        {
+            Debug.LogWarning("Elgato 실행 중이 아니므로 QR 업로드 중단됨");
+            yield break;
+        }
 
         byte[] imageBytes = File.ReadAllBytes(filePath);
         string fileName = Path.GetFileName(filePath);
 
         WWWForm form = new WWWForm();
         form.AddBinaryData("file", imageBytes, fileName, "application/octet-stream");
-        form.AddField("kiosk_name", "KIOSK_LEE_COM"); // 하드코딩된 키오스크 이름 (필요시 수정 가능)
+        form.AddField("kiosk_name", Core.KioskName); // 하드코딩된 키오스크 이름 (필요시 수정 가능)
 
         using UnityWebRequest request = UnityWebRequest.Post(uploadURL, form);
         yield return request.SendWebRequest();
@@ -47,7 +59,9 @@ public class PhotoResultToQR : MonoBehaviour
             Debug.LogError("파일 업로드 실패: " + request.error);
             yield break;
         }
+
         UploadResponse response = JsonUtility.FromJson<UploadResponse>(request.downloadHandler.text);
+
         if (string.IsNullOrEmpty(response.download_url))
         {
             Debug.LogError("서버 응답에 download_url이 없습니다.");

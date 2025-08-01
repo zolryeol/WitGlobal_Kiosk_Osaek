@@ -14,6 +14,7 @@ public class Core : MonoBehaviour
 
     public static string PhotoPostUrl = "http://158.247.207.5:8000/api/process_image";
 
+    [SerializeField] public static string KioskName = "KIOSK_WITGLOBALHQ";
     // 디버그용
 
     [SerializeField] GameObject Loading;
@@ -29,6 +30,12 @@ public class Core : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         exchangeRateManager = FindObjectOfType<ExchangeRateManager>();
         videoPlayManager = FindObjectOfType<VideoPlayManager>();
+
+#if UNITY_EDITOR
+        KioskName = "KIOSK_LEECOM";
+#else
+        KioskName = "KIOSK_WITGLOBALHQ";
+#endif
 
         DontDestroyOnLoad(gameObject);
     }

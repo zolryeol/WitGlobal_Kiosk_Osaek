@@ -83,6 +83,7 @@ public class UIManager : MonoBehaviour
         InitMainButtons();
         InitAISelect();
 
+
         InitContentFetcher();
         InitPages();
 
