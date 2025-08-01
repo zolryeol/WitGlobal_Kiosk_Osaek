@@ -73,6 +73,9 @@ public class UIManager : MonoBehaviour
     [Space(30)]
     public HangulKeyborad keyboard;
 
+    [Header("날씨버튼")]
+    public WeatherButton weatherButton;
+
     public Stack PageStack = new(); // 페이지스택
     public void Init()
     {
@@ -89,6 +92,8 @@ public class UIManager : MonoBehaviour
         InitPages();
 
         InitLocalization();
+
+        weatherButton.Init();
     }
 
     public void SetNowSelectCategory(Category_Base _baseCategory = Category_Base.Default, Category_ETC _EtcCategory = Category_ETC.Default)

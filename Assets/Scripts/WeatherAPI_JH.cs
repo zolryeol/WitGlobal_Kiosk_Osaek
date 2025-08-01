@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class WeatherAPI_JH : MonoBehaviour
 {
     public static WeatherAPI_JH Instance { get; private set; }
+    public VideoType WeatherVideoType { get => weatherVideoType; }
 
     [SerializeField] private TextMeshProUGUI curTemperature;
     [SerializeField] private TextMeshProUGUI maxlowTemperature;
@@ -22,6 +23,8 @@ public class WeatherAPI_JH : MonoBehaviour
     [SerializeField] private Sprite snowSprite;
     [SerializeField] private Sprite thunderSprite;
     [SerializeField] private Sprite hailSprite;
+
+    VideoType weatherVideoType = VideoType.Weather_Sunny;
 
     private static readonly HttpClient client = new HttpClient();
 
@@ -72,11 +75,20 @@ public class WeatherAPI_JH : MonoBehaviour
     {
         switch (mainKeyword)
         {
-            case "Clear": img.sprite = sunnySprite; break;
+            case "Clear":
+                img.sprite = sunnySprite;
+                weatherVideoType = VideoType.Weather_Sunny;
+                break;
             case "Clouds": img.sprite = cloudySprite; break;
             case "Rain":
-            case "Drizzle": img.sprite = rainSprite; break;
-            case "Snow": img.sprite = snowSprite; break;
+            case "Drizzle":
+                img.sprite = rainSprite;
+                weatherVideoType = VideoType.Weather_Rain;
+                break;
+            case "Snow":
+                img.sprite = snowSprite;
+                weatherVideoType = VideoType.Weather_Cold;
+                break;
             case "Thunderstorm": img.sprite = thunderSprite; break;
             case "Tornado":
             case "Squall": img.sprite = hailSprite; break;

@@ -104,7 +104,6 @@ public class VideoPlayManager : MonoBehaviour
 
         nextSubtitleData = selected;
 
-        _VideoPlayer.Stop();
         _VideoPlayer.source = VideoSource.Url;
         _VideoPlayer.url = player.url;
         _VideoPlayer.Prepare();
