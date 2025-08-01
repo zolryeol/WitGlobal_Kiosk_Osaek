@@ -573,6 +573,12 @@ public class UIManager : MonoBehaviour
 
     public void PlayVideoByMainButton()
     {
+        if (NowSelectedCategory == Category_Base.ToHelp && NowSelectedETC == Category_ETC.Toilet)
+        {
+            VideoPlayManager.Instance.PlayVideo(VideoType.Toilet);
+            return;
+        }
+
         switch (NowSelectedCategory)
         {
             case Category_Base.Default:

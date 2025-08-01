@@ -90,6 +90,7 @@ public enum VideoType
     Weather_Sunny,
     Weather_Rain,
     Weather_Cold,
+    Toilet,
 }
 
 #region 하위카테고리 사용하지않음

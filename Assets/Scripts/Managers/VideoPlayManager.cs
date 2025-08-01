@@ -23,7 +23,9 @@ public class VideoPlayManager : MonoBehaviour
     private Dictionary<VideoType, int> videoPlayIndexMap = new();
     private Coroutine _retryDisplayCoroutine;
     private VideoSubtitleData nextSubtitleData;
-    
+
+    private Texture2D lastFrameTexture;
+    private bool _waitingForFirstFrame = false;
     public VideoType CurrentPlayingType => currentPlayingType;
 
     public void Init()
@@ -40,12 +42,11 @@ public class VideoPlayManager : MonoBehaviour
 
         _VideoPlayer.loopPointReached += OnVideoFinished;
         _VideoPlayer.prepareCompleted += OnVideoPrepared;
+        _VideoPlayer.frameReady += OnFirstFrameReady;
     }
 
     public void PlayVideo(VideoType type)
     {
-        //if (currentPlayingType == type) return;
-
         bool fallbackToDefault = false;
 
         if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)
@@ -104,8 +105,22 @@ public class VideoPlayManager : MonoBehaviour
 
         nextSubtitleData = selected;
 
+        // 🔄 마지막 프레임 캡처 후 정지화면 유지
+        CaptureLastFrame();
+        targetRawImage.texture = lastFrameTexture;
+
+        _VideoPlayer.Stop(); // 이제 깜빡임 문제 없음
         _VideoPlayer.source = VideoSource.Url;
         _VideoPlayer.url = player.url;
+
+        _VideoPlayer.frameReady -= OnFirstFrameReady;
+        _VideoPlayer.frameReady += OnFirstFrameReady;
+
+        _waitingForFirstFrame = false; // frameReady 안 씀
+
+        _VideoPlayer.Play(); // ✅ Prepare() 없이 바로 Play()
+        StartCoroutine(ForceSwapAfterDelay());
+
         _VideoPlayer.Prepare();
     }
 
@@ -113,6 +128,7 @@ public class VideoPlayManager : MonoBehaviour
     {
         vp.Play();
         ShowSubtitle(nextSubtitleData);
+        Debug.LogWarning($"[Video] 재생 시작됨: {vp.clip?.name}, 프레임 = {vp.frame}, length = {vp.frameCount}");
     }
 
     private void OnVideoFinished(VideoPlayer vp)
@@ -159,9 +175,20 @@ public class VideoPlayManager : MonoBehaviour
         videoPlayIndexMap[previousPlayingType] = (previousPlayingIndex + 1) % list.Count;
 
         nextSubtitleData = selected;
+
+        // 🔄 깜빡임 방지용 마지막 프레임 유지
+        CaptureLastFrame();
+        targetRawImage.texture = lastFrameTexture;
+
         _VideoPlayer.Stop();
         _VideoPlayer.source = VideoSource.Url;
         _VideoPlayer.url = player.url;
+
+        _VideoPlayer.frameReady -= OnFirstFrameReady;
+        _VideoPlayer.frameReady += OnFirstFrameReady;
+
+        _waitingForFirstFrame = true;
+
         _VideoPlayer.Prepare();
     }
 
@@ -223,5 +250,38 @@ public class VideoPlayManager : MonoBehaviour
         }
 
         Debug.LogError("[VideoPlayManager] Display 2를 최종적으로 감지하지 못했습니다.");
+    }
+
+    private void CaptureLastFrame()
+    {
+        var rt = _VideoPlayer.targetTexture;
+        if (rt == null) return;
+
+        RenderTexture.active = rt;
+
+        if (lastFrameTexture == null || lastFrameTexture.width != rt.width || lastFrameTexture.height != rt.height)
+        {
+            lastFrameTexture = new Texture2D(rt.width, rt.height, TextureFormat.RGB24, false);
+        }
+
+        lastFrameTexture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
+        lastFrameTexture.Apply();
+        RenderTexture.active = null;
+    }
+
+    private void OnFirstFrameReady(VideoPlayer source, long frameIdx)
+    {
+        if (!_waitingForFirstFrame) return;
+
+        targetRawImage.texture = Display2Texture; // ▶️ 프레임 올 때 연결
+        _waitingForFirstFrame = false;
+    }
+
+    private IEnumerator ForceSwapAfterDelay()
+    {
+        yield return new WaitForSeconds(0.2f); // 첫 프레임 출력 시간 대기
+
+        targetRawImage.texture = Display2Texture;
+        Debug.Log("[Video] 강제 전환: RenderTexture로 스왑 완료");
     }
 }
