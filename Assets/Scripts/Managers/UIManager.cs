@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
     public List<ILocalizableImage> localizableImageList = new();
     public List<LocalizerText> localizerTexts = new();
     public LocalizerText PublicHeader; // shop페이지의 공용헤더
+    public LocalizerText PublicSubHeader; // shop페이지의 공용Sub헤더
 
     [Header("키보드")]
     [Space(30)]

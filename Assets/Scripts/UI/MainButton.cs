@@ -121,6 +121,7 @@ public class MainButton : MonoBehaviour, ILocalizable
     void HeaderChange()
     {
         var targetHeader = UIManager.Instance.PublicHeader;
+        var targetSubHeader = UIManager.Instance.PublicSubHeader;
 
         switch (category)
         {
@@ -128,23 +129,29 @@ public class MainButton : MonoBehaviour, ILocalizable
                 return;
             case Category_Base.ToEat:
                 targetHeader.SetKey("MainButton_ToEat");
+                targetSubHeader.SetKey("SubHeader_ToEat");
                 break;
             case Category_Base.ToBuy:
                 targetHeader.SetKey("MainButton_ToBuy");
+                targetSubHeader.SetKey("SubHeader_ToBuy");
                 break;
             case Category_Base.ToGallery:
                 targetHeader.SetKey("MainButton_ToGallery");
+                targetSubHeader.SetKey("SubHeader_ToGallery");
                 break;
             case Category_Base.ToHelp:
                 targetHeader.SetKey("MainButton_ToHelp");
+                targetSubHeader.SetKey("SubHeader_ToHelp");
                 break;
             case Category_Base.ToStay:
                 targetHeader.SetKey("MainButton_ToStay");
+                targetSubHeader.SetKey("SubHeader_ToStay");
                 break;
             default:
                 break;
         }
 
         targetHeader.UpdateText();
+        targetSubHeader.UpdateText();
     }
 }

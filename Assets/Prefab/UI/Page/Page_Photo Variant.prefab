@@ -4642,7 +4642,7 @@ GameObject:
   - component: {fileID: 3537798512777489366}
   - component: {fileID: 2017296952725764369}
   m_Layer: 5
-  m_Name: GoToHome
+  m_Name: TryAgainButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5087,7 +5087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564375527124837580, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_Alpha
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3901988616141036200, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -5246,6 +5246,7 @@ PrefabInstance:
     - {fileID: 1267569807167649386, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
     - {fileID: 7820029712133176663, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
     - {fileID: 5507941484339434623, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+    - {fileID: 1643610798156159359, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8771409064552305266, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       insertIndex: -1
@@ -5338,7 +5339,7 @@ MonoBehaviour:
   Photoresult_Display2: {fileID: 0}
   savePhotoButton: {fileID: 2900236205451623341}
   closeQRFocusButton: {fileID: 2742264704292491975}
-  GotoHomeButton: {fileID: 2017296952725764369}
+  tryAgainButton: {fileID: 2017296952725764369}
   _QRFocus: {fileID: 1100804173074914087}
   photoRenderTexture: {fileID: 0}
   PrivacyPolicy: {fileID: 5408817034389278536}
