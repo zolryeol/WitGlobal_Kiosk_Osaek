@@ -45,6 +45,24 @@ public class ElgatoController : MonoBehaviour
         runningCoroutine = StartCoroutine(StartElgatoCoroutine());
     }
 
+    public void StopElgato()
+    {
+        if (runningCoroutine != null)
+        {
+            StopCoroutine(runningCoroutine);
+            StopAD();
+            runningCoroutine = null;
+        }
+
+        if (faceCamTexture != null && faceCamTexture.isPlaying)
+        {
+            faceCamTexture.Stop();
+            faceCamTexture = null;
+        }
+
+        display2RawImage.texture = null;
+        display2RawImage.gameObject.SetActive(false);
+    }
     public void StopAD()
     {
         if (runningCoroutineAD != null)
@@ -54,22 +72,6 @@ public class ElgatoController : MonoBehaviour
         }
         adCountParent.SetActive(false);
     }
-    public void StopElgato()
-    {
-        if (runningCoroutine != null)
-        {
-            StopCoroutine(runningCoroutine);
-            runningCoroutine = null;
-        }
-        if (faceCamTexture != null && faceCamTexture.isPlaying)
-        {
-            faceCamTexture.Stop();
-            faceCamTexture = null;
-        }
-        display2RawImage.texture = null;
-        display2RawImage.gameObject.SetActive(false);
-    }
-
     IEnumerator StartElgatoCoroutine()
     {
         WebCamDevice[] devices = WebCamTexture.devices;
