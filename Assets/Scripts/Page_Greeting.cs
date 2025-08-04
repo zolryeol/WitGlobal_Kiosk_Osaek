@@ -35,7 +35,7 @@ public class Page_Greeting : MonoBehaviour
 
         secondCategoryButtons[0].onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Greeting));
         secondCategoryButtons[1].onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Greeting_Hobby));
-        secondCategoryButtons[2].onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Greeting_Stretching));
+        secondCategoryButtons[2].onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Greeting_Stretching, forceReset: true));
     }
 
     public void Reset()

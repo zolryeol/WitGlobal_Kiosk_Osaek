@@ -286,7 +286,7 @@ public class ElgatoController : MonoBehaviour
 
         adCountParent.SetActive(true);
 
-        int count = 60;
+        int count = 40; // 광고시간
 
         while (count > 0)
         {

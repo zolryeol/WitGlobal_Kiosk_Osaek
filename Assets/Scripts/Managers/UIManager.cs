@@ -556,6 +556,8 @@ public class UIManager : MonoBehaviour
             case Category_ETC.Greeting:
                 break;
             case Category_ETC.Photo:
+                if (VideoPlayManager.Instance.CurrentPlayingType == VideoType.Photo_SelectHanbok) return;
+                VideoPlayManager.Instance.PlayVideo(VideoType.Photo_SelectHanbok);
                 break;
             case Category_ETC.Event:
                 VideoPlayManager.Instance.PlayVideo(VideoType.Event_Category);

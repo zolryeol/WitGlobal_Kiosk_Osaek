@@ -54,7 +54,7 @@ public class VideoPlayManager : MonoBehaviour
         return useBufferA ? bufferA : bufferB;
     }
 
-    public void PlayVideo(VideoType type)
+    public void PlayVideo(VideoType type, bool forceReset = false)
     {
         bool fallbackToDefault = false;
 
@@ -70,21 +70,18 @@ public class VideoPlayManager : MonoBehaviour
             type = VideoType.Default;
             fallbackToDefault = true;
         }
-        bool isForceResetIndex = forceFirstOnlyTypes.Contains(type);
 
+        bool isForceResetType = forceFirstOnlyTypes.Contains(type);
         int currentIndex = 0;
 
         if (!fallbackToDefault)
         {
-            if (isForceResetIndex)
+            if (forceReset && isForceResetType)
             {
-                if (!videoPlayIndexMap.ContainsKey(type))
-                {
-                    videoPlayIndexMap[type] = 0; // 처음만 0에서 시작
-                }
-                currentIndex = videoPlayIndexMap[type];
+                videoPlayIndexMap[type] = 0;
             }
-            else if (videoPlayIndexMap.TryGetValue(type, out int nextIndex))
+
+            if (videoPlayIndexMap.TryGetValue(type, out int nextIndex))
             {
                 currentIndex = nextIndex;
             }
@@ -95,12 +92,10 @@ public class VideoPlayManager : MonoBehaviour
             previousPlayingType = currentPlayingType;
             previousPlayingIndex = currentIndex;
 
-            // 순환 인덱스 업데이트 (예외 포함)
             videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
         }
 
         currentPlayingType = type;
-
         var selected = list[currentIndex];
 
         if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
