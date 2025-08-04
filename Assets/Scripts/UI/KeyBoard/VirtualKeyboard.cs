@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+// 비사용
+
 public class VirtualKeyboard : MonoBehaviour
 {
     public TMP_InputField inputField;
@@ -15,7 +17,7 @@ public class VirtualKeyboard : MonoBehaviour
     public enum LanguageMode { Korean, English }
     public LanguageMode currentLanguage = LanguageMode.Korean;
 
-    private string committedText;
+    [SerializeField] private string committedText = "";
     private bool isShifted = false;
 
     private readonly char[] chosung_index = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
