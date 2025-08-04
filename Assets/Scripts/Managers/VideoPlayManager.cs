@@ -29,9 +29,16 @@ public class VideoPlayManager : MonoBehaviour
     private VideoSubtitleData nextSubtitleData;
 
     private readonly HashSet<VideoType> forceFirstOnlyTypes = new() // 0번째 인덱스부터 재생되어야할 비디오
-{
+    {
     VideoType.Greeting_Stretching,
-};
+    };
+
+    private readonly HashSet<VideoType> weatherTypes = new()
+    {
+    VideoType.Weather_Sunny,
+    VideoType.Weather_Rain,
+    VideoType.Weather_Cold,
+    };
 
     public VideoType CurrentPlayingType => currentPlayingType;
 
@@ -135,6 +142,15 @@ public class VideoPlayManager : MonoBehaviour
 
     private void OnVideoFinished(VideoPlayer vp)
     {
+        if (weatherTypes.Contains(currentPlayingType))
+        {
+            PlayVideo(VideoType.Default); // 날씨 영상이 끝나면 기본 영상으로 돌아감 예외처리
+        }
+        else
+        {
+            PlayVideo(currentPlayingType);
+        }
+
         Debug.Log("📽 영상 재생 완료 → 다음 영상으로");
         PlayVideo(currentPlayingType);
     }
