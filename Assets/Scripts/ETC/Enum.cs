@@ -91,6 +91,8 @@ public enum VideoType
     Weather_Rain,
     Weather_Cold,
     Toilet,
+    Greeting_Hobby,
+    Greeting_Stretching,
 }
 
 #region 하위카테고리 사용하지않음

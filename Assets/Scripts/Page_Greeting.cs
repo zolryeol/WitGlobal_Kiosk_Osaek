@@ -32,6 +32,10 @@ public class Page_Greeting : MonoBehaviour
             });
         }
         Debug.Log("인사페이지 버튼등록완료");
+
+        secondCategoryButtons[0].onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Greeting));
+        secondCategoryButtons[1].onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Greeting_Hobby));
+        secondCategoryButtons[2].onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.Greeting_Stretching));
     }
 
     public void Reset()

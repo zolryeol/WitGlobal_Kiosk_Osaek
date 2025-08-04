@@ -28,6 +28,11 @@ public class VideoPlayManager : MonoBehaviour
     private Coroutine _retryDisplayCoroutine;
     private VideoSubtitleData nextSubtitleData;
 
+    private readonly HashSet<VideoType> forceFirstOnlyTypes = new() // 0번째 인덱스부터 재생되어야할 비디오
+{
+    VideoType.Greeting_Stretching,
+};
+
     public VideoType CurrentPlayingType => currentPlayingType;
 
     public void Init()
@@ -65,25 +70,36 @@ public class VideoPlayManager : MonoBehaviour
             type = VideoType.Default;
             fallbackToDefault = true;
         }
+        bool isForceResetIndex = forceFirstOnlyTypes.Contains(type);
 
         int currentIndex = 0;
-        if (!fallbackToDefault && videoPlayIndexMap.TryGetValue(type, out int nextIndex))
+
+        if (!fallbackToDefault)
         {
-            currentIndex = nextIndex;
+            if (isForceResetIndex)
+            {
+                if (!videoPlayIndexMap.ContainsKey(type))
+                {
+                    videoPlayIndexMap[type] = 0; // 처음만 0에서 시작
+                }
+                currentIndex = videoPlayIndexMap[type];
+            }
+            else if (videoPlayIndexMap.TryGetValue(type, out int nextIndex))
+            {
+                currentIndex = nextIndex;
+            }
         }
 
         if (!fallbackToDefault)
         {
             previousPlayingType = currentPlayingType;
             previousPlayingIndex = currentIndex;
+
+            // 순환 인덱스 업데이트 (예외 포함)
+            videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
         }
 
         currentPlayingType = type;
-
-        if (!fallbackToDefault)
-        {
-            videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
-        }
 
         var selected = list[currentIndex];
 
