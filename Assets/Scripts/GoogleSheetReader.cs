@@ -12,12 +12,12 @@ public static class GoogleSheetReader
     static readonly string ApplicationName = "WitglobalKiosk";
     static readonly string DataSheet_Insa = "1AVZoyepjrlWIUtwXamGRYU6TWkKKKgVb7fzwEtbRDaw";
 
-    static readonly string AICategoryRange = "AICategory_Insa!A3:E";
-    static readonly string ShopDataRange = "ShopData_Insa!A1:AH";
+    static readonly string AICategoryRange = "AICategory_Osaek!A3:E";
+    static readonly string ShopDataRange = "ShopData_Osaek!A1:AH";
     static readonly string PalaceInfoDataRange = "PalaceInfo_Insa!A3:AD";
-    static readonly string EventInfoDataRange = "Event_Insa!A3:AI";
-    static readonly string VideoSubTitleRange = "VideoSubtitle_Insa!A3:G";
-    static readonly string LocalizationDataRange = "Localization_Insa!A1:F";
+    static readonly string EventInfoDataRange = "Event_Osaek!A3:AI";
+    static readonly string VideoSubTitleRange = "VideoSubtitle_Osaek!A3:G";
+    static readonly string LocalizationDataRange = "Localization_Osaek!A1:F";
 
     static readonly string fileName = "kiosk-insadatasheet-52e5347a7b9c.json";
 
