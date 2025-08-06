@@ -150,9 +150,6 @@ public class VideoPlayManager : MonoBehaviour
         {
             PlayVideo(currentPlayingType);
         }
-
-        Debug.Log("📽 영상 재생 완료 → 다음 영상으로");
-        PlayVideo(currentPlayingType);
     }
 
     public void PlayPreviousVideoIfValid()
