@@ -135,8 +135,14 @@ public class VideoPlayManager : MonoBehaviour
 
     private void OnVideoFinished(VideoPlayer vp)
     {
-        Debug.Log("📽 영상 재생 완료 → 다음 영상으로");
-        PlayVideo(currentPlayingType);
+        if (weatherTypes.Contains(currentPlayingType))
+        {
+            PlayVideo(VideoType.Default); // 날씨 영상이 끝나면 기본 영상으로 돌아감 예외처리
+        }
+        else
+        {
+            PlayVideo(currentPlayingType);
+        }
     }
 
     public void PlayPreviousVideoIfValid()
