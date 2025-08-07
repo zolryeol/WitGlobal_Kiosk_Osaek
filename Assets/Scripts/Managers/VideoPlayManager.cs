@@ -33,6 +33,13 @@ public class VideoPlayManager : MonoBehaviour
     VideoType.Greeting_Stretching,
 };
 
+    private readonly HashSet<VideoType> weatherTypes = new()
+    {
+    VideoType.Weather_Sunny,
+    VideoType.Weather_Rain,
+    VideoType.Weather_Cold,
+    };
+
     public VideoType CurrentPlayingType => currentPlayingType;
 
     public void Init()
