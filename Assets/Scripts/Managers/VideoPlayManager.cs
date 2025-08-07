@@ -11,10 +11,10 @@ public class VideoPlayManager : MonoBehaviour
 
     public VideoPlayer _VideoPlayer;
 
-    [Header("더블 버퍼링용 텍스처")]
+    [Header("더블 버퍼링용 텍스처")] // 다시 원복
     public RenderTexture bufferA;
-    public RenderTexture bufferB;
-    private bool useBufferA = true;
+    //public RenderTexture bufferB;
+    //private bool useBufferA = true;
 
     public RawImage targetRawImage;
     public TextMeshProUGUI SubTitle;
@@ -55,11 +55,11 @@ public class VideoPlayManager : MonoBehaviour
         _VideoPlayer.prepareCompleted += OnVideoPrepared;
     }
 
-    private RenderTexture GetNextBuffer()
-    {
-        useBufferA = !useBufferA;
-        return useBufferA ? bufferA : bufferB;
-    }
+    //private RenderTexture GetNextBuffer()
+    //{
+    //    useBufferA = !useBufferA;
+    //    return useBufferA ? bufferA : bufferB;
+    //}
 
     public void PlayVideo(VideoType type, bool forceReset = false)
     {
@@ -125,9 +125,9 @@ public class VideoPlayManager : MonoBehaviour
 
         nextSubtitleData = selected;
 
-        var nextTexture = GetNextBuffer();
-        _VideoPlayer.targetTexture = nextTexture;
-        targetRawImage.texture = nextTexture;
+        //var nextTexture = GetNextBuffer();
+        //_VideoPlayer.targetTexture = nextTexture;
+        //targetRawImage.texture = nextTexture;
 
         _VideoPlayer.source = VideoSource.Url;
         _VideoPlayer.url = player.url;
@@ -150,6 +150,10 @@ public class VideoPlayManager : MonoBehaviour
         {
             PlayVideo(currentPlayingType);
         }
+
+        // 현재 재생되는 영상
+        Debug.Log("현재 재생 영상 = " + vp.name);
+        Debug.Log("현재 재생 타입 = " + currentPlayingType.ToString());
     }
 
     public void PlayPreviousVideoIfValid()
@@ -178,9 +182,9 @@ public class VideoPlayManager : MonoBehaviour
 
         nextSubtitleData = selected;
 
-        var nextTexture = GetNextBuffer();
-        _VideoPlayer.targetTexture = nextTexture;
-        targetRawImage.texture = nextTexture;
+        //var nextTexture = GetNextBuffer(); // 더블버퍼 취소
+        //_VideoPlayer.targetTexture = nextTexture;
+        //targetRawImage.texture = nextTexture;
 
         _VideoPlayer.source = VideoSource.Url;
         _VideoPlayer.url = player.url;
@@ -205,18 +209,18 @@ public class VideoPlayManager : MonoBehaviour
             {
                 Display.displays[1].Activate();
 
-                if (_VideoPlayer != null && bufferA != null && bufferB != null)
-                {
-                    _VideoPlayer.targetTexture = bufferA;
-                    targetRawImage.texture = bufferA;
-                    PlayVideo(VideoType.Default);
-                }
-                else
-                {
-                    Debug.LogError("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
-                    yield break;
-                }
-
+                //if (_VideoPlayer != null && bufferA != null && bufferB != null)
+                //{
+                //    _VideoPlayer.targetTexture = bufferA;
+                //    targetRawImage.texture = bufferA;
+                //    PlayVideo(VideoType.Default);
+                //}
+                //else
+                //{
+                //    Debug.LogError("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
+                //    yield break;
+                //}
+                Debug.LogError("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
                 yield break;
             }
             else
