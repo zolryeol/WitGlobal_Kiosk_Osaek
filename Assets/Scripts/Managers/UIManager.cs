@@ -76,6 +76,10 @@ public class UIManager : MonoBehaviour
     [Header("날씨버튼")]
     public WeatherButton weatherButton;
 
+    [Header("ETC")]
+    public GameObject NoContentText; // 검색 결과없을때 나타나도록
+    public GameObject NoContentFooter; // 검색 결과없을때 나타나도록
+
     public Stack PageStack = new(); // 페이지스택
     public void Init()
     {
@@ -323,6 +327,8 @@ public class UIManager : MonoBehaviour
 
         Debug.Log("콘텐츠 갯수 = " + finalList.Count);
 
+        OnNoContentText(finalList.Count == 0);
+
         for (int i = 0; i < ShopContentCreator.MaxContentCount; ++i)
         {
             if (i < finalList.Count)
@@ -339,12 +345,21 @@ public class UIManager : MonoBehaviour
         InitScrollbarValue(FoodAndShopScrollbar);
     }
 
+    public void OnNoContentText(bool anyContent = false)
+    {
+        NoContentText.SetActive(anyContent);
+        NoContentFooter.SetActive(anyContent);
+
+        if (anyContent == false) Debug.Log("콘텐츠 없음");
+    }
+
     public void FetchingContent(string str)
     {
         str = str.Trim(); // 공백 제거
         var shops = LoadManager.Instance.GetShopsBySearch(str);
 
-        Debug.Log("콘텐츠 갯수 = " + shops.Count);
+        // 검색 결과가 있으면 텍스트와 푸터 숨김
+        OnNoContentText(shops.Count == 0);
 
         for (int i = 0; i < ShopContentCreator.MaxContentCount; ++i)
         {
