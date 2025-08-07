@@ -18,6 +18,8 @@ public class VideoPlayManager : MonoBehaviour
 
     public RawImage targetRawImage;
     public TextMeshProUGUI SubTitle;
+    public TextMeshProUGUI SubTitle2;
+
     public GameObject PackLogo;
 
     private VideoType currentPlayingType;
@@ -81,26 +83,24 @@ public class VideoPlayManager : MonoBehaviour
         bool isForceResetType = forceFirstOnlyTypes.Contains(type);
         int currentIndex = 0;
 
-        if (!fallbackToDefault)
+        if (videoPlayIndexMap.TryGetValue(type, out int nextIndex))
         {
-            if (forceReset && isForceResetType)
-            {
-                videoPlayIndexMap[type] = 0;
-            }
-
-            if (videoPlayIndexMap.TryGetValue(type, out int nextIndex))
-            {
-                currentIndex = nextIndex;
-            }
+            currentIndex = nextIndex;
         }
 
-        if (!fallbackToDefault)
+        // ✅ 강제 리셋 대상이면 무조건 0부터
+        if (forceReset && isForceResetType)
         {
-            previousPlayingType = currentPlayingType;
-            previousPlayingIndex = currentIndex;
-
-            videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
+            currentIndex = 0;
         }
+
+        //if (!fallbackToDefault)
+        previousPlayingType = currentPlayingType;
+        previousPlayingIndex = currentIndex;
+
+        videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
+
+        Debug.Log($"재생 타입: {type}, currentIndex: {currentIndex}, 다음 인덱스: {videoPlayIndexMap[type]}");
 
         currentPlayingType = type;
         var selected = list[currentIndex];
@@ -152,7 +152,6 @@ public class VideoPlayManager : MonoBehaviour
         }
 
         // 현재 재생되는 영상
-        Debug.Log("현재 재생 영상 = " + vp.name);
         Debug.Log("현재 재생 타입 = " + currentPlayingType.ToString());
     }
 
@@ -170,31 +169,18 @@ public class VideoPlayManager : MonoBehaviour
             return;
         }
 
-        currentPlayingType = previousPlayingType;
-        videoPlayIndexMap[previousPlayingType] = (previousPlayingIndex + 1) % list.Count;
 
-        var selected = list[previousPlayingIndex];
-        if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
-        {
-            Debug.LogError("[VideoPlayManager] 이전 영상도 없습니다.");
-            return;
-        }
+        Debug.Log($"[Back] 이전 영상 재생 시도: {previousPlayingType}, index: {previousPlayingIndex}");
 
-        nextSubtitleData = selected;
-
-        //var nextTexture = GetNextBuffer(); // 더블버퍼 취소
-        //_VideoPlayer.targetTexture = nextTexture;
-        //targetRawImage.texture = nextTexture;
-
-        _VideoPlayer.source = VideoSource.Url;
-        _VideoPlayer.url = player.url;
-        _VideoPlayer.Prepare();
+        // ✅ 그냥 일반 재생 함수로 넘긴다 (인덱스 갱신 포함)
+        PlayVideo(previousPlayingType);
     }
 
     private void ShowSubtitle(VideoSubtitleData data)
     {
         int langIndex = (int)UIManager.Instance.NowLanguage;
         SubTitle.text = data.SubtitleString[langIndex];
+        SubTitle2.text = data.SubtitleString2[langIndex];
     }
 
     IEnumerator TryActivateDisplay2()
