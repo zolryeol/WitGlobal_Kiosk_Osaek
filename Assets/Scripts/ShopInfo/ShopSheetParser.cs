@@ -44,6 +44,13 @@ public class ShopSheetParser
                 data.SubtitleString[lang] = (columnIndex < row.Count) ? row[columnIndex]?.ToString() ?? "" : "";
             }
 
+            // 추가 자막 (index 7 ~ 10)
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                int columnIndex = 7 + lang;
+                data.SubtitleString2[lang] = (columnIndex < row.Count) ? row[columnIndex]?.ToString() ?? "" : "";
+            }
+
             result.Add(data);
         }
 
@@ -408,6 +415,7 @@ public class VideoSubtitleData
     public string key; // 키
     public string fileName;
     public string[] SubtitleString = new string[(int)Language.EndOfIndex]; // 자막 내용
+    public string[] SubtitleString2 = new string[(int)Language.EndOfIndex]; // 자막 내용2 (추가용, 필요시 사용)
     // 행정보 Num , key , Korean, English, Japanese, Chinese
 }
 
