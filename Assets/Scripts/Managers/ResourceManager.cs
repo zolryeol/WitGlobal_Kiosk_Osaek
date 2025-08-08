@@ -206,7 +206,7 @@ public class ResourceManager : MonoBehaviour
     public void PreloadLocalVideos()
     {
 #if UNITY_EDITOR
-        string videoFolder = "D:/Data/Video";
+        string videoFolder = "D:/Data/Video_Editor";
 #else
     string videoFolder = Path.Combine(Application.dataPath, "../Data/Video");
 #endif
@@ -261,7 +261,7 @@ public class ResourceManager : MonoBehaviour
     private string GetShopImageRootPath()
     {
 #if UNITY_EDITOR
-            string shopForder = "D:/Data/ShopImage";
+            string shopForder = "D:/Data/ShopImage_Editor";
         return shopForder;
             //return Path.Combine(Application.dataPath, "Editor", "ShopImageForEditor");
 #else
