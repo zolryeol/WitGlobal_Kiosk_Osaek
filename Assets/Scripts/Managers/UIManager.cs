@@ -150,8 +150,8 @@ public class UIManager : MonoBehaviour
 
     public void InitContentFetcher()
     {
-        PalaceContentFetcher = FindAnyObjectByType<PalaceContentFetcher>();
-        PalaceContentFetcher.Init();
+        //PalaceContentFetcher = FindAnyObjectByType<PalaceContentFetcher>();
+        //PalaceContentFetcher.Init();
 
         EventContentDetail = FindAnyObjectByType<EventContentDetail>();
     }

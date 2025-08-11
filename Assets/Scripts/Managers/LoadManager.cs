@@ -48,12 +48,12 @@ public class LoadManager : MonoBehaviour
     {
         var shopTask = LoadShopInfoDataAsync();
         var aiTask = LoadAICategoryDataAsync();
-        var palaceTask = LoadPalaceInfoDataAsync();
+        //var palaceTask = LoadPalaceInfoDataAsync();
         var eventTask = LoadEventDataAsync();
         var locaTask = LoadLocalizationTextAsync();
         var videoTask = LoadVideoSubTitleDataAsync();
 
-        await Task.WhenAll(shopTask, aiTask, palaceTask, eventTask, locaTask, videoTask);
+        await Task.WhenAll(shopTask, aiTask, /*palaceTask,*/ eventTask, locaTask, videoTask);
 
         ResourceManager.Instance.BuildVideoMapFromSubtitleList(VideoSubTitleList);
 
