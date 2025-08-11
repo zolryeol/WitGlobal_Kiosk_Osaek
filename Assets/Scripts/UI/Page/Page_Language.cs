@@ -21,6 +21,8 @@ public class Page_Language : MonoBehaviour
             languageContents[index].button.onClick.AddListener(() => OnButton(index));
             languageContents[index].button.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.ChangeLanguage_KR + index));
         }
+
+        OnButton(0);
     }
 
     void OnButton(int index)
