@@ -55,6 +55,8 @@ public class VideoPlayManager : MonoBehaviour
 
         _VideoPlayer.loopPointReached += OnVideoFinished;
         _VideoPlayer.prepareCompleted += OnVideoPrepared;
+
+        PlayVideo(VideoType.Default); // 기본 영상 재생
     }
 
     //private RenderTexture GetNextBuffer()
@@ -65,8 +67,6 @@ public class VideoPlayManager : MonoBehaviour
 
     public void PlayVideo(VideoType type, bool forceReset = false)
     {
-        bool fallbackToDefault = false;
-
         if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)
         {
             Debug.LogWarning($"[VideoPlayManager] 자막 리스트 없음: {type} → Default로 대체");
@@ -77,7 +77,6 @@ public class VideoPlayManager : MonoBehaviour
             }
 
             type = VideoType.Default;
-            fallbackToDefault = true;
         }
 
         bool isForceResetType = forceFirstOnlyTypes.Contains(type);
@@ -94,7 +93,6 @@ public class VideoPlayManager : MonoBehaviour
             currentIndex = 0;
         }
 
-        //if (!fallbackToDefault)
         previousPlayingType = currentPlayingType;
         previousPlayingIndex = currentIndex;
 

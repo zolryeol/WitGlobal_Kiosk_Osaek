@@ -76,9 +76,17 @@ public class UIManager : MonoBehaviour
     [Header("날씨버튼")]
     public WeatherButton weatherButton;
 
-    [Header("ETC")]
+
+    [Header("초기화타임")]
+    private float lastTouchTime = 0f;
+    [SerializeField] private float idleThreshold = 180f;
+    private int lastLoggedSecond = -1;
+
+    [Header("ETC")] // 예외처리용
     public GameObject NoContentText; // 검색 결과없을때 나타나도록
     public GameObject NoContentFooter; // 검색 결과없을때 나타나도록
+    public GameObject ToStayOnlyText;
+    public GameObject ToStayOnlyText2;
 
     public Stack PageStack = new(); // 페이지스택
     public void Init()
@@ -228,6 +236,8 @@ public class UIManager : MonoBehaviour
             VideoPlayManager.Instance.PlayVideo(VideoType.Default);
             OpenKeyboard(); // 키보드 열기
         }
+
+        OnToStayText(false); // 숙박안내 예외처리용
     }
 
     public void CloseAllPages()
@@ -451,13 +461,9 @@ public class UIManager : MonoBehaviour
             keyboard.Reset();
         }
     }
-    private float lastTouchTime = 0f;
-    [Header("초기화타임")]
-    [SerializeField] private float idleThreshold = 40f;
 
-    private int lastLoggedSecond = -1;
 
-    private void Update()
+    private void Update() // 입력없으면 초기화면으로
     {
         // 터치 입력 감지
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
@@ -715,5 +721,11 @@ public class UIManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void OnToStayText(bool isOn = false) // 숙박안내 예외처리용
+    {
+        ToStayOnlyText.SetActive(isOn);
+        ToStayOnlyText2.SetActive(isOn);
     }
 }

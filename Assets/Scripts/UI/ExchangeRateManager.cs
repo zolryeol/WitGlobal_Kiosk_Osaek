@@ -41,7 +41,7 @@ public class ExchangeRateManager : MonoBehaviour
         while (true)
         {
             yield return StartCoroutine(UpdateAllExchangeRatesWithRetry());
-            yield return new WaitForSeconds(600f); // 10분마다 갱신
+            yield return new WaitForSeconds(1800f); // 30분마다 갱신
         }
     }
 

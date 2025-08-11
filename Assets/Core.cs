@@ -38,17 +38,9 @@ public class Core : MonoBehaviour
 #endif
 
         DontDestroyOnLoad(gameObject);
-    }
 
-    private void OnEnable()
-    {
         Application.logMessageReceived += HandleLog;
     }
-    private void OnDisable()
-    {
-        Application.logMessageReceived -= HandleLog;
-    }
-
     private async void Start()
     {
         prefabManager.Init();
@@ -66,10 +58,8 @@ public class Core : MonoBehaviour
         Debug.Log("<color=green>[Core] 모든 매니저 초기화 완료</color>");
 
         Loading.SetActive(false);
-        //Application.logMessageReceived -= HandleLog;
+        Application.logMessageReceived -= HandleLog;
         debugging.gameObject.SetActive(false);
-
-        videoPlayManager.PlayVideo(VideoType.Default); // 기본 영상 재생
     }
 
     private void HandleLog(string logString, string stackTrace, LogType type)

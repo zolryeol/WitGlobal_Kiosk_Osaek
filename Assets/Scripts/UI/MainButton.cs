@@ -49,6 +49,8 @@ public class MainButton : MonoBehaviour, ILocalizable
 
         if (category != Category_Base.Default)
         {
+
+
             if (_targetCanvasGroup != null) // Transform 할당
             {
                 body = _targetCanvasGroup.transform.Find("Body").transform;
@@ -69,6 +71,11 @@ public class MainButton : MonoBehaviour, ILocalizable
                 button.onClick.AddListener(() => SelectFirstCategory()); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
                 button.onClick.AddListener(() => um.FetchingContent(0)); // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
                 button.onClick.AddListener(() => HeaderChange());
+            }
+
+            if (category == Category_Base.ToStay) // 숙박 예외처리 (카테고리가 한줄이라서..)
+            {
+                button.onClick.AddListener(() => um.OnToStayText(true));
             }
         }
 
