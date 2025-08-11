@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+// 이미지 영역 테스트 
+// 투명하지 않은 부분만 클릭 가능하도록 설정
+
+public class MapButtonTeset : MonoBehaviour
+{
+    Image mapImage;
+    Button button;
+
+    private void Awake()
+    {
+        mapImage = GetComponent<Image>();
+        button = GetComponent<Button>();
+    }
+
+
+    void Start()
+    {
+        Image image = GetComponent<Image>();
+        if (image != null)
+        {
+
+            mapImage.alphaHitTestMinimumThreshold = 0.1f; // 투명도 10% 이상만 클릭 허용
+        }
+
+        button.onClick.AddListener(() => Debug.Log("버튼 눌렀습니다."));
+    }
+}
