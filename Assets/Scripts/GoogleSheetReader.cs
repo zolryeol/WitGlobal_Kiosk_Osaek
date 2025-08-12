@@ -10,8 +10,8 @@ public static class GoogleSheetReader
 {
     static readonly string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
     static readonly string ApplicationName = "WitglobalKiosk";
-    static readonly string DataSheet_Insa = "1AVZoyepjrlWIUtwXamGRYU6TWkKKKgVb7fzwEtbRDaw";
-
+    //static readonly string DataSheet_Insa = "1AVZoyepjrlWIUtwXamGRYU6TWkKKKgVb7fzwEtbRDaw";
+    static readonly string DataSheet_Osaek = "1_CkWFXfB7ud0sJw-cnIWGvFlTzF12UxDuNylp5HkOiw"; // 오색시장데이터시트
     static readonly string AICategoryRange = "AICategory_Osaek!A3:E";
     static readonly string ShopDataRange = "ShopData_Osaek!A1:AH";
     static readonly string PalaceInfoDataRange = "PalaceInfo_Insa!A3:AD"; // 오색시장 비사용
@@ -69,7 +69,7 @@ public static class GoogleSheetReader
 
         try
         {
-            var request = service.Spreadsheets.Values.Get(DataSheet_Insa, range);
+            var request = service.Spreadsheets.Values.Get(DataSheet_Osaek, range);
             var response = await request.ExecuteAsync();
             return response;
         }
