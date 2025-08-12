@@ -43,6 +43,7 @@ public enum Category_ETC // ShopManager에서 다루지 않는 Category들
     TraditionalMarket, // 전통시장
     MarketPaper, // 시장화폐
     TaxFree,
+    SmartTour, // 스마트관광
 }
 
 public enum VideoType
