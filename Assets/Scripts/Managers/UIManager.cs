@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
     public event Action ChangeLanguageEvent; // 언어 변경시 호출될 이벤트들;
 
     public Category_Base NowSelectedCategory = Category_Base.Default; // 현재 선택된 카테고리
@@ -52,6 +53,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Page_Event page_Event;
     [SerializeField] Page_Language page_Language;
     [SerializeField] Page_Greeting page_Greeting;
+    [SerializeField] Page_KoreaMapDetail page_KoreaMapDetail;
 
 
     [Header("PagesCanvasGroup")]
@@ -61,6 +63,7 @@ public class UIManager : MonoBehaviour
     public CanvasGroup AISelectPage;
     public CanvasGroup AIRecommendPage;
     public CanvasGroup EventDetailPage;
+    public CanvasGroup KoreaMapDetailPage;
 
     [Header("Localization")]
     [Space(30)]
@@ -98,7 +101,7 @@ public class UIManager : MonoBehaviour
 
         InitMainButtons();
         InitAISelect();
-
+        InitKoreaMapButton();
 
         InitContentFetcher();
         InitPages();
@@ -169,6 +172,9 @@ public class UIManager : MonoBehaviour
 
         page_Greeting = FindAnyObjectByType<Page_Greeting>();
         page_Greeting.Init();
+
+        page_KoreaMapDetail = FindAnyObjectByType<Page_KoreaMapDetail>();
+        page_KoreaMapDetail.Init();
     }
 
     public void OpenPage(CanvasGroup _targetCanvasGroup, Action ac = null)
@@ -299,6 +305,15 @@ public class UIManager : MonoBehaviour
         languageButton.Init();
     }
 
+    public void InitKoreaMapButton()
+    {
+        var koreaMapButtons = FindObjectsOfType<KoreaMapButton>(true);
+        foreach (var button in koreaMapButtons)
+        {
+            button.Init();
+        }
+        Debug.Log("한국지도 버튼 초기화 완료");
+    }
     public void InitAISelect()
     {
         var AISelector = FindObjectOfType<Page_AISelect>();

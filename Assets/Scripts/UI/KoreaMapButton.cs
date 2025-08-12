@@ -10,15 +10,15 @@ public class KoreaMapButton : MonoBehaviour
 {
     Image mapImage;
     Button button;
-
+    Page_KoreaMapDetail pageKoreaMapDetail;
     private void Awake()
     {
         mapImage = GetComponent<Image>();
         button = GetComponent<Button>();
+        pageKoreaMapDetail = FindObjectOfType<Page_KoreaMapDetail>();
     }
 
-
-    void Start()
+    public void Init()
     {
         Image image = GetComponent<Image>();
         if (image != null)
@@ -27,5 +27,7 @@ public class KoreaMapButton : MonoBehaviour
         }
 
         button.onClick.AddListener(() => Debug.Log($"{this.gameObject.name} 클릭"));
+        button.onClick.AddListener(() => UIManager.Instance.OpenPage(UIManager.Instance.KoreaMapDetailPage));
+        button.onClick.AddListener(() => pageKoreaMapDetail.OnMap(this.gameObject.name));
     }
 }
