@@ -463,9 +463,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2552708593712661077}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.55595, y: 0.55595, z: 1.1119}
+  m_LocalScale: {x: 0.55595, y: 0.55595, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2466248093943435457}
@@ -485,12 +485,12 @@ RectTransform:
   - {fileID: 1816327254613055485}
   - {fileID: 4581934266571020835}
   - {fileID: 3565864162691856144}
-  m_Father: {fileID: 1462291372379182812}
+  m_Father: {fileID: 9002990583707498119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -89, y: -318}
-  m_SizeDelta: {x: 4004, y: 5213.091}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 2160, y: 3184}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3483485089210559474
 GameObject:
@@ -1565,6 +1565,10 @@ PrefabInstance:
       value: 519.38336
       objectReference: {fileID: 0}
     - target: {fileID: 1225076333929689641, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 3184.9185
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225076333929689641, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
@@ -1575,6 +1579,10 @@ PrefabInstance:
     - target: {fileID: 1225076333929689641, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225076333929689641, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -327.54077
       objectReference: {fileID: 0}
     - target: {fileID: 1643610798156159359, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_IsActive
@@ -1602,7 +1610,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3354047798155064177, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_Name
-      value: Page_KoreaMap Variant
+      value: Page_SmartTour Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5185452860299671721, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1702,13 +1710,13 @@ PrefabInstance:
     - {fileID: 5507941484339434623, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
     - {fileID: 1267569807167649386, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 8771409064552305266, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 1225076333929689641, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5515127175984361595}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
---- !u!224 &1462291372379182812 stripped
+--- !u!224 &9002990583707498119 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8771409064552305266, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1225076333929689641, guid: 142f5d5a0fc616548bfd65be459edf3d, type: 3}
   m_PrefabInstance: {fileID: 7922205935795143854}
   m_PrefabAsset: {fileID: 0}
