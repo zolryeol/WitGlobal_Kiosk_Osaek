@@ -14,7 +14,9 @@ public class Core : MonoBehaviour
 
     public static string PhotoPostUrl = "http://158.247.207.5:8000/api/process_image";
 
-    [SerializeField] public static string KioskName = "KIOSK_WITGLOBALHQ";
+    [SerializeField] public static string KioskName = "KIOSK_WITGLOBAL_Osaek";
+    //
+    //"KIOSK_WITGLOBALHQ"; // 인사
     // 디버그용
 
     [SerializeField] GameObject Loading;
