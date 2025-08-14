@@ -381,11 +381,76 @@ public class ShopSheetParser
         return result;
     }
 
+    public static List<TraditionalMarketData> TraditionalMarketDataParser(ValueRange sheet)
+    {
+        var result = new List<TraditionalMarketData>();
+        var rows = sheet?.Values;
+
+        if (rows == null || rows.Count < 2)
+        {
+            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            return result;
+        }
+
+        for (int i = 0; i < rows.Count; i++)
+        {
+            var row = rows[i];
+            var traditionalMarketData = new TraditionalMarketData();
+
+            // 1열: Num
+            traditionalMarketData.Num = int.TryParse(GetCell(row, 0), out int num) ? num : 0;
+            // 2열: 설치여부
+            traditionalMarketData.isSetup = !string.IsNullOrWhiteSpace(GetCell(row, 1));
+
+
+            // 3~6열: 시장 이름
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                traditionalMarketData.MarketName[lang] = GetCell(row, 2 + lang);
+            }
+
+            // 7~10열: 전국 광역시 및 팔도
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                traditionalMarketData.Province[lang] = GetCell(row, 6 + lang);
+            }
+
+            // 10~13열: 시구군
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                traditionalMarketData.District[lang] = GetCell(row, 10 + lang);
+            }
+            // 14~17열: 주소
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                traditionalMarketData.Address[lang] = GetCell(row, 14 + lang);
+            }
+
+            // 18~21열: 해시태그
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                traditionalMarketData.HashTag[lang] = GetCell(row, 18 + lang);
+            }
+
+            // 22~25열: 설명
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                traditionalMarketData.Description[lang] = GetCell(row, 22 + lang);
+            }
+
+            traditionalMarketData.OpeningTime = GetCell(row, 26); // 운영시간
+            traditionalMarketData.ContactNum = GetCell(row, 27); // 연락처
+            traditionalMarketData.NaverLink = GetCell(row, 28); // 네이버 링크
+
+            result.Add(traditionalMarketData);
+        }
+        return result;
+    }
+
     private static string GetCell(IList<object> row, int index)
     {
         return (row.Count > index && row[index] != null) ? row[index].ToString() : string.Empty;
     }
-
     static string ConvertGoogleDriveToDirectImageUrl(string url)
     {
         const string prefix = "https://drive.google.com/file/d/";
@@ -405,7 +470,6 @@ public class ShopSheetParser
         Debug.Log("<color=red>이벤트 썸네일 변환 실패</color=red>");
         return url; // 변환 실패 시 그대로 반환
     }
-
 }
 
 [Serializable]
@@ -472,3 +536,4 @@ public class LocalizationText
     public string Key;
     public string[] Text = new string[(int)Language.EndOfIndex];
 }
+
