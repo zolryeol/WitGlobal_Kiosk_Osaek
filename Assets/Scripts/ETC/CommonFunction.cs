@@ -8,22 +8,25 @@ using ZXing;
 
 static class CommonFunction
 {
-    public static string GetBaseCategoryString(Category_Base category) // 인사동 전용
+    public static string GetBaseCategoryString(Category_Base category) // 
     {
         switch (category)
         {
             case Category_Base.Default:
                 break;
             case Category_Base.ToEat:
-                return "인사 뭐먹지";
+                return "정이 뭐먹지";
+                //return "인사 뭐먹지";
             case Category_Base.ToBuy:
-                return "인사 뭐사지";
-            case Category_Base.ToGallery:
-                return "인사동 미술관";
+                return "정이 뭐사지";
+                //return "인사 뭐사지";
+            //case Category_Base.ToGallery: // 오색시장은 미술관없음
+            //    return "인사동 미술관";
             case Category_Base.ToHelp:
-                return "인사 도와줘";
-            case Category_Base.ToStay:
-                return "인사동 숙박";
+                return "정이 도와줘";
+                //return "인사 도와줘";
+            //case Category_Base.ToStay: // 오색시장은 숙박정보가 없음
+            //    return "인사동 숙박";
             default:
                 return "default";
         }

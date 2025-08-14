@@ -54,6 +54,11 @@ public class Page_AISelect : MonoBehaviour
             CommonFunction.ChangeColorBtnAndTxt(stayTimeButton[i].transform, false);
         }
 
+        for (int i = LoadManager.Instance.AICategorieList.Count; i < aiCategoryButton.Length; i++)
+        {
+            aiCategoryButton[i].gameObject.SetActive(false);
+        }
+
         generateButton.onClick.AddListener(UIManager.Instance.OnAIRecommendPage);
         generateButton.onClick.AddListener(() => VideoPlayManager.Instance.PlayVideo(VideoType.AISearch_Category));
 
