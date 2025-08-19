@@ -22,9 +22,9 @@ public static class GoogleSheetReader
 
     static readonly string DataSheet_PublicMarket = "1EGeS48JvN3YNzFDLiBduKW-t8P5ilSDucNIMUNS2M-4"; // 공공시장 데이터시트
 
-    static readonly string TraditionalMarketDataRange = "TraditionalMarket!A4:Z"; // 전통시장 데이터시트
-    static readonly string AttractionDataRange = "Attraction_Osaek!A4:Z"; // 전통시장 데이터시트
-    static readonly string ServiceAreaDataRange = "ServiceArea!A4:Z"; // 전통시장 데이터시트
+    static readonly string TraditionalMarketDataRange = "TraditionalMarket!A4:AC"; // 전통시장 데이터시트
+    static readonly string AttractionDataRange = "Attraction_Osaek!A4:AC"; 
+    static readonly string ServiceAreaDataRange = "ServiceArea!A4:AC"; 
 
     static readonly string fileName = "kiosk-insadatasheet-52e5347a7b9c.json";
 
@@ -37,6 +37,18 @@ public static class GoogleSheetReader
         return await ReadSheetAsync(ShopDataRange);
     }
 
+    public static async Task<ValueRange> ReadTraditionalMarketDataSheetAsync()
+    {
+        return await ReadSheetAsync(TraditionalMarketDataRange,true);
+    }
+    public static async Task<ValueRange> ReadAttractionDataSheetAsync()
+    {
+        return await ReadSheetAsync(AttractionDataRange, true);
+    }
+    public static async Task<ValueRange> ReadServiceAreaDataSheetAsync()
+    {
+        return await ReadSheetAsync(ServiceAreaDataRange, true);
+    }
     public static async Task<ValueRange> ReadAICategoryAsync()
     {
         return await ReadSheetAsync(AICategoryRange);

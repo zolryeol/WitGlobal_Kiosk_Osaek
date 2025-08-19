@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Video;
@@ -14,6 +15,7 @@ public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager Instance { get; private set; }
     public Dictionary<string, List<Sprite>> ShopSpritesDic { get; private set; } = new();
+    public Dictionary<string, List<Sprite>> TraditionalMarketSpritesDic { get; private set; } = new();
     public Dictionary<int, List<Sprite>> PalaceSpritesDic { get; private set; } = new();
 
     public Sprite LanguageSelect_Background;
@@ -40,6 +42,7 @@ public class ResourceManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         LoadShopImages();
+        LoadTraditionalMarketImages();
         LoadPalaceImages();
         LoadHanbokImages();
         PreloadLocalVideos();
@@ -168,6 +171,62 @@ public class ResourceManager : MonoBehaviour
 
         Debug.Log($"[ResourceManager] 총 {ShopSpritesDic.Count}개 카테고리 로드 완료");
     }
+    private void LoadTraditionalMarketImages() //  전통시장이미지 불러오기
+    {
+        TraditionalMarketSpritesDic.Clear();
+
+        string marketImagePath = GetTraditionalMarketImageRootPath();
+
+        if (!Directory.Exists(marketImagePath))
+        {
+            Debug.LogError($"ShopImage 폴더가 존재하지 않습니다: {marketImagePath}");
+            return;
+        }
+
+        string[] subFolders = Directory.GetDirectories(marketImagePath);  // target폴더 내 하부파일들 저장
+
+        foreach (string folderPath in subFolders)
+        {
+            string _folder = Path.GetFileName(folderPath);
+            if (string.IsNullOrEmpty(_folder)) continue;
+
+            string[] imageFiles = GetImageFiles(folderPath);
+            if (imageFiles.Length == 0)
+            {
+                Debug.LogWarning($"[rResourceManager] {_folder} 폴더에 이미지가 없습니다.");
+                continue;
+            }
+
+            List<Sprite> spriteList = new();
+
+            foreach (string ipath in imageFiles)
+            {
+                try
+                {
+                    byte[] bytes = File.ReadAllBytes(ipath);
+                    Texture2D tex = new Texture2D(2, 2);
+                    tex.LoadImage(bytes);
+
+                    // 이미지 크기만큼 sprite생성 피봇은 센터
+                    Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
+                    sprite.name = Path.GetFileNameWithoutExtension(ipath);
+
+                    spriteList.Add(sprite);
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"[ResourceManager] 이미지 로드 실패: {ipath} / {ex.Message}");
+                }
+
+            }
+
+            TraditionalMarketSpritesDic[_folder] = spriteList;
+            Debug.Log($"[ResourceManager] {_folder} 폴더에서 {spriteList.Count}개 이미지 로드 완료");
+        }
+
+        Debug.Log($"[ResourceManager] 전통시장 총 {TraditionalMarketSpritesDic.Count}개 카테고리 로드 완료");
+    }
     private void LoadPalaceImages()
     {
         for (int i = 1; i <= 4; i++)
@@ -183,7 +242,6 @@ public class ResourceManager : MonoBehaviour
             PalaceSpritesDic[i] = new List<Sprite>(sprites);
         }
     }
-
     public void BuildVideoMapFromSubtitleList(List<VideoSubtitleData> subtitleList)
     {
         VideoMap.Clear();
@@ -202,7 +260,6 @@ public class ResourceManager : MonoBehaviour
             VideoMap[videoType].Add(data);
         }
     }
-
     public void PreloadLocalVideos()
     {
 #if UNITY_EDITOR
@@ -267,6 +324,17 @@ public class ResourceManager : MonoBehaviour
 #else
     // 빌드 시: 실행파일 위치 기준 외부 Data 폴더 사용
     return Path.Combine(Application.dataPath, "../Data/ShopImage");
+#endif
+    }
+
+    private string GetTraditionalMarketImageRootPath()
+    {
+#if UNITY_EDITOR
+        string shopForder = "D:/Data/TraditionalMarketImage_Editor";
+        return shopForder;
+#else
+    // 빌드 시: 실행파일 위치 기준 외부 Data 폴더 사용
+    return Path.Combine(Application.dataPath, "../Data/TraditionalMarketImage");
 #endif
     }
 

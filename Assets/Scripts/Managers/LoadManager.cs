@@ -25,14 +25,23 @@ public class LoadManager : MonoBehaviour
     [SerializeField]
     private List<VideoSubtitleData> videoSubTitleList = new();
 
-    public List<VideoSubtitleData> VideoSubTitleList => videoSubTitleList;
+    //스마트 관광
+    [SerializeField]
+    private List<TraditionalMarketData> traditionalMarketList = new();
+    [SerializeField]
+    private List<AttractionData> attractionList = new();
+    [SerializeField]
+    private List<ServiceAreaData> serviceAreaList = new();
 
+    public List<VideoSubtitleData> VideoSubTitleList => videoSubTitleList;
     public List<BaseShopInfoData> ShopList => shopList;
     public List<AICategory> AICategorieList => aiCategorieList;
     public List<PalaceData> PalaceDataList => palaceList;
     public List<EventData> EventDataList => eventList;
     public List<LocalizationText> LocalizeTextList => locaizationList;
-
+    public List<TraditionalMarketData> TraditionalMarketList => traditionalMarketList;
+    public List<AttractionData> AttractionList => attractionList;
+    public List<ServiceAreaData> ServiceAreaList => serviceAreaList;
 
     public int ToiletIndex = -1;
 
@@ -49,11 +58,12 @@ public class LoadManager : MonoBehaviour
         var shopTask = LoadShopInfoDataAsync();
         var aiTask = LoadAICategoryDataAsync();
         //var palaceTask = LoadPalaceInfoDataAsync();
+        var traditionalMarketTask = LoadTraditionalMarketDataAsync();
         var eventTask = LoadEventDataAsync();
         var locaTask = LoadLocalizationTextAsync();
         var videoTask = LoadVideoSubTitleDataAsync();
 
-        await Task.WhenAll(shopTask, aiTask, /*palaceTask,*/ eventTask, locaTask, videoTask);
+        await Task.WhenAll(shopTask, aiTask, traditionalMarketTask,/*palaceTask,*/ eventTask, locaTask, videoTask);
 
         ResourceManager.Instance.BuildVideoMapFromSubtitleList(VideoSubTitleList);
 
@@ -90,6 +100,20 @@ public class LoadManager : MonoBehaviour
         else
         {
             Debug.LogError("[ShopManager] 상점 데이터를 불러오지 못했습니다.");
+        }
+    }
+
+    private async Task LoadTraditionalMarketDataAsync()
+    {
+        var sheet = await GoogleSheetReader.ReadTraditionalMarketDataSheetAsync();
+        if (sheet != null)
+        {
+            traditionalMarketList = ShopSheetParser.TraditionalMarketDataParser(sheet);
+            Debug.Log($"<color=#4EA3FF>[ShopManager]</color> <color=#00BFFF>전통시장 데이터 {traditionalMarketList.Count}개 로드 완료</color>");
+        }
+        else
+        {
+            Debug.LogError("[ShopManager] 전통시장 데이터를 불러오지 못했습니다.");
         }
     }
 

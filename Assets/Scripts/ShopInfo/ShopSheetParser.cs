@@ -317,6 +317,11 @@ public class ShopSheetParser
         for (int i = 0; i < rows.Count; i++)
         {
             var row = rows[i];
+
+            string numStr = GetCell(row, 0); // 1열이 비었으면 skip
+            if (string.IsNullOrWhiteSpace(numStr))
+                continue;
+
             var eventData = new EventData();
 
             // 1열: Num
@@ -383,6 +388,8 @@ public class ShopSheetParser
 
     public static List<TraditionalMarketData> TraditionalMarketDataParser(ValueRange sheet)
     {
+        //TraditionalMarketData 가 baseShopInfoData 를 상속받고 있는점 주의할것
+
         var result = new List<TraditionalMarketData>();
         var rows = sheet?.Values;
 
@@ -394,11 +401,17 @@ public class ShopSheetParser
 
         for (int i = 0; i < rows.Count; i++)
         {
+
             var row = rows[i];
+
+            string numStr = GetCell(row, 0); // 1열이 비었으면 skip
+            if (string.IsNullOrWhiteSpace(numStr))
+                continue;
+
             var traditionalMarketData = new TraditionalMarketData();
 
             // 1열: Num
-            traditionalMarketData.Num = int.TryParse(GetCell(row, 0), out int num) ? num : 0;
+            traditionalMarketData.ShopID = int.TryParse(GetCell(row, 0), out int num) ? num : 0;
             // 2열: 설치여부
             traditionalMarketData.isSetup = !string.IsNullOrWhiteSpace(GetCell(row, 1));
 
@@ -406,19 +419,19 @@ public class ShopSheetParser
             // 3~6열: 시장 이름
             for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
             {
-                traditionalMarketData.MarketName[lang] = GetCell(row, 2 + lang);
+                traditionalMarketData.ShopName[lang] = GetCell(row, 2 + lang);
             }
 
             // 7~10열: 전국 광역시 및 팔도
             for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
             {
-                traditionalMarketData.Province[lang] = GetCell(row, 6 + lang);
+                traditionalMarketData.BaseCategoryString[lang] = GetCell(row, 6 + lang);
             }
 
             // 10~13열: 시구군
             for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
             {
-                traditionalMarketData.District[lang] = GetCell(row, 10 + lang);
+                traditionalMarketData.SecondCategoryString[lang] = GetCell(row, 10 + lang);
             }
             // 14~17열: 주소
             for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
@@ -435,12 +448,20 @@ public class ShopSheetParser
             // 22~25열: 설명
             for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
             {
-                traditionalMarketData.Description[lang] = GetCell(row, 22 + lang);
+                traditionalMarketData.ShopDescription[lang] = GetCell(row, 22 + lang);
             }
 
             traditionalMarketData.OpeningTime = GetCell(row, 26); // 운영시간
-            traditionalMarketData.ContactNum = GetCell(row, 27); // 연락처
+            traditionalMarketData.ContactNumber = GetCell(row, 27); // 연락처
             traditionalMarketData.NaverLink = GetCell(row, 28); // 네이버 링크
+
+            // 이미지 할당 (예외 안전)
+            if (ResourceManager.Instance.TraditionalMarketSpritesDic.TryGetValue(traditionalMarketData.ShopName[(int)Language.Korean], out var images))
+                traditionalMarketData.spriteImage = images.ToArray();
+            else
+            {
+                Debug.Log($"<color=blue>[TraditionalMarketSheetParser] {traditionalMarketData.ShopName[(int)Language.Korean]}의 이미지를 찾을 수 없습니다.</color>");
+            }
 
             result.Add(traditionalMarketData);
         }
@@ -462,12 +483,12 @@ public class ShopSheetParser
             int end = url.IndexOf(suffix);
             string fileId = url.Substring(start, end - start);
 
-            Debug.Log("<color=green>이벤트 썸네일 변환 성공</color=green>");
+            Debug.Log("<color=green>이벤트 썸네일 변환 성공</color>");
 
             return $"https://drive.google.com/uc?export=view&id={fileId}";
         }
 
-        Debug.Log("<color=red>이벤트 썸네일 변환 실패</color=red>");
+        Debug.Log("<color=red>이벤트 썸네일 변환 실패</color>");
         return url; // 변환 실패 시 그대로 반환
     }
 }

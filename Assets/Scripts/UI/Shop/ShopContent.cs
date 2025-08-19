@@ -16,7 +16,7 @@ public class ShopContent : MonoBehaviour
     [SerializeField] protected float naverRating;
     BaseShopInfoData baseShopInfoData;
 
-    private void Awake()
+    public virtual void Awake()
     {
         if (TryGetComponent(out Button btn))
         {
@@ -44,7 +44,7 @@ public class ShopContent : MonoBehaviour
         InsertSprite(data);
     }
 
-    public void InsertSprite(BaseShopInfoData data)
+    public virtual void InsertSprite(BaseShopInfoData data)
     {
         int minLength = Mathf.Min(sprite.Length, data.spriteImage.Length);
         for (int i = 0; i < minLength; i++)

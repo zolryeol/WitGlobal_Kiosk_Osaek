@@ -17,7 +17,6 @@ public class UIManager : MonoBehaviour
     public List<HanbokCategoryButton> HanbokCategorieButtons = new();
     public List<HanbokContentButton> HanbokContentButtons = new();
     public List<ShopContent> ShopContents = new(); /// 관련된 것들을 Page_Shop 을 만들어서 옮기면 좋을듯 하다.
-
     private Language nowLanguage = Language.Korean;
     public Language NowLanguage
     {
@@ -39,6 +38,7 @@ public class UIManager : MonoBehaviour
 
     public Category_Base NowSelectedCategory = Category_Base.Default; // 현재 선택된 카테고리
     public Category_ETC NowSelectedETC = Category_ETC.Default; // 현재 선택된 ETC 카테고리
+    public string NowSelectedKoreaMapName = ""; // 현재 선택된 한국지도 이름
 
     public Scrollbar FoodAndShopScrollbar; // 뭐먹지, 뭐사지 스크롤바
     public Scrollbar HanbokScrollbar; // 사진찍기 한복선택 스크롤바
@@ -54,7 +54,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Page_Language page_Language;
     [SerializeField] Page_Greeting page_Greeting;
     [SerializeField] Page_KoreaMapDetail page_KoreaMapDetail;
-
+    [SerializeField] Page_SmartTourList page_SmartTourList;
 
     [Header("PagesCanvasGroup")]
     public CanvasGroup DetailPage;
@@ -64,6 +64,8 @@ public class UIManager : MonoBehaviour
     public CanvasGroup AIRecommendPage;
     public CanvasGroup EventDetailPage;
     public CanvasGroup KoreaMapDetailPage;
+    public CanvasGroup SmartTourListPage;
+
 
     [Header("Localization")]
     [Space(30)]
@@ -101,10 +103,11 @@ public class UIManager : MonoBehaviour
 
         InitMainButtons();
         InitAISelect();
-        InitKoreaMapButton();
 
         InitContentFetcher();
         InitPages();
+
+        InitKoreaMapButton();
 
         InitLocalization();
 
@@ -175,6 +178,9 @@ public class UIManager : MonoBehaviour
 
         page_KoreaMapDetail = FindAnyObjectByType<Page_KoreaMapDetail>();
         page_KoreaMapDetail.Init();
+
+        page_SmartTourList = FindAnyObjectByType<Page_SmartTourList>();
+        page_SmartTourList.Init();
     }
 
     public void OpenPage(CanvasGroup _targetCanvasGroup, Action ac = null)

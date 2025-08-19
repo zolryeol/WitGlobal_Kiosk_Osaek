@@ -20,6 +20,7 @@ public class BaseShopInfoData
     public Sprite[] spriteImage = new Sprite[6];
     public float NaverRating;
     // Base 클래스의 생성자
+    public BaseShopInfoData() {  } // 기본생성자
     public BaseShopInfoData(int shopId, string[] shopName, string[] address,
     string[] hashTag, string[] shopDescription, string[] baseCategoryString,
     string[] secondCategoryString, string[] aiCategoryString,

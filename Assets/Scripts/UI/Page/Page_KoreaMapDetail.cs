@@ -21,6 +21,8 @@ public class Page_KoreaMapDetail : MonoBehaviour
         koreaMap.ForEach(map => map.SetActive(false));
 
         Debug.Log($"TargetStr = {targetMapStr}");
-        koreaMap.Find(t => t.name == targetMapStr)?.SetActive(true);
+
+        var target = koreaMap.Find(t => t.name == targetMapStr);
+        if (target) target.SetActive(true);
     }
 }

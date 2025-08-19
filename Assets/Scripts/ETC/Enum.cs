@@ -199,3 +199,10 @@ public enum KeyboardETC
     Symbol,
     Space,
 }
+
+public enum KoreaMapType
+{
+    Default,
+    Province, // 지역1
+    District, // 지역2
+}
