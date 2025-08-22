@@ -6,6 +6,7 @@ public class Page_KoreaMapDetail : MonoBehaviour
 {
     [SerializeField] List<GameObject> koreaMap = new();
     Transform body;
+    Transform SetLoaction;
     public void Init()
     {
         body = transform.Find("Body");
