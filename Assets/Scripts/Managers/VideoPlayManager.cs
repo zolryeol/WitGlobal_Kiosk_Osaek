@@ -75,37 +75,27 @@ public class VideoPlayManager : MonoBehaviour
                 Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
                 return;
             }
-
             type = VideoType.Default;
         }
 
         bool isForceResetType = forceFirstOnlyTypes.Contains(type);
         int currentIndex = 0;
 
-        if (videoPlayIndexMap.TryGetValue(type, out int nextIndex))
-        {
-            currentIndex = nextIndex;
-        }
-
-        // ✅ 강제 리셋 대상이면 무조건 0부터
-        if (forceReset && isForceResetType)
-        {
-            currentIndex = 0;
-        }
+        if (videoPlayIndexMap.TryGetValue(type, out int nextIndex)) currentIndex = nextIndex;
+        if (forceReset && isForceResetType) currentIndex = 0;
 
         previousPlayingType = currentPlayingType;
         previousPlayingIndex = currentIndex;
-
         videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
-
-        Debug.Log($"재생 타입: {type}, currentIndex: {currentIndex}, 다음 인덱스: {videoPlayIndexMap[type]}");
 
         currentPlayingType = type;
         var selected = list[currentIndex];
+        nextSubtitleData = selected;
 
-        if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
+        // ✅ URL만 받아서 단일 _VideoPlayer로 Prepare
+        if (!ResourceManager.Instance.TryGetVideoUrl(selected.fileName, out var url))
         {
-            Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 영상으로 대체");
+            Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 대체 시도");
 
             if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out var defaultList) || defaultList.Count == 0)
             {
@@ -113,24 +103,88 @@ public class VideoPlayManager : MonoBehaviour
                 return;
             }
 
-            selected = defaultList[0];
-            if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out player))
+            var fallback = defaultList[0];
+            if (!ResourceManager.Instance.TryGetVideoUrl(fallback.fileName, out url))
             {
                 Debug.LogError("[VideoPlayManager] Default 비디오 파일도 없습니다. 재생 불가");
                 return;
             }
+
+            nextSubtitleData = fallback;
         }
 
-        nextSubtitleData = selected;
-
-        //var nextTexture = GetNextBuffer();
-        //_VideoPlayer.targetTexture = nextTexture;
-        //targetRawImage.texture = nextTexture;
-
         _VideoPlayer.source = VideoSource.Url;
-        _VideoPlayer.url = player.url;
+        _VideoPlayer.audioOutputMode = VideoAudioOutputMode.None; // 오디오 불필요 시
+        _VideoPlayer.url = url;
         _VideoPlayer.Prepare();
     }
+
+    //public void PlayVideo(VideoType type, bool forceReset = false)
+    //{
+    //    if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)
+    //    {
+    //        Debug.LogWarning($"[VideoPlayManager] 자막 리스트 없음: {type} → Default로 대체");
+    //        if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out list) || list.Count == 0)
+    //        {
+    //            Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
+    //            return;
+    //        }
+
+    //        type = VideoType.Default;
+    //    }
+
+    //    bool isForceResetType = forceFirstOnlyTypes.Contains(type);
+    //    int currentIndex = 0;
+
+    //    if (videoPlayIndexMap.TryGetValue(type, out int nextIndex))
+    //    {
+    //        currentIndex = nextIndex;
+    //    }
+
+    //    // ✅ 강제 리셋 대상이면 무조건 0부터
+    //    if (forceReset && isForceResetType)
+    //    {
+    //        currentIndex = 0;
+    //    }
+
+    //    previousPlayingType = currentPlayingType;
+    //    previousPlayingIndex = currentIndex;
+
+    //    videoPlayIndexMap[type] = (currentIndex + 1) % list.Count;
+
+    //    Debug.Log($"재생 타입: {type}, currentIndex: {currentIndex}, 다음 인덱스: {videoPlayIndexMap[type]}");
+
+    //    currentPlayingType = type;
+    //    var selected = list[currentIndex];
+
+    //    if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
+    //    {
+    //        Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 영상으로 대체");
+
+    //        if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out var defaultList) || defaultList.Count == 0)
+    //        {
+    //            Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
+    //            return;
+    //        }
+
+    //        selected = defaultList[0];
+    //        if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out player))
+    //        {
+    //            Debug.LogError("[VideoPlayManager] Default 비디오 파일도 없습니다. 재생 불가");
+    //            return;
+    //        }
+    //    }
+
+    //    nextSubtitleData = selected;
+
+    //    //var nextTexture = GetNextBuffer();
+    //    //_VideoPlayer.targetTexture = nextTexture;
+    //    //targetRawImage.texture = nextTexture;
+
+    //    _VideoPlayer.source = VideoSource.Url;
+    //    _VideoPlayer.url = player.url;
+    //    _VideoPlayer.Prepare();
+    //}
 
     private void OnVideoPrepared(VideoPlayer vp)
     {

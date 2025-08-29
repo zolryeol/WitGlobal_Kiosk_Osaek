@@ -35,7 +35,9 @@ public class ResourceManager : MonoBehaviour
     public Dictionary<string, List<(string, Sprite)>> HanbokSpritesDic { get; private set; } = new(); // 폴더명, 파일명,이미지
 
     public Dictionary<VideoType, List<VideoSubtitleData>> VideoMap { get; private set; } = new();
-    public Dictionary<string, VideoPlayer> VideoPlayersByFileName { get; private set; } = new();
+
+    //public Dictionary<string, VideoPlayer> VideoPlayersByFileName { get; private set; } = new(); //전체 prepapre하기위해
+    public Dictionary<string, string> VideoUrlsByFileName { get; private set; } = new(); // url만 저장해두기 위해
 
     public void Init()
     {
@@ -260,6 +262,7 @@ public class ResourceManager : MonoBehaviour
             VideoMap[videoType].Add(data);
         }
     }
+
     public void PreloadLocalVideos()
     {
 #if UNITY_EDITOR
@@ -273,37 +276,75 @@ public class ResourceManager : MonoBehaviour
             return;
         }
 
-        // ✅ .mp4와 .webm 모두 지원
         string[] videoFiles = Directory.GetFiles(videoFolder)
-            .Where(path =>
-                path.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase) ||
-                path.EndsWith(".webm", StringComparison.OrdinalIgnoreCase))
+            .Where(path => path.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase)
+                        || path.EndsWith(".webm", StringComparison.OrdinalIgnoreCase))
             .ToArray();
+
+        VideoUrlsByFileName.Clear();
 
         foreach (string fullPath in videoFiles)
         {
             string fileName = Path.GetFileNameWithoutExtension(fullPath);
             string fileUrl = "file:///" + fullPath.Replace("\\", "/");
 
-            GameObject go = new GameObject($"VideoPlayer_{fileName}");
-            go.transform.SetParent(this.transform);
-
-            var vp = go.AddComponent<VideoPlayer>();
-            vp.playOnAwake = false;
-            vp.source = VideoSource.Url;
-            vp.url = fileUrl;
-            vp.audioOutputMode = VideoAudioOutputMode.None;
-
-            vp.Prepare();
-
-            VideoPlayersByFileName[fileName] = vp;
+            // ✅ 더 이상 GameObject/VideoPlayer 생성/Prepare 하지 않음
+            VideoUrlsByFileName[fileName] = fileUrl;
         }
 
-        Debug.Log($"[ResourceManager] 영상 {VideoPlayersByFileName.Count}개 Preload 완료");
+        Debug.Log($"[ResourceManager] 영상 URL {VideoUrlsByFileName.Count}개 인덱싱 완료");
     }
-    public bool TryGetVideoPlayer(string fileName, out VideoPlayer player)
+
+//    public void PreloadLocalVideos() // 전체 prepare
+//    {
+//#if UNITY_EDITOR
+//        string videoFolder = "D:/Data/Video_Editor";
+//#else
+//    string videoFolder = Path.Combine(Application.dataPath, "../Data/Video");
+//#endif
+//        if (!Directory.Exists(videoFolder))
+//        {
+//            Debug.LogError($"[ResourceManager] 영상 폴더가 존재하지 않습니다: {videoFolder}");
+//            return;
+//        }
+
+//        // ✅ .mp4와 .webm 모두 지원
+//        string[] videoFiles = Directory.GetFiles(videoFolder)
+//            .Where(path =>
+//                path.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase) ||
+//                path.EndsWith(".webm", StringComparison.OrdinalIgnoreCase))
+//            .ToArray();
+
+//        foreach (string fullPath in videoFiles)
+//        {
+//            string fileName = Path.GetFileNameWithoutExtension(fullPath);
+//            string fileUrl = "file:///" + fullPath.Replace("\\", "/");
+
+//            GameObject go = new GameObject($"VideoPlayer_{fileName}");
+//            go.transform.SetParent(this.transform);
+
+//            var vp = go.AddComponent<VideoPlayer>();
+//            vp.playOnAwake = false;
+//            vp.source = VideoSource.Url;
+//            vp.url = fileUrl;
+//            vp.audioOutputMode = VideoAudioOutputMode.None;
+
+//            vp.Prepare();
+
+//            VideoPlayersByFileName[fileName] = vp;
+//        }
+
+//        Debug.Log($"[ResourceManager] 영상 {VideoPlayersByFileName.Count}개 Preload 완료");
+//    }
+    //public bool TryGetVideoPlayer(string fileName, out VideoPlayer player)
+    //{
+    //    return VideoPlayersByFileName.TryGetValue(fileName, out player);
+
+    //}
+
+    public bool TryGetVideoUrl(string fileName, out string url)
     {
-        return VideoPlayersByFileName.TryGetValue(fileName, out player);
+        return VideoUrlsByFileName.TryGetValue(fileName, out url);
     }
 
     private string[] GetImageFiles(string folderPath) // png,jpg,jpeg 가져오기
