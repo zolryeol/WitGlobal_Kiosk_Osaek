@@ -226,8 +226,8 @@ public class ElgatoController : MonoBehaviour
         responseTexture.LoadImage(receivedData);
 
         // 워터마크 삽입 (선택 사항)
-        Texture2D watermark = Resources.Load<Texture2D>("Image/AR/watermark");
-        Texture2D resizedWatermark = ResizeTexture(watermark, 400, 400);
+        Texture2D watermark = Resources.Load<Texture2D>("Image/AR/WITHWaterMark");
+        Texture2D resizedWatermark = ResizeTexture(watermark, 400, 200);
         Texture2D finalTexture = AddWatermark(responseTexture, resizedWatermark, new Vector2(20, 10), 1.0f);
 
         //string resultPath = Path.Combine(saveFolder, $"Result_{System.DateTime.Now:yyyyMMdd_HHmmss}.png");

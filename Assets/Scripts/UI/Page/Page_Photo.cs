@@ -15,6 +15,7 @@ public class Page_Photo : MonoBehaviour
     [SerializeField] GameObject resultParent;
     [SerializeField] Image resultImage;
     [SerializeField] Image Photoresult_Display2;
+    [SerializeField] GameObject ParkLogo_Display2; // 박술녀로고 추가기능 예외처리
 
     [SerializeField] Button savePhotoButton; // 
     [SerializeField] Button closeQRFocusButton; // 팝업시 닫기버튼
@@ -131,6 +132,12 @@ public class Page_Photo : MonoBehaviour
 
         Photoresult_Display2.gameObject.SetActive(true);
         Photoresult_Display2.sprite = sprite;
+
+        if (elgatoController.hanbokIndex <= (13 + 20)) // 박술녀로고 추가기능 예외처리
+        {
+            ParkLogo_Display2.gameObject.SetActive(true);
+        }
+        else ParkLogo_Display2.gameObject.SetActive(false);
 
         VideoPlayManager.Instance.PlayVideo(VideoType.Photo_Complete);
     }
