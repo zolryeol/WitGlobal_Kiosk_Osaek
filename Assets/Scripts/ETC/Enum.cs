@@ -97,6 +97,7 @@ public enum VideoType
     Toilet,
     Greeting_Hobby,
     Greeting_Stretching,
+    MarketPaper,
 }
 
 #region 하위카테고리 사용하지않음

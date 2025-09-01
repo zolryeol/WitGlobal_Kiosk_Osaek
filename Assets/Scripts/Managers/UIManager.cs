@@ -615,7 +615,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void PlayVideoByMainButton()
+    public void PlayVideoByMainButton() // 메인버튼 눌렀을때
     {
         if (NowSelectedCategory == Category_Base.ToHelp && NowSelectedETC == Category_ETC.Toilet)
         {
@@ -678,6 +678,9 @@ public class UIManager : MonoBehaviour
                 break;
             case Category_ETC.Transport:
                 VideoPlayManager.Instance.PlayVideo(VideoType.Transport);
+                break;
+            case Category_ETC.MarketPaper:
+                VideoPlayManager.Instance.PlayVideo(VideoType.MarketPaper);
                 break;
             default:
                 break;
