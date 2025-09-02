@@ -160,6 +160,10 @@ public class MainButton : MonoBehaviour, ILocalizable
                 targetHeader.SetKey("MainButton_ToBuy");
                 targetSubHeader.SetKey("SubHeader_ToBuy");
                 break;
+            case Category_Base.ToBuy2:
+                targetHeader.SetKey("MainButton_ToBuy2");
+                targetSubHeader.SetKey("SubHeader_ToBuy2");
+                break;
             case Category_Base.ToGallery:
                 targetHeader.SetKey("MainButton_ToGallery");
                 targetSubHeader.SetKey("SubHeader_ToGallery");

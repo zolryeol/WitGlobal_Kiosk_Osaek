@@ -24,9 +24,11 @@ static class CommonFunction
             //    return "인사동 미술관";
             case Category_Base.ToHelp:
                 return "정이 도와줘";
-                //return "인사 도와줘";
+            //return "인사 도와줘";
             //case Category_Base.ToStay: // 오색시장은 숙박정보가 없음
             //    return "인사동 숙박";
+            case Category_Base.ToBuy2:
+                return "정이 뭐사지2";
             default:
                 return "default";
         }

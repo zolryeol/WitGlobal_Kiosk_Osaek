@@ -19,6 +19,7 @@ public enum Category_Base // ShopManager에서 다루는 Category들
     Default, // 기본값
     ToEat,  // 인사뭐먹지
     ToBuy,  // 인사뭐사지
+    ToBuy2,  // 인사뭐사지2
     ToGallery,  // 인사동미술관
     ToHelp, // 인사 도와줘
     ToStay, // 숙박정보
