@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Page_Greeting page_Greeting;
     [SerializeField] Page_KoreaMapDetail page_KoreaMapDetail;
     [SerializeField] Page_SmartTourList page_SmartTourList;
+    [SerializeField] Page_HereInfo page_HereInfo;
 
     [Header("PagesCanvasGroup")]
     public CanvasGroup DetailPage;
@@ -175,6 +176,9 @@ public class UIManager : MonoBehaviour
 
         page_Greeting = FindAnyObjectByType<Page_Greeting>();
         page_Greeting.Init();
+
+        page_HereInfo = FindAnyObjectByType<Page_HereInfo>();
+        page_HereInfo.Init();
 
         page_KoreaMapDetail = FindAnyObjectByType<Page_KoreaMapDetail>();
         page_KoreaMapDetail.Init();
