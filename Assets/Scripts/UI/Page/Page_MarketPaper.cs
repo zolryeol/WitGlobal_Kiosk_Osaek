@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Page_HereInfo : MonoBehaviour
+public class Page_MarketPaper : MonoBehaviour
 {
     [SerializeField]
     List<SecondCategoryButton> secondCategoryButtons = new();
