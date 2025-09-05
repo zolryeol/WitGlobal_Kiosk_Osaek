@@ -10,6 +10,8 @@ public class Page_HereInfo : MonoBehaviour
     [SerializeField]
     List<GameObject> pages = new();
 
+    [Header("교통페이지")]
+    Page_Transport page_Transport;
     public void Init()
     {
         for (int i = 0; i < secondCategoryButtons.Count; i++)
@@ -48,5 +50,21 @@ public class Page_HereInfo : MonoBehaviour
             pages[i].SetActive(false);
         }
         pages[0].SetActive(true);
+    }
+
+    public void GoToTransport() // 예외처리 하드코딩
+    {
+        UIManager.Instance.CloseAllPages();
+
+        if (page_Transport == null)
+        {
+            page_Transport = FindAnyObjectByType<Page_Transport>();
+        }
+
+        UIManager.Instance.OpenPage(page_Transport.GetComponent<CanvasGroup>());
+
+        UIManager.Instance.CloseKeyboard();
+        page_Transport.OnContent(1);
+        page_Transport.Select(1);
     }
 }

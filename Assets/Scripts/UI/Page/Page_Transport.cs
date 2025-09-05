@@ -19,6 +19,9 @@ public class Page_Transport : MonoBehaviour
 
     [SerializeField] List<Button> categoryButtonList = new();
     [SerializeField] List<GameObject> contentObjList = new();
+
+    public List<Button> CategoryButtonList { get => categoryButtonList; set => categoryButtonList = value; }
+
     public void Init()
     {
         // 예외처리용
@@ -69,7 +72,7 @@ public class Page_Transport : MonoBehaviour
         }
     }
 
-    void Select(int _index)
+    public void Select(int _index)
     {
         UnSelect();
 
