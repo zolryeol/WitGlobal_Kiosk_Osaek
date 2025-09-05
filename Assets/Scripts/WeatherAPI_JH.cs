@@ -29,8 +29,8 @@ public class WeatherAPI_JH : MonoBehaviour
     private static readonly HttpClient client = new HttpClient();
 
     private readonly string apiKey = "75341a6d64eb213493a7ffa4cdfe348e";
-    private readonly string apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=37.5744&lon=126.9849&units=metric&lang=en";  // 경도 위도 참조해서 가져옵니다.
-
+    //private readonly string apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=37.5744&lon=126.9849&units=metric&lang=en";  // 경도 위도 참조해서 가져옵니다. // 인사동 좌표
+    private readonly string apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=37.1527&lon=127.0699&units=metric&lang=en";  // 경도 위도 참조해서 가져옵니다. // 오색시장 좌표
     //확인용
     //https://api.openweathermap.org/data/2.5/weather?lat=37.5744&lon=126.9849&units=metric&lang=kr&appid=75341a6d64eb213493a7ffa4cdfe348e
 
