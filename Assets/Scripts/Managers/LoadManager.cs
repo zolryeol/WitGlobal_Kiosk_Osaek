@@ -444,8 +444,6 @@ public class LoadManager : MonoBehaviour
             case Language.English:
             case Language.Japanese:
             case Language.Chinese:
-                searchLangs = new[] { (int)Language.English, (int)Language.Korean };
-                break;
             default:
                 searchLangs = new[] { (int)Language.English, (int)Language.Korean };
                 break;
