@@ -17,7 +17,7 @@ public class ExchangeRateManager : MonoBehaviour
 
     public string url = "https://oapi.koreaexim.go.kr/site/program/financial/exchangeJSON";
     public string authkey = "EfwPppev8zgn5XTpgQnLH1cthloyNItF";
-    string today;
+    public string today;
 
     private Coroutine updateCoroutine;
 
