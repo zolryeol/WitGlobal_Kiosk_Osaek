@@ -15,7 +15,7 @@ public class Page_TaxFree : MonoBehaviour
     [SerializeField] CanvasWebViewPrefab webViewPrefab;
     [SerializeField] Button webBackButton;
 
-    [SerializeField] string url = "https://www.naver.com/"; // 텍스프리 URL
+    [SerializeField] string url; // 텍스프리 URL
 
     private void Awake()
     {
@@ -27,6 +27,7 @@ public class Page_TaxFree : MonoBehaviour
         webBackButton.onClick.AddListener(() => webViewPrefab.WebView.GoBack());
         homeButton.onClick.AddListener(() => ReLoadWeb());
         backButton.onClick.AddListener(() => ReLoadWeb());
+        webViewPrefab.InitialUrl = url;
     }
 
     public void ReLoadWeb()
