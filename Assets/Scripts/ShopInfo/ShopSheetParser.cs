@@ -308,7 +308,7 @@ public class ShopSheetParser
         var result = new List<EventData>();
         var rows = sheet?.Values;
 
-        if (rows == null || rows.Count < 2)
+        if (rows == null || rows.Count < 1)
         {
             Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
             return result;
@@ -335,13 +335,13 @@ public class ShopSheetParser
                 eventData.EventNameString[lang] = GetCell(row, 2 + lang);
             }
 
-            // 7~10열: AddressString[0~3]
+            // AddressString
             for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
             {
                 eventData.EventAddressString[lang] = GetCell(row, 6 + lang);
             }
 
-            // 10~13열: HashTagString[0~3]
+            // HashTagString
             for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
             {
                 eventData.HashTagString[lang] = GetCell(row, 10 + lang);
