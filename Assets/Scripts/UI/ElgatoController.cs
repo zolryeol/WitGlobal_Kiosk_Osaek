@@ -41,7 +41,7 @@ public class ElgatoController : MonoBehaviour
     {
         if (runningCoroutine != null)
         {
-            StopCoroutine(runningCoroutine);
+            StopAllCoroutines();
             runningCoroutine = null;
         }
 
@@ -313,6 +313,7 @@ public class ElgatoController : MonoBehaviour
         if (IsSuccessed && !string.IsNullOrEmpty(LatestResultImagePath) && File.Exists(LatestResultImagePath))
         {
             page_photo.Final();
+            yield break;
         }
         else
         {
