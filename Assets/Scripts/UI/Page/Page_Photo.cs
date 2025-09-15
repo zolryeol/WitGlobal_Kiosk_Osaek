@@ -9,6 +9,9 @@ public class Page_Photo : MonoBehaviour
     ElgatoController elgatoController;
 
     [SerializeField] Button selectButton;
+    [SerializeField] Button selectAloneButton; //1A4D7E // 616161 회색
+    [SerializeField] Button selectTogetherButton;
+
     [SerializeField] Button confirmButton;
     [SerializeField] GameObject blocking;
 
@@ -22,7 +25,6 @@ public class Page_Photo : MonoBehaviour
 
     [SerializeField] Button tryAgainButton;
     [SerializeField] GameObject _QRFocus;
-
     [SerializeField] GameObject photoRenderTexture;
 
     [SerializeField] GameObject PrivacyPolicy;
@@ -31,8 +33,12 @@ public class Page_Photo : MonoBehaviour
         elgatoController = GetComponent<ElgatoController>();
 
         selectButton.onClick.AddListener(OnSelectButton);
+        //selectAloneButton.onClick.AddListener(SelectAlone);
+        //selectTogetherButton.onClick.AddListener(SelectTogether);
+
         confirmButton.onClick.AddListener(OnConfirmButton);
         savePhotoButton.onClick.AddListener(ActiveQRFocus);
+
         closeQRFocusButton.onClick.AddListener(InActiveQRFocus);
         tryAgainButton.onClick.AddListener(InitPage);
         //GotoHomeButton.onClick.AddListener(() => UIManager.Instance.CloseAllPages());
@@ -46,6 +52,8 @@ public class Page_Photo : MonoBehaviour
         elgatoController.adCountParent.SetActive(false);
 
         InActiveQRFocus();
+        //InActiveQRFocusPurchase(); // 기간제 이벤트용
+
         Photoresult_Display2.sprite = null;
         InActiveButton(confirmButton);
         blocking.SetActive(false);
@@ -54,11 +62,45 @@ public class Page_Photo : MonoBehaviour
         resultImage.gameObject.SetActive(false);
         resultParent.SetActive(false);
 
+        elgatoController.IsSuccessed = false;
         //VideoPlayManager.Instance.PackLogo.SetActive(true);
+
+        selectAloneButton.image.color = new Color32(0x61, 0x61, 0x61, 0xFF);
+
+        selectTogetherButton.image.color = new Color32(0x61, 0x61, 0x61, 0xFF);
+    }
+
+
+    void SelectAlone()
+    {
+        selectAloneButton.image.color = new Color32(0x1A, 0x4D, 0x7E, 0xFF);
+
+        if (elgatoController.isTogether == true)
+        {
+            elgatoController.isTogether = false;
+        }
+
+        selectTogetherButton.image.color = new Color32(0x61, 0x61, 0x61, 0xFF);
+        ActiveButton(confirmButton);
+
+    }
+    void SelectTogether()
+    {
+        selectTogetherButton.image.color = new Color32(0x1A, 0x4D, 0x7E, 0xFF);
+
+        if (elgatoController.isTogether == false)
+        {
+            elgatoController.isTogether = true;
+        }
+
+        selectAloneButton.image.color = new Color32(0x61, 0x61, 0x61, 0xFF);
+
+        ActiveButton(confirmButton);
     }
 
     void OnSelectButton()
     {
+        elgatoController.isTogether = false;
         ActiveButton(confirmButton);
     }
 

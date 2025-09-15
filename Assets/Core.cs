@@ -13,6 +13,7 @@ public class Core : MonoBehaviour
     [SerializeField] private VideoPlayManager videoPlayManager;
 
     public static string PhotoPostUrl = "http://158.247.207.5:8000/api/process_image";
+    public static string PhotoPostUrl_together = "http://158.247.207.5:8000/api/process_and_combine";
 
     [SerializeField] public static string KioskName = "KIOSK_WITGLOBAL_Osaek";
     //
