@@ -393,7 +393,7 @@ public class ShopSheetParser
         var result = new List<TraditionalMarketData>();
         var rows = sheet?.Values;
 
-        if (rows == null || rows.Count < 2)
+        if (rows == null || rows.Count < 1)
         {
             Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
             return result;
