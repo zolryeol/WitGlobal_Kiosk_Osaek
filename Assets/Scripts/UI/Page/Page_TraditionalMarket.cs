@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Page_TraditionalMarket : MonoBehaviour, IPrefabInstancer
+public class Page_TraditionalMarket : MonoBehaviour
 {
     [SerializeField] Transform buttonParent;
     [SerializeField] Transform contentParent;
@@ -18,6 +19,8 @@ public class Page_TraditionalMarket : MonoBehaviour, IPrefabInstancer
     [SerializeField] Scrollbar scrollbar;
 
     int maxCountentCount;
+
+    Page_SmartTourList page_SmartTourList;
     public void Init()
     {
         // 예외처리용
@@ -32,33 +35,65 @@ public class Page_TraditionalMarket : MonoBehaviour, IPrefabInstancer
             int index = i;
 
             _button.onClick.AddListener(() => Select(index));
-            _button.onClick.AddListener(() => FetchingContent((EventState)index));
+            _button.onClick.AddListener(() => FetchingContent(index));
             categoryButtonList.Add(_button);
         }
 
+        page_SmartTourList = FindObjectOfType<Page_SmartTourList>();
 
         backButton = GetComponentInChildren<BackButton>();
         homeButton = GetComponentInChildren<HomeButton>();
     }
 
-    public void FetchingContent(EventState eventState)
+    public void FetchingContent(int buttonIndex) // 지역으로 바꾸어야함;
     {
-        var targetEvent = LoadManager.Instance.GetEventByState(eventState);
+        var markets = LoadManager.Instance.TraditionalMarketList;
 
-        for (int i = 0; i < contentObjList.Count; ++i)
+        var firstContents = markets
+            .Where(market => market.SecondCategoryString[(int)Language.Korean] == JsonLoader.Config.MarketName).ToList();
+
+
+        List<TraditionalMarketData> secondContents = new();
+
+        if (firstContents.Count == 0)
         {
-            if (i < targetEvent.Count)
-            {
-                contentObjList[i].gameObject.SetActive(true);
-                contentObjList[i].FetchContent(targetEvent[i]);
-                UIManager.Instance.InitScrollbarValue(scrollbar);
+            firstContents = markets
+                .Where(market => market.BaseCategoryString[(int)Language.Korean] == UIManager.Instance.NowSelectedKoreaMapName)
+                .ToList();
+        }
+        else
+        {
+            secondContents = markets
+                .Where(market => market.BaseCategoryString[(int)Language.Korean] == firstContents[0].BaseCategoryString[(int)Language.Korean])
+                .Except(firstContents)
+                .ToList();
+        }
 
+        if (firstContents.Count == 0)
+        {
+            Debug.Log("콘텐츠가 없다...");
+        }
+
+        var finalList = firstContents.Concat(secondContents).ToList();
+
+
+        Debug.Log("콘텐츠 갯수 = " + finalList.Count);
+
+
+        for (int i = 0; i < TraditionalMarketContentList.Count; ++i)
+        {
+            if (i < finalList.Count)
+            {
+                TraditionalMarketContentList[i].gameObject.SetActive(true);
+                TraditionalMarketContentList[i].FetchContent(finalList[i]);
             }
             else
             {
-                contentObjList[i].gameObject.SetActive(false);
+                TraditionalMarketContentList[i].gameObject.SetActive(false);
             }
         }
+
+        //InitScrollbarValue(FoodAndShopScrollbar);
     }
 
     void Select(int _index)
@@ -82,27 +117,5 @@ public class Page_TraditionalMarket : MonoBehaviour, IPrefabInstancer
             //c.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.NormalTextColor;
         }
     }
-    void IPrefabInstancer.CreateContentInstance()
-    {
-        buttonParent = CommonFunction.FindDeepChild(this.gameObject, "ButtonsParent").transform;
-        contentParent = CommonFunction.FindDeepChild(this.gameObject, "Contents").transform;
 
-        Debug.Log("이벤트 콘텐츠 인스턴싱");
-
-        maxCountentCount = LoadManager.Instance.GetEventMaxCount();
-
-        var page = FindObjectOfType<Page_Event>();
-
-        for (int i = 0; i < maxCountentCount; ++i)
-        {
-            var content = Instantiate(PrefabManager.Instance.EventInfoPrefab, contentParent);
-            content.GetComponent<EventContent>().Init();
-            content.SetActive(false);
-            page.contentObjList.Add(content.GetComponent<EventContent>());
-
-        }
-
-        Debug.Log($"이벤트콘텐츠 {maxCountentCount} 개 인스턴싱");
-
-    }
 }

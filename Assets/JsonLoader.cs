@@ -60,4 +60,8 @@ public class DeviceConfig
 {
     public string PortName;
     public int BaudRate;
+
+    public string Province;
+    public string District;
+    public string MarketName;
 }
