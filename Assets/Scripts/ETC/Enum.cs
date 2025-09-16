@@ -99,6 +99,7 @@ public enum VideoType
     Greeting_Hobby,
     Greeting_Stretching,
     MarketPaper,
+    TaxFree,
 }
 
 #region 하위카테고리 사용하지않음

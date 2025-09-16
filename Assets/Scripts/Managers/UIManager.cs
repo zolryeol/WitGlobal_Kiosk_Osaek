@@ -690,10 +690,14 @@ public class UIManager : MonoBehaviour
             case Category_ETC.MarketPaper:
                 VideoPlayManager.Instance.PlayVideo(VideoType.MarketPaper);
                 break;
+            case Category_ETC.TaxFree:
+                VideoPlayManager.Instance.PlayVideo(VideoType.TaxFree);
+                break;
             default:
                 break;
         }
     }
+
     public void PlayVideoByDetail()
     {
         switch (NowSelectedCategory)
