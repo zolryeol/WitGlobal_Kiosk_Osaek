@@ -80,16 +80,16 @@ public class Page_TraditionalMarket : MonoBehaviour
         Debug.Log("콘텐츠 갯수 = " + finalList.Count);
 
 
-        for (int i = 0; i < TraditionalMarketContentList.Count; ++i)
+        for (int i = 0; i < page_SmartTourList.TraditionalMarketContentList.Count; ++i)
         {
             if (i < finalList.Count)
             {
-                TraditionalMarketContentList[i].gameObject.SetActive(true);
-                TraditionalMarketContentList[i].FetchContent(finalList[i]);
+                page_SmartTourList.TraditionalMarketContentList[i].gameObject.SetActive(true);
+                page_SmartTourList.TraditionalMarketContentList[i].FetchContent(finalList[i]);
             }
             else
             {
-                TraditionalMarketContentList[i].gameObject.SetActive(false);
+                page_SmartTourList.TraditionalMarketContentList[i].gameObject.SetActive(false);
             }
         }
 
@@ -117,5 +117,4 @@ public class Page_TraditionalMarket : MonoBehaviour
             //c.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = UIColorPalette.NormalTextColor;
         }
     }
-
 }
