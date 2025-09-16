@@ -45,13 +45,15 @@ public class Page_TraditionalMarket : MonoBehaviour
         homeButton = GetComponentInChildren<HomeButton>();
     }
 
-    public void FetchingContent(int buttonIndex) // 지역으로 바꾸어야함;
+    public void FetchingContent(int buttonIndex)
     {
+        //var myMarket = JsonLoader.Config.MarketName;
+
         var markets = LoadManager.Instance.TraditionalMarketList;
 
+        // 나의 시장을 가장위로 올리기위하여;
         var firstContents = markets
             .Where(market => market.SecondCategoryString[(int)Language.Korean] == JsonLoader.Config.MarketName).ToList();
-
 
         List<TraditionalMarketData> secondContents = new();
 
