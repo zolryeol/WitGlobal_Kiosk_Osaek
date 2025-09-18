@@ -227,10 +227,21 @@ public class ElgatoController : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post(url, form);
         yield return www.SendWebRequest();
 
-        if (www.result != UnityWebRequest.Result.Success)
+        if (www.result != UnityWebRequest.Result.Success) // 실패하는 경우
         {
-            Debug.LogError("Upload failed: " + www.error);
-            yield break;
+            UnityWebRequest www2 = UnityWebRequest.Post(url, form); // 2차 시도
+            yield return www2.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success) // 2차 시도 실패하면 처음으로
+            {
+                Debug.LogError("Upload failed: " + www.error);
+                page_photo.InitPage(); // 실패했을때 초기화면으로
+                yield break;
+            }
+            else
+            {
+                Debug.Log("✅ 서버 응답 수신 완료 2차");
+            }
         }
 
         Debug.Log("✅ 서버 응답 수신 완료");
