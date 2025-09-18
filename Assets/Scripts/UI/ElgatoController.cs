@@ -18,7 +18,8 @@ public class ElgatoController : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI countDownText_AD; // 광고용 1분 카운트다운.
     public GameObject adCountParent;
-    public string LatestResultImagePath { get; private set; }
+    public string LatestResultImagePath { get; set; }
+
     public int hanbokIndex { get; set; } = 1;
     public bool IsSuccessed { get; set; } = false;
     public bool IsElgatoRunning { get; private set; } = false;
@@ -32,6 +33,9 @@ public class ElgatoController : MonoBehaviour
     Coroutine runningCoroutine;
     Coroutine runningCoroutineAD;
 
+    private uint shotSerial = 0;
+    private uint currentShotSerial = 0;
+
     private void Awake()
     {
         page_photo = GetComponent<Page_Photo>();
@@ -39,15 +43,22 @@ public class ElgatoController : MonoBehaviour
     }
     public void StartElgato()
     {
+        StopAD();
+
         if (runningCoroutine != null)
         {
             StopAllCoroutines();
             runningCoroutine = null;
         }
 
+        shotSerial++;
+        currentShotSerial = shotSerial;
+
         IsElgatoRunning = true;
 
-        runningCoroutine = StartCoroutine(StartElgatoCoroutine());
+        LatestResultImagePath = "";
+        IsSuccessed = false;
+        runningCoroutine = StartCoroutine(StartElgatoCoroutine(currentShotSerial));
     }
 
     public void StopElgato()
@@ -79,7 +90,7 @@ public class ElgatoController : MonoBehaviour
         }
         adCountParent.SetActive(false);
     }
-    IEnumerator StartElgatoCoroutine()
+    IEnumerator StartElgatoCoroutine(uint _serial)
     {
         WebCamDevice[] devices = WebCamTexture.devices;
 
@@ -130,7 +141,7 @@ public class ElgatoController : MonoBehaviour
 
         //if (countDownText != null) countDownText.text = "";
         display2RawImage.gameObject.SetActive(false); // 
-        runningCoroutineAD = StartCoroutine(ADCountDown()); // 광고 타이머 60초
+        runningCoroutineAD = StartCoroutine(ADCountDown(_serial)); // 광고 타이머 60초
 
 
 
@@ -154,7 +165,7 @@ public class ElgatoController : MonoBehaviour
 
         Debug.Log($"한복 인덱스 = {hanbokIndex}");
 
-        yield return StartCoroutine(PostImageToServer(filePath, hanbokIndex, folderPath));
+        yield return StartCoroutine(PostImageToServer(filePath, hanbokIndex, folderPath, _serial));
 
         faceCamTexture.Stop();
         faceCamTexture = null;
@@ -194,7 +205,7 @@ public class ElgatoController : MonoBehaviour
     }
 
     // 서버 송수신
-    IEnumerator PostImageToServer(string imagePath, int optionIndex, string saveFolder)
+    IEnumerator PostImageToServer(string imagePath, int optionIndex, string saveFolder, uint _serial)
     {
         if (!System.IO.File.Exists(imagePath))
         {
@@ -204,7 +215,7 @@ public class ElgatoController : MonoBehaviour
 
         byte[] fileData = System.IO.File.ReadAllBytes(imagePath);
         WWWForm form = new WWWForm();
-        form.AddBinaryData("image", fileData, Path.GetFileName(imagePath), "image/jpeg");
+        form.AddBinaryData("image", fileData, Path.GetFileName(imagePath), "image/png");
         form.AddField("option", optionIndex);
 
         string url;
@@ -224,7 +235,6 @@ public class ElgatoController : MonoBehaviour
 
         Debug.Log("✅ 서버 응답 수신 완료");
 
-        IsSuccessed = true;
 
         // ✅ 응답 이미지 저장
         byte[] receivedData = www.downloadHandler.data;
@@ -243,7 +253,23 @@ public class ElgatoController : MonoBehaviour
         File.WriteAllBytes(resultPath, finalTexture.EncodeToPNG());
         Debug.Log("📥 응답 이미지 저장 완료: " + resultPath);
 
-        StartCoroutine(resultToQR.FetchImageFile(LatestResultImagePath));
+        if (_serial == currentShotSerial)
+        {
+            LatestResultImagePath = resultPath;        // ★ 시리얼 확인 후에만 기록
+            File.WriteAllBytes(resultPath, finalTexture.EncodeToPNG());
+            Debug.Log("📥 응답 이미지 저장 완료: " + resultPath);
+
+            StartCoroutine(resultToQR.FetchImageFile(LatestResultImagePath));
+        }
+        else
+        {
+            Debug.LogWarning("📸 PostImageToServer - Serial mismatch, ignoring result.");
+            page_photo.InitPage();
+            yield break;
+        }
+
+        IsSuccessed = true;
+
     }
 
     /// 워터마크 추가
@@ -284,7 +310,7 @@ public class ElgatoController : MonoBehaviour
         return result;
     }
 
-    IEnumerator ADCountDown()
+    IEnumerator ADCountDown(uint _serial)
     {
         VideoPlayManager.Instance.PlayVideo(VideoType.Photo_Creating);
 
@@ -309,8 +335,7 @@ public class ElgatoController : MonoBehaviour
         countDownText_AD.text = "";
         adCountParent.SetActive(false);
 
-        // ✅ 조건 추가
-        if (IsSuccessed && !string.IsNullOrEmpty(LatestResultImagePath) && File.Exists(LatestResultImagePath))
+        if (_serial == currentShotSerial && IsSuccessed && !string.IsNullOrEmpty(LatestResultImagePath) && File.Exists(LatestResultImagePath))
         {
             page_photo.Final();
             yield break;
@@ -320,10 +345,10 @@ public class ElgatoController : MonoBehaviour
             Debug.LogError("이미지 처리 실패 또는 결과 없음");
         }
 
-        StartCoroutine(WaitForResultAndCallFinal());
+        StartCoroutine(WaitForResultAndCallFinal(_serial));
     }
 
-    IEnumerator WaitForResultAndCallFinal()
+    IEnumerator WaitForResultAndCallFinal(uint _serial)
     {
         float timeout = 60f;
         float elapsed = 0f;
@@ -334,13 +359,14 @@ public class ElgatoController : MonoBehaviour
             elapsed += 0.5f;
         }
 
-        if (!string.IsNullOrEmpty(LatestResultImagePath) && File.Exists(LatestResultImagePath))
+        if (_serial == currentShotSerial && !string.IsNullOrEmpty(LatestResultImagePath) && File.Exists(LatestResultImagePath))
         {
             page_photo.Final();
         }
         else
         {
             Debug.LogError("결과 이미지가 준비되지 않음 (타임아웃)");
+            page_photo.InitPage();
         }
     }
 }

@@ -63,6 +63,7 @@ public class Page_Photo : MonoBehaviour
         resultParent.SetActive(false);
 
         elgatoController.IsSuccessed = false;
+        elgatoController.LatestResultImagePath = "";
         //VideoPlayManager.Instance.PackLogo.SetActive(true);
 
         selectAloneButton.image.color = new Color32(0x61, 0x61, 0x61, 0xFF);
