@@ -46,6 +46,8 @@ public class Core : MonoBehaviour
     }
     private async void Start()
     {
+        JsonLoader.Init();
+
         prefabManager.Init();
 
         resourceManager.Init();
