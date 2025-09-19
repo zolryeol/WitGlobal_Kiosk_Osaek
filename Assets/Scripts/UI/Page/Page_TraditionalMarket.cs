@@ -95,7 +95,7 @@ public class Page_TraditionalMarket : MonoBehaviour
             }
         }
 
-        //InitScrollbarValue(FoodAndShopScrollbar);
+        UIManager.Instance.InitScrollbarValue(scrollbar);
     }
 
     void Select(int _index)
@@ -122,28 +122,18 @@ public class Page_TraditionalMarket : MonoBehaviour
 
     string IndexToProvinceString(int _index)
     {
-        switch (_index)
+        return _index switch
         {
-            case 0:
-                return "경기도";
-            case 1:
-                return "강원도";
-            case 2:
-                return "충청남도";
-            case 3:
-                return "충청북도";
-            case 4:
-                return "경상남도";
-            case 5:
-                return "경상북도";
-            case 6:
-                return "전라남도";
-            case 7:
-                return "전라북도";
-            case 8:
-                return "서울";
-            default:
-                return "";
-        }
+            0 => "경기도",
+            1 => "강원도",
+            2 => "충청남도",
+            3 => "충청북도",
+            4 => "경상남도",
+            5 => "경상북도",
+            6 => "전라남도",
+            7 => "전라북도",
+            8 => "서울",
+            _ => "",
+        };
     }
 }
