@@ -18,8 +18,6 @@ public class Page_TraditionalMarket : MonoBehaviour
 
     [SerializeField] Scrollbar scrollbar;
 
-    int maxCountentCount;
-
     Page_SmartTourList page_SmartTourList;
     public void Init()
     {
