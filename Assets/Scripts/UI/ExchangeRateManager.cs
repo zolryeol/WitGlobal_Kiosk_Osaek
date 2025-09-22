@@ -19,6 +19,9 @@ public class ExchangeRateManager : MonoBehaviour
     public string authkey = "EfwPppev8zgn5XTpgQnLH1cthloyNItF";
     public string today;
 
+    // 마지막으로 성공적으로 데이터를 가져온 날짜 (MMdd)
+    public string lastSuccessfulDate = "";
+
     private Coroutine updateCoroutine;
 
     public void Init()
@@ -67,34 +70,54 @@ public class ExchangeRateManager : MonoBehaviour
 
     private IEnumerator UpdateAllExchangeRates(Action<bool> onComplete = null)
     {
-        today = DateTime.Now.ToString("yyyyMMdd");
-        string fullUrl = $"{url}?authkey={authkey}&searchdate={today}&data=AP01&type=json";
-        using (UnityWebRequest request = UnityWebRequest.Get(fullUrl))
+        DateTime searchDate = DateTime.Now;
+        string json = null;
+        ExchangeRate[] rates = null;
+        bool found = false;
+
+        for (int tryDay = 0; tryDay < 10; tryDay++) // 최대 10일 전까지 시도
         {
-            yield return request.SendWebRequest();
-
-            if (request.result != UnityWebRequest.Result.Success)
+            string searchDateStr = searchDate.ToString("yyyyMMdd");
+            string fullUrl = $"{url}?authkey={authkey}&searchdate={searchDateStr}&data=AP01&type=json";
+            using (UnityWebRequest request = UnityWebRequest.Get(fullUrl))
             {
-                Debug.LogError("API 요청 실패: " + request.error);
-                onComplete?.Invoke(false);
-            }
-            else
-            {
-                string json = request.downloadHandler.text;
-                ExchangeRate[] rates = JsonHelper.FromJson<ExchangeRate>(json);
+                yield return request.SendWebRequest();
 
-                // 필요한 통화만 저장
-                var codeSet = new HashSet<string>(currencyCodes);
-                foreach (var code in currencyCodes)
-                    RateStringList[code] = ""; // 초기화
-
-                foreach (var rate in rates)
+                if (request.result == UnityWebRequest.Result.Success)
                 {
-                    if (codeSet.Contains(rate.cur_unit))
-                        RateStringList[rate.cur_unit] = rate.deal_bas_r;
+                    json = request.downloadHandler.text;
+                    rates = JsonHelper.FromJson<ExchangeRate>(json);
+
+                    if (rates != null && rates.Length > 0)
+                    {
+                        found = true;
+                        today = searchDateStr;
+                        lastSuccessfulDate = searchDate.ToString("MMdd");
+                        break;
+                    }
                 }
-                onComplete?.Invoke(true);
             }
+            // 데이터가 없으면 하루 전으로 이동
+            searchDate = searchDate.AddDays(-1);
+        }
+
+        if (found)
+        {
+            var codeSet = new HashSet<string>(currencyCodes);
+            foreach (var code in currencyCodes)
+                RateStringList[code] = "";
+
+            foreach (var rate in rates)
+            {
+                if (codeSet.Contains(rate.cur_unit))
+                    RateStringList[rate.cur_unit] = rate.deal_bas_r;
+            }
+            onComplete?.Invoke(true);
+        }
+        else
+        {
+            Debug.LogError("[ExchangeRateManager] 최근 10일간 환율 데이터가 없습니다.");
+            onComplete?.Invoke(false);
         }
     }
 
