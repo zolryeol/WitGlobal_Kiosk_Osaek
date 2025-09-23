@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Page_Greeting page_Greeting;
     [SerializeField] Page_KoreaMapDetail page_KoreaMapDetail;
     [SerializeField] Page_SmartTourList page_SmartTourList;
+    [SerializeField] Page_SmartTourListNonCategory page_SmartTourListNonCategory;
     [SerializeField] Page_TraditionalMarket page_TraditionalMarket;
 
     [SerializeField] Page_HereInfo page_HereInfo;
@@ -192,9 +193,11 @@ public class UIManager : MonoBehaviour
         page_SmartTourList = FindAnyObjectByType<Page_SmartTourList>();
         page_SmartTourList.Init();
 
+        page_SmartTourListNonCategory = FindAnyObjectByType<Page_SmartTourListNonCategory>();
+        page_SmartTourListNonCategory.Init();
+
         page_TraditionalMarket = FindAnyObjectByType<Page_TraditionalMarket>();
         page_TraditionalMarket.Init();
-
     }
 
     public void OpenPage(CanvasGroup _targetCanvasGroup, Action ac = null)

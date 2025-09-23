@@ -24,8 +24,6 @@ public class KoreaMapButton : MonoBehaviour
 
         pageSmartTourList = FindObjectOfType<Page_SmartTourList>();
 
-        var um = UIManager.Instance;
-
         if (mapImage == null)
         {
             Debug.LogError("Image 컴포넌트가 없습니다.");
@@ -36,26 +34,56 @@ public class KoreaMapButton : MonoBehaviour
 
         button.onClick.AddListener(() => Debug.Log($"{this.gameObject.name} 클릭"));
 
-        if (koreaMapType == KoreaMapType.Province)
+        switch (koreaMapType)
         {
-            pageKoreaMapDetail = FindObjectOfType<Page_KoreaMapDetail>();
-            button.onClick.AddListener(() => um.OpenPage(um.KoreaMapDetailPage));
-            button.onClick.AddListener(() => pageKoreaMapDetail.OnMap(mapName));
-            button.onClick.AddListener(() => um.NowSelectedKoreaMapName = mapName);
+            case KoreaMapType.Province:
+                InitProvinceType();
+                break;
+            case KoreaMapType.District:
+                InitDistrictType();
+                break;
+            default:
+                Debug.LogWarning($"KoreaMapType이 설정되지 않았습니다: {koreaMapType}");
+                break;
         }
-        else if (koreaMapType == KoreaMapType.District)
+    }
+
+    void InitProvinceType()
+    {
+        var um = UIManager.Instance;
+
+        pageKoreaMapDetail = FindObjectOfType<Page_KoreaMapDetail>();
+        button.onClick.AddListener(() => um.OpenPage(um.KoreaMapDetailPage));
+        button.onClick.AddListener(() => pageKoreaMapDetail.OnMap(mapName));
+        button.onClick.AddListener(() => um.NowSelectedKoreaMapName = mapName);
+    }
+
+    void InitDistrictType()
+    {
+        var um = UIManager.Instance;
+
+        button.onClick.AddListener(() => um.OpenPage(um.SmartTourListPage));
+        button.onClick.AddListener(() => pageSmartTourList.FetchingContent(mapName));
+        if (LoadManager.Instance.TraditionalMarketList.
+            Any(t => t.SecondCategoryString[(int)Language.Korean] == mapName && t.isSetup == true))
         {
-            button.onClick.AddListener(() => um.OpenPage(um.SmartTourListPage));
-            button.onClick.AddListener(() => pageSmartTourList.FetchingContent(mapName));
-            if (LoadManager.Instance.TraditionalMarketList.
-                Any(t => t.SecondCategoryString[(int)Language.Korean] == mapName && t.isSetup == true))
-            {
-                this.mapImage.color = Color.red;
-            }
+            this.mapImage.color = Color.red;
+        }
+    }
+
+
+    void CheckNowSelectMode()
+    {
+        var um = UIManager.Instance;
+
+        if (um.NowSelectedETC == Category_ETC.ServiceArea)
+        {
+            um.OpenPage(um.SmartTourListPage);
         }
         else
         {
-            Debug.LogWarning($"KoreaMapType이 설정되지 않았습니다: {koreaMapType}");
+
         }
     }
+
 }
