@@ -467,6 +467,168 @@ public class ShopSheetParser
         }
         return result;
     }
+    public static List<AttractionData> AttractionDataParser(ValueRange sheet)
+    {
+        //TraditionalMarketData 가 baseShopInfoData 를 상속받고 있는점 주의할것
+
+        var result = new List<AttractionData>();
+        var rows = sheet?.Values;
+
+        if (rows == null || rows.Count < 1)
+        {
+            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            return result;
+        }
+
+        for (int i = 0; i < rows.Count; i++)
+        {
+
+            var row = rows[i];
+
+            string numStr = GetCell(row, 0); // 1열이 비었으면 skip
+            if (string.IsNullOrWhiteSpace(numStr))
+                continue;
+
+            var attraction = new AttractionData();
+
+            // 1열: Num
+            attraction.ShopID = int.TryParse(GetCell(row, 0), out int num) ? num : 0;
+            // 2열: 설치여부
+            attraction.isSetup = !string.IsNullOrWhiteSpace(GetCell(row, 1));
+
+
+            // 3~6열: 시장 이름
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                attraction.ShopName[lang] = GetCell(row, 2 + lang);
+            }
+
+            // 7~10열: 전국 광역시 및 팔도
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                attraction.BaseCategoryString[lang] = GetCell(row, 6 + lang);
+            }
+
+            // 10~13열: 시구군
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                attraction.SecondCategoryString[lang] = GetCell(row, 10 + lang);
+            }
+            // 14~17열: 주소
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                attraction.Address[lang] = GetCell(row, 14 + lang);
+            }
+
+            // 18~21열: 해시태그
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                attraction.HashTag[lang] = GetCell(row, 18 + lang);
+            }
+
+            // 22~25열: 설명
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                attraction.ShopDescription[lang] = GetCell(row, 22 + lang);
+            }
+
+            attraction.OpeningTime = GetCell(row, 26); // 운영시간
+            attraction.ContactNumber = GetCell(row, 27); // 연락처
+            attraction.NaverLink = GetCell(row, 28); // 네이버 링크
+
+            // 이미지 할당 (예외 안전)
+            if (ResourceManager.Instance.TraditionalMarketSpritesDic.TryGetValue(attraction.ShopName[(int)Language.Korean], out var images))
+                attraction.spriteImage = images.ToArray();
+            else
+            {
+                Debug.Log($"<color=blue>[TraditionalMarketSheetParser] {attraction.ShopName[(int)Language.Korean]}의 이미지를 찾을 수 없습니다.</color>");
+            }
+
+            result.Add(attraction);
+        }
+        return result;
+    }
+    public static List<ServiceAreaData> ServiceAreaDataParser(ValueRange sheet)
+    {
+        //TraditionalMarketData 가 baseShopInfoData 를 상속받고 있는점 주의할것
+
+        var result = new List<ServiceAreaData>();
+        var rows = sheet?.Values;
+
+        if (rows == null || rows.Count < 1)
+        {
+            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            return result;
+        }
+
+        for (int i = 0; i < rows.Count; i++)
+        {
+
+            var row = rows[i];
+
+            string numStr = GetCell(row, 0); // 1열이 비었으면 skip
+            if (string.IsNullOrWhiteSpace(numStr))
+                continue;
+
+            var serviceArea = new ServiceAreaData();
+
+            // 1열: Num
+            serviceArea.ShopID = int.TryParse(GetCell(row, 0), out int num) ? num : 0;
+            // 2열: 설치여부
+            serviceArea.isSetup = !string.IsNullOrWhiteSpace(GetCell(row, 1));
+
+
+            // 3~6열: 시장 이름
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                serviceArea.ShopName[lang] = GetCell(row, 2 + lang);
+            }
+
+            // 7~10열: 전국 광역시 및 팔도
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                serviceArea.BaseCategoryString[lang] = GetCell(row, 6 + lang);
+            }
+
+            // 10~13열: 시구군
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                serviceArea.SecondCategoryString[lang] = GetCell(row, 10 + lang);
+            }
+            // 14~17열: 주소
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                serviceArea.Address[lang] = GetCell(row, 14 + lang);
+            }
+
+            // 18~21열: 해시태그
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                serviceArea.HashTag[lang] = GetCell(row, 18 + lang);
+            }
+
+            // 22~25열: 설명
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                serviceArea.ShopDescription[lang] = GetCell(row, 22 + lang);
+            }
+
+            serviceArea.OpeningTime = GetCell(row, 26); // 운영시간
+            serviceArea.ContactNumber = GetCell(row, 27); // 연락처
+            serviceArea.NaverLink = GetCell(row, 28); // 네이버 링크
+
+            // 이미지 할당 (예외 안전)
+            if (ResourceManager.Instance.TraditionalMarketSpritesDic.TryGetValue(serviceArea.ShopName[(int)Language.Korean], out var images))
+                serviceArea.spriteImage = images.ToArray();
+            else
+            {
+                Debug.Log($"<color=blue>[TraditionalMarketSheetParser] {serviceArea.ShopName[(int)Language.Korean]}의 이미지를 찾을 수 없습니다.</color>");
+            }
+
+            result.Add(serviceArea);
+        }
+        return result;
+    }
 
     private static string GetCell(IList<object> row, int index)
     {

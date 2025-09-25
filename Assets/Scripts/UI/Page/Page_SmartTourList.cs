@@ -13,8 +13,8 @@ public class Page_SmartTourList : MonoBehaviour
     [SerializeField] SecondCategoryButton[] secondCategoryButtons = new SecondCategoryButton[3];
     Transform body;
     Transform contentParent;
-    public List<MarketContent> TraditionalMarketContentList = new(); /// 전통시장전용리스트
 
+    public List<ShopContent> SmartTourContentList = new();
     public void Init()
     {
         body = CommonFunction.FindDeepChild(this.gameObject, "Body").transform;
@@ -43,9 +43,9 @@ public class Page_SmartTourList : MonoBehaviour
 
         for (int i = 0; i < addedCount; i++)
         {
-            var content = Instantiate(PrefabManager.Instance.ContentItemInfoMarketPrafab, contentParent);
+            var content = Instantiate(PrefabManager.Instance.ContentItemInfoSmartTourPrafab, contentParent);
             content.SetActive(false);
-            TraditionalMarketContentList.Add(content.GetComponent<MarketContent>());
+            SmartTourContentList.Add(content.GetComponent<ShopContent>());
         }
 
         Debug.Log($"<color=blue>스마트관광 콘텐츠 {maxValue} 개 인스턴싱</color>");
@@ -53,24 +53,43 @@ public class Page_SmartTourList : MonoBehaviour
 
     public void FetchingContent(string districtName) // 지역으로 바꾸어야함;
     {
-        var markets = LoadManager.Instance.TraditionalMarketList;
 
-        var firstContents = markets
-            .Where(market => market.SecondCategoryString[(int)Language.Korean] == districtName).ToList();
+        var um = UIManager.Instance.NowSelectedETC;
+
+        IEnumerable<BaseShopInfoData> _target = Enumerable.Empty<BaseShopInfoData>();
+
+        switch (um)
+        {
+            case Category_ETC.TraditionalMarket:
+                _target = LoadManager.Instance.TraditionalMarketList;
+                break;
+            case Category_ETC.Attraction:
+                _target = LoadManager.Instance.AttractionList;
+                break;
+            case Category_ETC.ServiceArea:
+                _target = LoadManager.Instance.ServiceAreaList;
+                break;
+            default:
+                Debug.LogError("스마트투어 리스트 페이지에서 카테고리 에러");
+                break;
+        }
+
+        var firstContents = _target
+            .Where(t => t.SecondCategoryString[(int)Language.Korean] == districtName).ToList();
 
 
-        List<TraditionalMarketData> secondContents = new();
+        List<BaseShopInfoData> secondContents = new();
 
         if (firstContents.Count == 0)
         {
-            firstContents = markets
-                .Where(market => market.BaseCategoryString[(int)Language.Korean] == UIManager.Instance.NowSelectedKoreaMapName)
+            firstContents = _target
+                .Where(t => t.BaseCategoryString[(int)Language.Korean] == UIManager.Instance.NowSelectedKoreaMapName)
                 .ToList();
         }
         else
         {
-            secondContents = markets
-                .Where(market => market.BaseCategoryString[(int)Language.Korean] == firstContents[0].BaseCategoryString[(int)Language.Korean])
+            secondContents = _target
+                .Where(t => t.BaseCategoryString[(int)Language.Korean] == firstContents[0].BaseCategoryString[(int)Language.Korean])
                 .Except(firstContents)
                 .ToList();
         }
@@ -86,16 +105,16 @@ public class Page_SmartTourList : MonoBehaviour
         Debug.Log("콘텐츠 갯수 = " + finalList.Count);
 
 
-        for (int i = 0; i < TraditionalMarketContentList.Count; ++i)
+        for (int i = 0; i < SmartTourContentList.Count; ++i)
         {
             if (i < finalList.Count)
             {
-                TraditionalMarketContentList[i].gameObject.SetActive(true);
-                TraditionalMarketContentList[i].FetchContent(finalList[i]);
+                SmartTourContentList[i].gameObject.SetActive(true);
+                SmartTourContentList[i].FetchContent(finalList[i]);
             }
             else
             {
-                TraditionalMarketContentList[i].gameObject.SetActive(false);
+                SmartTourContentList[i].gameObject.SetActive(false);
             }
         }
 

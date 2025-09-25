@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ServiceAreaContent : ShopContent
+public class AttractionContent : ShopContent
 {
     [SerializeField] TextMeshProUGUI areaName;
     AttractionData attractionData;

@@ -50,7 +50,7 @@ public class Page_TraditionalMarket : MonoBehaviour
 
         for (int i = 0; i < addedCount; i++)
         {
-            var content = Instantiate(PrefabManager.Instance.ContentItemInfoMarketPrafab, contentParent);
+            var content = Instantiate(PrefabManager.Instance.ContentItemInfoSmartTourPrafab, contentParent);
             content.SetActive(false);
             TraditionalMarketContentList.Add(content.GetComponent<MarketContent>());
         }

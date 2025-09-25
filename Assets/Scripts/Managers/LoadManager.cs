@@ -58,12 +58,16 @@ public class LoadManager : MonoBehaviour
         var shopTask = LoadShopInfoDataAsync();
         var aiTask = LoadAICategoryDataAsync();
         //var palaceTask = LoadPalaceInfoDataAsync();
+        // 스마트 투어
         var traditionalMarketTask = LoadTraditionalMarketDataAsync();
+        var attractionTask = LoadAttractionDataSheetAsync();
+        var serviceAreaTask = LoadServiceAreaDataSheetAsync();
+
         var eventTask = LoadEventDataAsync();
         var locaTask = LoadLocalizationTextAsync();
         var videoTask = LoadVideoSubTitleDataAsync();
 
-        await Task.WhenAll(shopTask, aiTask, traditionalMarketTask,/*palaceTask,*/ eventTask, locaTask, videoTask);
+        await Task.WhenAll(shopTask, aiTask, traditionalMarketTask, serviceAreaTask, attractionTask, eventTask, locaTask, videoTask);
 
         ResourceManager.Instance.BuildVideoMapFromSubtitleList(VideoSubTitleList);
 
@@ -114,6 +118,34 @@ public class LoadManager : MonoBehaviour
         else
         {
             Debug.LogError("[ShopManager] 전통시장 데이터를 불러오지 못했습니다.");
+        }
+    }
+
+    private async Task LoadAttractionDataSheetAsync()
+    {
+        var sheet = await GoogleSheetReader.ReadAttractionDataSheetAsync();
+        if (sheet != null)
+        {
+            attractionList = ShopSheetParser.AttractionDataParser(sheet);
+            Debug.Log($"<color=#4EA3FF>[ShopManager]</color> <color=#00BFFF>관광지 데이터 {attractionList.Count}개 로드 완료</color>");
+        }
+        else
+        {
+            Debug.LogError("[ShopManager] 관광지 데이터를 불러오지 못했습니다.");
+        }
+    }
+
+    private async Task LoadServiceAreaDataSheetAsync()
+    {
+        var sheet = await GoogleSheetReader.ReadServiceAreaDataSheetAsync();
+        if (sheet != null)
+        {
+            serviceAreaList = ShopSheetParser.ServiceAreaDataParser(sheet);
+            Debug.Log($"<color=#4EA3FF>[ShopManager]</color> <color=#00BFFF>휴게소 데이터 {serviceAreaList.Count}개 로드 완료</color>");
+        }
+        else
+        {
+            Debug.LogError("[ShopManager] 휴게소 데이터를 불러오지 못했습니다.");
         }
     }
 

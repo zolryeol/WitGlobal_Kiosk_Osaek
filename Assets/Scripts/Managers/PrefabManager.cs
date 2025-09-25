@@ -7,7 +7,7 @@ public class PrefabManager : MonoBehaviour
     public static PrefabManager Instance;
 
     public GameObject ContentItemInfoPrefab;
-    public GameObject ContentItemInfoMarketPrafab;
+    public GameObject ContentItemInfoSmartTourPrafab;
 
     public GameObject SecondCategoryButtonPrefab;
 

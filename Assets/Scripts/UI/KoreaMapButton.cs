@@ -11,18 +11,14 @@ public class KoreaMapButton : MonoBehaviour
 {
     Image mapImage;
     Button button;
-    Page_KoreaMapDetail pageKoreaMapDetail;
     [SerializeField] KoreaMapType koreaMapType;
     string mapName;
-    Page_SmartTourList pageSmartTourList;
     public void Init()
     {
         button = GetComponent<Button>();
         mapImage = GetComponent<Image>();
 
         mapName = this.gameObject.name;
-
-        pageSmartTourList = FindObjectOfType<Page_SmartTourList>();
 
         if (mapImage == null)
         {
@@ -34,56 +30,40 @@ public class KoreaMapButton : MonoBehaviour
 
         button.onClick.AddListener(() => Debug.Log($"{this.gameObject.name} 클릭"));
 
-        switch (koreaMapType)
+        if (koreaMapType == KoreaMapType.Province)
         {
-            case KoreaMapType.Province:
-                InitProvinceType();
-                break;
-            case KoreaMapType.District:
-                InitDistrictType();
-                break;
-            default:
-                Debug.LogWarning($"KoreaMapType이 설정되지 않았습니다: {koreaMapType}");
-                break;
+            button.onClick.AddListener(OnButton);
+        }
+        else if (koreaMapType == KoreaMapType.District)
+        {
+            button.onClick.AddListener(OnButtonDistrict);
         }
     }
 
-    void InitProvinceType()
+    void OnButton()
     {
         var um = UIManager.Instance;
 
-        pageKoreaMapDetail = FindObjectOfType<Page_KoreaMapDetail>();
-        button.onClick.AddListener(() => um.OpenPage(um.KoreaMapDetailPage));
-        button.onClick.AddListener(() => pageKoreaMapDetail.OnMap(mapName));
-        button.onClick.AddListener(() => um.NowSelectedKoreaMapName = mapName);
-    }
+        um.NowSelectedKoreaMapName = this.mapName;
 
-    void InitDistrictType()
-    {
-        var um = UIManager.Instance;
-
-        button.onClick.AddListener(() => um.OpenPage(um.SmartTourListPage));
-        button.onClick.AddListener(() => pageSmartTourList.FetchingContent(mapName));
-        if (LoadManager.Instance.TraditionalMarketList.
-            Any(t => t.SecondCategoryString[(int)Language.Korean] == mapName && t.isSetup == true))
-        {
-            this.mapImage.color = Color.red;
-        }
-    }
-
-
-    void CheckNowSelectMode()
-    {
-        var um = UIManager.Instance;
-
-        if (um.NowSelectedETC == Category_ETC.ServiceArea)
+        if (um.NowSelectedETC == Category_ETC.ServiceArea) // 휴게소인경우 바로 바로 페이지
         {
             um.OpenPage(um.SmartTourListPage);
+            um.Page_SmartTourList.FetchingContent(mapName);
         }
-        else
+        else// 전통시장 혹은 관광지 인경우 상세 지도로 이동
         {
-
+            um.OpenPage(um.KoreaMapDetailPage);
+            um.Page_KoreaMapDetail.OnMap(mapName);
         }
     }
+    void OnButtonDistrict()
+    {
+        var um = UIManager.Instance;
 
+        um.NowSelectedKoreaMapName = this.mapName;
+
+        um.OpenPage(um.SmartTourListPage);
+        um.Page_SmartTourList.FetchingContent(mapName);
+    }
 }

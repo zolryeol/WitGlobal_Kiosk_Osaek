@@ -41,10 +41,10 @@ public enum Category_ETC // ShopManager에서 다루지 않는 Category들
     AISelect, // AI 선택
     Search,
     Toilet,
-    TraditionalMarket, // 전통시장
     MarketPaper, // 시장화폐
     TaxFree,
-    SmartTour, // 스마트관광
+    TraditionalMarket, // 전통시장
+    Attraction, // 스마트관광
     ServiceArea, // 휴게소
 }
 

@@ -23,7 +23,7 @@ public static class GoogleSheetReader
     static readonly string DataSheet_PublicMarket = "1EGeS48JvN3YNzFDLiBduKW-t8P5ilSDucNIMUNS2M-4"; // 공공시장 데이터시트
 
     static readonly string TraditionalMarketDataRange = "TraditionalMarket!A4:AC"; // 전통시장 데이터시트
-    static readonly string AttractionDataRange = "Attraction_Osaek!A4:AC"; 
+    static readonly string AttractionDataRange = "Attraction!A4:AK"; 
     static readonly string ServiceAreaDataRange = "ServiceArea!A4:AC"; 
 
     static readonly string fileName = "kiosk-insadatasheet-52e5347a7b9c.json";
