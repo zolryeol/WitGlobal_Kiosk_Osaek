@@ -26,10 +26,11 @@ public class TraditionalMarketData : BaseShopInfoData // 전톳시장 데이터
 [Serializable]
 public class AttractionData : BaseShopInfoData // 관광명소 데이터
 {
+    public AttractionData() { }
     //public int Num;
     public bool isSetup; // true면 설치
-    public string[] Category;
-    public string[] Fee;
+    public string[] Category = new string[(int)Language.EndOfIndex];
+    public string[] Fee = new string[(int)Language.EndOfIndex];
 
     //public string[] MarketName = new string[(int)Language.EndOfIndex]; // 시장명
     //public string[] Province = new string[(int)Language.EndOfIndex]; // 지역1

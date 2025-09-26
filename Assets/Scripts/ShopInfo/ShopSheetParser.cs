@@ -536,6 +536,17 @@ public class ShopSheetParser
             attraction.ContactNumber = GetCell(row, 27); // 연락처
             attraction.NaverLink = GetCell(row, 28); // 네이버 링크
 
+            // 29~32열: 입장료
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                attraction.Fee[lang] = GetCell(row, 29 + lang);
+            }
+            // 33~36열: 카테고리
+            for (int lang = 0; lang < (int)Language.EndOfIndex; lang++)
+            {
+                attraction.Category[lang] = GetCell(row, 33 + lang);
+            }
+
             // 이미지 할당 (예외 안전)
             if (ResourceManager.Instance.TraditionalMarketSpritesDic.TryGetValue(attraction.ShopName[(int)Language.Korean], out var images))
                 attraction.spriteImage = images.ToArray();

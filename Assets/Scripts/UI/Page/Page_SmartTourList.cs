@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class Page_SmartTourList : MonoBehaviour
 {
-    [SerializeField] SecondCategoryButton[] secondCategoryButtons = new SecondCategoryButton[3];
+    public List<SecondCategoryButton> SecondCategoryButtons = new();
     Transform body;
     Transform contentParent;
 
@@ -19,14 +19,20 @@ public class Page_SmartTourList : MonoBehaviour
     {
         body = CommonFunction.FindDeepChild(this.gameObject, "Body").transform;
         var buttonParent = CommonFunction.FindDeepChild(body.gameObject, "ButtonsParent").transform;
-        secondCategoryButtons[0] = buttonParent.GetChild(0).GetComponent<SecondCategoryButton>();
-        secondCategoryButtons[1] = buttonParent.GetChild(1).GetComponent<SecondCategoryButton>();
-        secondCategoryButtons[2] = buttonParent.GetChild(2).GetComponent<SecondCategoryButton>();
 
+        for (int i = 0; i < 5; i++)
+        {
+            var b = buttonParent.GetChild(i).GetComponent<SecondCategoryButton>();
+            b.SecondCategoryButtonIndex = i;
+            SecondCategoryButtons.Add(b);
+            b.onClick.AddListener(() => FetchingContent(UIManager.Instance.NowSelectedKoreaMapName, b.SecondCategoryButtonIndex));
+            UIManager.Instance.SecondCategorieButtons.Add(b);
+        }
         contentParent = CommonFunction.FindDeepChild(body.gameObject, "Content").transform;
 
         CreateContentInstance();
     }
+
 
     public void CreateContentInstance()
     {
@@ -120,5 +126,36 @@ public class Page_SmartTourList : MonoBehaviour
 
         //InitScrollbarValue(FoodAndShopScrollbar);
     }
+    public void FetchingContent(string districtName, int categoryIndex) // 지역으로 바꾸어야함;
+    {
+        var _target = LoadManager.Instance.AttractionList;
 
+        var firstFilter = _target
+    .Where(t => t.SecondCategoryString[(int)Language.Korean] == districtName).ToList();
+
+        var _targetContents = firstFilter
+        .Where(t =>
+        {
+            string str = t.Category[(int)Language.Korean];
+            int idx = str.IndexOf('_');
+            string prefix = (idx >= 0) ? str.Substring(0, idx) : str;
+            return prefix == (categoryIndex + 1).ToString();
+        })
+        .ToList();
+
+        for (int i = 0; i < SmartTourContentList.Count; ++i)
+        {
+            if (i < _targetContents.Count)
+            {
+                SmartTourContentList[i].gameObject.SetActive(true);
+                SmartTourContentList[i].FetchContent(_targetContents[i]);
+            }
+            else
+            {
+                SmartTourContentList[i].gameObject.SetActive(false);
+            }
+        }
+
+        //InitScrollbarValue(FoodAndShopScrollbar);
+    }
 }

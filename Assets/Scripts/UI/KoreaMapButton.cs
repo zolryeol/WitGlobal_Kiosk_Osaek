@@ -51,10 +51,16 @@ public class KoreaMapButton : MonoBehaviour
             um.OpenPage(um.SmartTourListPage);
             um.Page_SmartTourList.FetchingContent(mapName);
         }
-        else// 전통시장 혹은 관광지 인경우 상세 지도로 이동
+        else if (um.NowSelectedETC == Category_ETC.TraditionalMarket)// 전통시장 
         {
             um.OpenPage(um.KoreaMapDetailPage);
             um.Page_KoreaMapDetail.OnMap(mapName);
+        }
+        else if (um.NowSelectedETC == Category_ETC.Attraction) // 관광지
+        {
+            um.OpenPage(um.KoreaMapDetailPage);
+            um.Page_KoreaMapDetail.OnMap(mapName);
+
         }
     }
     void OnButtonDistrict()
@@ -64,6 +70,13 @@ public class KoreaMapButton : MonoBehaviour
         um.NowSelectedKoreaMapName = this.mapName;
 
         um.OpenPage(um.SmartTourListPage);
-        um.Page_SmartTourList.FetchingContent(mapName);
+
+        if (um.NowSelectedETC == Category_ETC.Attraction) // 관광지
+        {
+            um.SelectFirstCategory(um.Page_SmartTourList.SecondCategoryButtons); // 첫번째 카테고리 선택
+            um.Page_SmartTourList.FetchingContent(mapName, 0 + 1);
+        }
+        else
+            um.Page_SmartTourList.FetchingContent(mapName);
     }
 }

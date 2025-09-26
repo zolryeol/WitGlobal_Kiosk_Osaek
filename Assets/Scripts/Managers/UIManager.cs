@@ -194,9 +194,6 @@ public class UIManager : MonoBehaviour
 
         page_SmartTourList = FindAnyObjectByType<Page_SmartTourList>();
         page_SmartTourList.Init();
-
-        page_TraditionalMarket = FindAnyObjectByType<Page_TraditionalMarket>();
-        page_TraditionalMarket.Init();
     }
 
     public void OpenPage(CanvasGroup _targetCanvasGroup, Action ac = null)
