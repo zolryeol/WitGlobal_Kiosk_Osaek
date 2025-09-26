@@ -46,9 +46,10 @@ public class KoreaMapButton : MonoBehaviour
 
         um.NowSelectedKoreaMapName = this.mapName;
 
-        if (um.NowSelectedETC == Category_ETC.ServiceArea) // 휴게소인경우 바로 바로 페이지
+        if (um.NowSelectedETC == Category_ETC.ServiceArea) // 휴게소  (바로 페이지)
         {
             um.OpenPage(um.SmartTourListPage);
+            um.Page_SmartTourList.OnCategoryButton(false);
             um.Page_SmartTourList.FetchingContent(mapName);
         }
         else if (um.NowSelectedETC == Category_ETC.TraditionalMarket)// 전통시장 

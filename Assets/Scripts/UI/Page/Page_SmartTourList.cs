@@ -13,16 +13,17 @@ public class Page_SmartTourList : MonoBehaviour
     public List<SecondCategoryButton> SecondCategoryButtons = new();
     Transform body;
     Transform contentParent;
+    GameObject categoryButtonParent;
 
     public List<ShopContent> SmartTourContentList = new();
     public void Init()
     {
         body = CommonFunction.FindDeepChild(this.gameObject, "Body").transform;
-        var buttonParent = CommonFunction.FindDeepChild(body.gameObject, "ButtonsParent").transform;
+        var categoryButtonParent = CommonFunction.FindDeepChild(body.gameObject, "ButtonsParent").transform;
 
         for (int i = 0; i < 5; i++)
         {
-            var b = buttonParent.GetChild(i).GetComponent<SecondCategoryButton>();
+            var b = categoryButtonParent.GetChild(i).GetComponent<SecondCategoryButton>();
             b.SecondCategoryButtonIndex = i;
             SecondCategoryButtons.Add(b);
             b.onClick.AddListener(() => FetchingContent(UIManager.Instance.NowSelectedKoreaMapName, b.SecondCategoryButtonIndex));
@@ -158,4 +159,10 @@ public class Page_SmartTourList : MonoBehaviour
 
         //InitScrollbarValue(FoodAndShopScrollbar);
     }
+
+    public void OnCategoryButton(bool _active = false)
+    {
+        categoryButtonParent.gameObject.SetActive(_active);
+    }
+
 }
