@@ -9,9 +9,10 @@ public class SecondCategoryButton : Button, ILocalizable, ISelectableButton
 {
     public int SecondCategoryButtonIndex { get; set; } = -1;
 
-    [SerializeField] TextMeshProUGUI categoryText;
+    [SerializeField]
+    protected TextMeshProUGUI categoryText;
 
-    public bool IsSelected { get; private set; } = false;
+    public bool IsSelected { get; set; } = false;
 
     protected override void Awake()
     {
@@ -23,7 +24,7 @@ public class SecondCategoryButton : Button, ILocalizable, ISelectableButton
         Init();
     }
 
-    public void Init()
+    public virtual void Init()
     {
         //base.Start();
 

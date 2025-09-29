@@ -34,15 +34,13 @@ public class ShopContent : MonoBehaviour
     {
         var nowLanguage = UIManager.Instance.NowLanguage;
         baseShopInfoData = data;
-        if (data != null)
+        shopID = data.ShopID;
+
+        if (ID != null)
         {
-            shopID = data.ShopID;
             ID.text = data.ShopID.ToString();
         }
-        else
-        {
-            ID.text = "";
-        }
+
         shopName.text = data.ShopName[(int)nowLanguage];
         shopAddress.text = data.Address[(int)nowLanguage];
         description.text = data.ShopDescription[(int)nowLanguage];

@@ -12,9 +12,11 @@ using UnityEngine;
 public class Page_SmartTourList : MonoBehaviour
 {
     public List<SecondCategoryButton> SecondCategoryButtons = new();
+    public List<SecondCategoryButton> SecondCategoryButtons_SeriviceArea = new();
     Transform body;
     Transform contentParent;
     Transform categoryButtonParent;
+    Transform categoryButtonParent_ServiceArea;
 
     public List<ShopContent> SmartTourContentList = new();
     public void Init()
@@ -22,6 +24,7 @@ public class Page_SmartTourList : MonoBehaviour
         body = CommonFunction.FindDeepChild(this.gameObject, "Body").transform;
         categoryButtonParent = CommonFunction.FindDeepChild(body.gameObject, "ButtonsParent").transform;
 
+        // Attraction 카테고리 세팅
         for (int i = 0; i < 5; i++)
         {
             var b = categoryButtonParent.GetChild(i).GetComponent<SecondCategoryButton>();
@@ -30,12 +33,22 @@ public class Page_SmartTourList : MonoBehaviour
             b.onClick.AddListener(() => FetchingContent(UIManager.Instance.NowSelectedKoreaMapName, b.SecondCategoryButtonIndex));
             UIManager.Instance.SecondCategorieButtons.Add(b);
         }
+
+        categoryButtonParent_ServiceArea = CommonFunction.FindDeepChild(body.gameObject, "ButtonsParent_ServiceArea").transform;
+        // ServiceArea 카테고리 세팅
+        for (int i = 0; i < 18; i++)
+        {
+            var b = categoryButtonParent_ServiceArea.GetChild(i).GetComponent<SecondCategoryButton>();
+            b.SecondCategoryButtonIndex = i + 1; // 데이터에 인덱스는 1부터 시작
+            SecondCategoryButtons_SeriviceArea.Add(b);
+            b.onClick.AddListener(() => FetchingContent(b.SecondCategoryButtonIndex, null));
+            UIManager.Instance.SecondCategorieButtons.Add(b);
+        }
+
         contentParent = CommonFunction.FindDeepChild(body.gameObject, "Content").transform;
 
         CreateContentInstance();
     }
-
-
     public void CreateContentInstance()
     {
         int maxValue = new[]
@@ -128,7 +141,7 @@ public class Page_SmartTourList : MonoBehaviour
 
         //InitScrollbarValue(FoodAndShopScrollbar);
     }
-    public void FetchingContent(string districtName, int categoryIndex) // 지역으로 바꾸어야함;
+    public void FetchingContent(string districtName, int categoryIndex) //  관광지전용;
     {
         var _target = LoadManager.Instance.AttractionList;
 
@@ -161,9 +174,43 @@ public class Page_SmartTourList : MonoBehaviour
         //InitScrollbarValue(FoodAndShopScrollbar);
     }
 
+    public void FetchingContent(int categoryIndex = 0, string districtName = null) //  휴게소전용;
+    {
+        var _target = LoadManager.Instance.ServiceAreaList;
+        string provinceName;
+
+        if (districtName != null)
+        {
+            provinceName = districtName;
+        }
+        else
+        {
+            provinceName = GetProvinceNameByIndex(categoryIndex);
+        }
+
+        var firstFilter = _target
+    .Where(t => t.BaseCategoryString[(int)Language.Korean] == provinceName).ToList();
+
+        for (int i = 0; i < SmartTourContentList.Count; ++i)
+        {
+            if (i < firstFilter.Count)
+            {
+                SmartTourContentList[i].gameObject.SetActive(true);
+                SmartTourContentList[i].FetchContent(firstFilter[i]);
+            }
+            else
+            {
+                SmartTourContentList[i].gameObject.SetActive(false);
+            }
+        }
+        //InitScrollbarValue(FoodAndShopScrollbar);
+    }
+
     public void OnCategoryButton(bool _active = false)
     {
         categoryButtonParent.gameObject.SetActive(_active);
+
+        if (_active == false) return;
 
         // 카테고리 텍스트 갱신
         var nowLang = UIManager.Instance.NowLanguage;
@@ -176,7 +223,7 @@ public class Page_SmartTourList : MonoBehaviour
 
             // 현재 언어 기준으로 매칭되는 문자열 찾기
             var matched = attractionList
-                .Select(t => t.Category[(int)nowLang])      // "1_사과" 같은 문자열 꺼내기
+                .Select(t => t.Category[(int)nowLang])      // "1_문화재" 같은 문자열 꺼내기
                 .FirstOrDefault(c => c.Split('_')[0] == cateIndex);
 
             if (!string.IsNullOrEmpty(matched))
@@ -188,5 +235,78 @@ public class Page_SmartTourList : MonoBehaviour
                 btn.UpdateLocalizedString(displayText);
             }
         }
+    }
+    public void OnCategoryButtonServiceArea(bool _active = false)
+    {
+        categoryButtonParent_ServiceArea.gameObject.SetActive(_active);
+
+        if (_active == false) return;
+
+        var nowLang = UIManager.Instance.NowLanguage;
+        var serviceAreaList = LoadManager.Instance.ServiceAreaList;
+
+        foreach (var btn in SecondCategoryButtons_SeriviceArea)
+        {
+            string province = GetProvinceNameByIndex(btn.SecondCategoryButtonIndex);
+
+            // province 에 해당하는 데이터 찾기
+            var match = serviceAreaList
+                .FirstOrDefault(t => t.BaseCategoryString[(int)Language.Korean] == province);
+
+            btn.UpdateLocalizedString(match.BaseCategoryString[(int)nowLang]);
+        }
+    }
+    string GetProvinceNameByIndex(int _index)
+    {
+        string province = _index switch
+        {
+            1 => "서울",
+            2 => "경기도",
+            3 => "인천",
+            4 => "대전",
+            5 => "세종",
+            6 => "대구",
+            7 => "전주",
+            8 => "광주",
+            9 => "울산",
+            10 => "부산",
+            11 => "충청북도",
+            12 => "충청남도",
+            13 => "경상북도",
+            14 => "경상남도",
+            15 => "전라북도",
+            16 => "전라남도",
+            17 => "강원도",
+            18 => "제주도",
+            _ => null,
+        };
+        return province;
+    }
+
+    public int GetProvinceIndexByName(string _name)
+    {
+        int index = _name switch
+        {
+            "서울" => 1,
+            "경기도" => 2,
+            "인천" => 3,
+            "대전" => 4,
+            "세종" => 5,
+            "대구" => 6,
+            "전주" => 7,
+            "광주" => 8,
+            "울산" => 9,
+            "부산" => 10,
+            "충청북도" => 11,
+            "충청남도" => 12,
+            "경상북도" => 13,
+            "경상남도" => 14,
+            "전라북도" => 15,
+            "전라남도" => 16,
+            "강원도" => 17,
+            "제주도" => 18,
+            _ => -1,
+        };
+        return index;
     }
 }

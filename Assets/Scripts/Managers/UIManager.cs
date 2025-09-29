@@ -438,6 +438,14 @@ public class UIManager : MonoBehaviour
 
         Debug.Log("📌 스크롤바 위치 초기화 완료 (value = " + targetScrollbar.value + ")");
     }
+    public void SelectSpecificCategory<T>(List<T> targetButtonList, int index) where T : MonoBehaviour  // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
+    {
+        Debug.Log("첫번째 카테고리 선택");
+
+        DeselectAllCustomButtons(targetButtonList);
+
+        targetButtonList[index].GetComponent<ISelectableButton>().SetSelected(true);
+    }
     public void SelectFirstCategory<T>(List<T> targetButtonList) where T : MonoBehaviour  // 페이지 열때 첫번째 카테고리 자동으로 선택되기 위해
     {
         Debug.Log("첫번째 카테고리 선택");

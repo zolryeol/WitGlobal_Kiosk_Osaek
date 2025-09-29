@@ -50,18 +50,24 @@ public class KoreaMapButton : MonoBehaviour
         {
             um.OpenPage(um.SmartTourListPage);
             um.Page_SmartTourList.OnCategoryButton(false);
-            um.Page_SmartTourList.FetchingContent(mapName);
+            um.Page_SmartTourList.OnCategoryButtonServiceArea(true);
+            um.SelectSpecificCategory(um.Page_SmartTourList.SecondCategoryButtons_SeriviceArea,
+                (um.Page_SmartTourList.GetProvinceIndexByName(mapName) - 1)); // mapName에 해당하는 카테고리 선택
+
+            um.Page_SmartTourList.FetchingContent(0, mapName);
         }
         else if (um.NowSelectedETC == Category_ETC.TraditionalMarket)// 전통시장 
         {
             um.OpenPage(um.KoreaMapDetailPage);
             um.Page_SmartTourList.OnCategoryButton(false);
+            um.Page_SmartTourList.OnCategoryButtonServiceArea(false);
             um.Page_KoreaMapDetail.OnMap(mapName);
         }
         else if (um.NowSelectedETC == Category_ETC.Attraction) // 관광지
         {
             um.OpenPage(um.KoreaMapDetailPage);
             um.Page_SmartTourList.OnCategoryButton(true);
+            um.Page_SmartTourList.OnCategoryButtonServiceArea(false);
             um.Page_KoreaMapDetail.OnMap(mapName);
         }
 
