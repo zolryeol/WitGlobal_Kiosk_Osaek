@@ -13,13 +13,13 @@ public class Page_SmartTourList : MonoBehaviour
     public List<SecondCategoryButton> SecondCategoryButtons = new();
     Transform body;
     Transform contentParent;
-    GameObject categoryButtonParent;
+    Transform categoryButtonParent;
 
     public List<ShopContent> SmartTourContentList = new();
     public void Init()
     {
         body = CommonFunction.FindDeepChild(this.gameObject, "Body").transform;
-        var categoryButtonParent = CommonFunction.FindDeepChild(body.gameObject, "ButtonsParent").transform;
+        categoryButtonParent = CommonFunction.FindDeepChild(body.gameObject, "ButtonsParent").transform;
 
         for (int i = 0; i < 5; i++)
         {
@@ -164,5 +164,4 @@ public class Page_SmartTourList : MonoBehaviour
     {
         categoryButtonParent.gameObject.SetActive(_active);
     }
-
 }

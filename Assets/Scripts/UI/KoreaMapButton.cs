@@ -55,14 +55,16 @@ public class KoreaMapButton : MonoBehaviour
         else if (um.NowSelectedETC == Category_ETC.TraditionalMarket)// 전통시장 
         {
             um.OpenPage(um.KoreaMapDetailPage);
+            um.Page_SmartTourList.OnCategoryButton(false);
             um.Page_KoreaMapDetail.OnMap(mapName);
         }
         else if (um.NowSelectedETC == Category_ETC.Attraction) // 관광지
         {
             um.OpenPage(um.KoreaMapDetailPage);
+            um.Page_SmartTourList.OnCategoryButton(true);
             um.Page_KoreaMapDetail.OnMap(mapName);
-
         }
+
     }
     void OnButtonDistrict()
     {
