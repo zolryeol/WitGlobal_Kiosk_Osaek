@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -24,7 +25,7 @@ public class Page_SmartTourList : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             var b = categoryButtonParent.GetChild(i).GetComponent<SecondCategoryButton>();
-            b.SecondCategoryButtonIndex = i;
+            b.SecondCategoryButtonIndex = i+1; // 데이터에 인덱스는 1부터 시작
             SecondCategoryButtons.Add(b);
             b.onClick.AddListener(() => FetchingContent(UIManager.Instance.NowSelectedKoreaMapName, b.SecondCategoryButtonIndex));
             UIManager.Instance.SecondCategorieButtons.Add(b);
@@ -140,7 +141,7 @@ public class Page_SmartTourList : MonoBehaviour
             string str = t.Category[(int)Language.Korean];
             int idx = str.IndexOf('_');
             string prefix = (idx >= 0) ? str.Substring(0, idx) : str;
-            return prefix == (categoryIndex + 1).ToString();
+            return prefix == (categoryIndex).ToString();
         })
         .ToList();
 
@@ -163,5 +164,29 @@ public class Page_SmartTourList : MonoBehaviour
     public void OnCategoryButton(bool _active = false)
     {
         categoryButtonParent.gameObject.SetActive(_active);
+
+        // 카테고리 텍스트 갱신
+        var nowLang = UIManager.Instance.NowLanguage;
+        var attractionList = LoadManager.Instance.AttractionList;
+
+        foreach (var btn in SecondCategoryButtons)
+        {
+            // 버튼의 Index
+            string cateIndex =btn.SecondCategoryButtonIndex.ToString();
+
+            // 현재 언어 기준으로 매칭되는 문자열 찾기
+            var matched = attractionList
+                .Select(t => t.Category[(int)nowLang])      // "1_사과" 같은 문자열 꺼내기
+                .FirstOrDefault(c => c.Split('_')[0] == cateIndex);
+
+            if (!string.IsNullOrEmpty(matched))
+            {
+                // "_" 뒤 문자열만 잘라내기
+                string displayText = matched.Split('_')[1];
+
+                // 버튼 자식의 TextMeshProUGUI 갱신
+                btn.UpdateLocalizedString(displayText);
+            }
+        }
     }
 }
