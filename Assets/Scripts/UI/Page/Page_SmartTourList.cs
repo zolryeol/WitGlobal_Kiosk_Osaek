@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -256,57 +257,33 @@ public class Page_SmartTourList : MonoBehaviour
             btn.UpdateLocalizedString(match.BaseCategoryString[(int)nowLang]);
         }
     }
-    string GetProvinceNameByIndex(int _index)
-    {
-        string province = _index switch
-        {
-            1 => "서울",
-            2 => "경기도",
-            3 => "인천",
-            4 => "대전",
-            5 => "세종",
-            6 => "대구",
-            7 => "전주",
-            8 => "광주",
-            9 => "울산",
-            10 => "부산",
-            11 => "충청북도",
-            12 => "충청남도",
-            13 => "경상북도",
-            14 => "경상남도",
-            15 => "전라북도",
-            16 => "전라남도",
-            17 => "강원도",
-            18 => "제주도",
-            _ => null,
-        };
-        return province;
-    }
 
-    public int GetProvinceIndexByName(string _name)
+    public string GetProvinceNameByIndex(int index) =>
+    Enum.IsDefined(typeof(ProvinceOrder), index) ? ((ProvinceOrder)index).ToString() : null;
+
+    public int GetProvinceIndexByName(string name) =>
+        Enum.TryParse<ProvinceOrder>(name, out var province) ? (int)province : -1;
+
+    public enum ProvinceOrder
     {
-        int index = _name switch
-        {
-            "서울" => 1,
-            "경기도" => 2,
-            "인천" => 3,
-            "대전" => 4,
-            "세종" => 5,
-            "대구" => 6,
-            "전주" => 7,
-            "광주" => 8,
-            "울산" => 9,
-            "부산" => 10,
-            "충청북도" => 11,
-            "충청남도" => 12,
-            "경상북도" => 13,
-            "경상남도" => 14,
-            "전라북도" => 15,
-            "전라남도" => 16,
-            "강원도" => 17,
-            "제주도" => 18,
-            _ => -1,
-        };
-        return index;
+        None = 0,
+        서울 = 1,
+        경기도 = 2,
+        인천 = 3,
+        대전 = 4,
+        세종 = 5,
+        대구 = 6,
+        전주 = 7,
+        광주 = 8,
+        울산 = 9,
+        부산 = 10,
+        충청북도 = 11,
+        충청남도 = 12,
+        경상북도 = 13,
+        경상남도 = 14,
+        전라북도 = 15,
+        전라남도 = 16,
+        강원도 = 17,
+        제주도 = 18
     }
 }
