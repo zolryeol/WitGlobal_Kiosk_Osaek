@@ -22,7 +22,7 @@ public class Page_Exchange : MonoBehaviour
 
     public void FetchExchangeRate()
     {
-        dateText .text = $"기준일자: {ExchangeRateManager.Instance.today}";
+        dateText.text = $"기준일자: {ExchangeRateManager.Instance.today}";
         for (int i = 0; i < ExchangeMoneyTextList.Count; i++)
         {
             string code = ExchangeRateManager.Instance.currencyCodes[i];

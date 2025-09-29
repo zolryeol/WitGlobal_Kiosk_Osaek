@@ -25,7 +25,7 @@ public class Page_SmartTourList : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             var b = categoryButtonParent.GetChild(i).GetComponent<SecondCategoryButton>();
-            b.SecondCategoryButtonIndex = i+1; // 데이터에 인덱스는 1부터 시작
+            b.SecondCategoryButtonIndex = i + 1; // 데이터에 인덱스는 1부터 시작
             SecondCategoryButtons.Add(b);
             b.onClick.AddListener(() => FetchingContent(UIManager.Instance.NowSelectedKoreaMapName, b.SecondCategoryButtonIndex));
             UIManager.Instance.SecondCategorieButtons.Add(b);
@@ -172,7 +172,7 @@ public class Page_SmartTourList : MonoBehaviour
         foreach (var btn in SecondCategoryButtons)
         {
             // 버튼의 Index
-            string cateIndex =btn.SecondCategoryButtonIndex.ToString();
+            string cateIndex = btn.SecondCategoryButtonIndex.ToString();
 
             // 현재 언어 기준으로 매칭되는 문자열 찾기
             var matched = attractionList

@@ -33,9 +33,16 @@ public class ShopContent : MonoBehaviour
     public virtual void FetchContent(BaseShopInfoData data)
     {
         var nowLanguage = UIManager.Instance.NowLanguage;
-
         baseShopInfoData = data;
-
+        if (data != null)
+        {
+            shopID = data.ShopID;
+            ID.text = data.ShopID.ToString();
+        }
+        else
+        {
+            ID.text = "";
+        }
         shopName.text = data.ShopName[(int)nowLanguage];
         shopAddress.text = data.Address[(int)nowLanguage];
         description.text = data.ShopDescription[(int)nowLanguage];
