@@ -26,7 +26,7 @@ public static class GoogleSheetReader
     static readonly string AttractionDataRange = "Attraction!A4:AK";
     static readonly string ServiceAreaDataRange = "ServiceArea!A4:AC";
 
-    static readonly string fileName = "kiosk-insadatasheet-519b44916688.json";
+    static readonly string fileName = "kiosk-insadatasheet-aec38c473c00.json";
 
 
     // ✅ 캐시된 객체
