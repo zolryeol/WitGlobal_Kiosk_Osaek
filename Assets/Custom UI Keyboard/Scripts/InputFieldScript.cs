@@ -436,7 +436,7 @@ public class InputFieldScript : MonoBehaviour
                 break;
 
             case "Search":
-                //Debug.LogError("Search + Enter Key Press");
+                //KioskLogger.Error("Search + Enter Key Press");
                 Debug.Log($"{inputField.text}");
                 break;
 

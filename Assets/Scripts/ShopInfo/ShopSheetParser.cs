@@ -16,7 +16,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 2)
         {
-            Debug.LogWarning("비디오 자막 시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("비디오 자막 시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 
@@ -65,7 +65,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 2)
         {
-            Debug.LogWarning("로컬라이제이션 시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("로컬라이제이션 시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 
@@ -108,7 +108,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 3)
         {
-            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 
@@ -212,7 +212,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 2)
         {
-            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 
@@ -245,7 +245,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 2)
         {
-            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 
@@ -311,7 +311,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 1)
         {
-            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 
@@ -396,7 +396,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 1)
         {
-            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 
@@ -477,7 +477,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 1)
         {
-            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 
@@ -569,7 +569,7 @@ public class ShopSheetParser
 
         if (rows == null || rows.Count < 1)
         {
-            Debug.LogWarning("시트에 데이터가 충분하지 않습니다.");
+            KioskLogger.Warn("시트에 데이터가 충분하지 않습니다.");
             return result;
         }
 

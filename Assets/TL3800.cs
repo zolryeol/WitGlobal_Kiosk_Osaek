@@ -69,7 +69,7 @@ public class TL3800 : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError($"[TL3800] 포트 열기 실패: {ex.Message}");
+            KioskLogger.Error($"[TL3800] 포트 열기 실패: {ex.Message}");
         }
     }
 
@@ -84,7 +84,7 @@ public class TL3800 : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogWarning($"[TL3800] 포트 닫기 중 오류: {ex.Message}");
+            KioskLogger.Warn($"[TL3800] 포트 닫기 중 오류: {ex.Message}");
         }
     }
     #endregion
@@ -109,7 +109,7 @@ public class TL3800 : MonoBehaviour
             catch (TimeoutException) { }
             catch (Exception ex)
             {
-                Debug.LogError($"[TL3800] Read error: {ex.Message}");
+                KioskLogger.Error($"[TL3800] Read error: {ex.Message}");
                 Thread.Sleep(200);
             }
         }
@@ -240,7 +240,7 @@ public class TL3800 : MonoBehaviour
     void Send(byte[] frame)
     {
         try { if (_port?.IsOpen == true) _port.Write(frame, 0, frame.Length); }
-        catch (Exception ex) { Debug.LogWarning($"[TL3800] Send error: {ex.Message}"); }
+        catch (Exception ex) { KioskLogger.Warn($"[TL3800] Send error: {ex.Message}"); }
     }
 
     byte[] Build(char jobCode, byte[] data)
@@ -320,7 +320,7 @@ public class TL3800 : MonoBehaviour
             if (!string.IsNullOrEmpty(_lastBarcode)) break; // 첫 수신 시 종료
         }
         if (string.IsNullOrEmpty(_lastBarcode))
-            Debug.LogWarning("[TL3800] 스캔 타임아웃");
+            KioskLogger.Warn("[TL3800] 스캔 타임아웃");
         _pollCo = null;
     }
     #endregion

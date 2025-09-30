@@ -69,10 +69,10 @@ public class VideoPlayManager : MonoBehaviour
     {
         if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)
         {
-            Debug.LogWarning($"[VideoPlayManager] 자막 리스트 없음: {type} → Default로 대체");
+            KioskLogger.Warn($"[VideoPlayManager] 자막 리스트 없음: {type} → Default로 대체");
             if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out list) || list.Count == 0)
             {
-                Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
+                KioskLogger.Error("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
                 return;
             }
             type = VideoType.Default;
@@ -95,18 +95,18 @@ public class VideoPlayManager : MonoBehaviour
         // ✅ URL만 받아서 단일 _VideoPlayer로 Prepare
         if (!ResourceManager.Instance.TryGetVideoUrl(selected.fileName, out var url))
         {
-            Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 대체 시도");
+            KioskLogger.Warn($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 대체 시도");
 
             if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out var defaultList) || defaultList.Count == 0)
             {
-                Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
+                KioskLogger.Error("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
                 return;
             }
 
             var fallback = defaultList[0];
             if (!ResourceManager.Instance.TryGetVideoUrl(fallback.fileName, out url))
             {
-                Debug.LogError("[VideoPlayManager] Default 비디오 파일도 없습니다. 재생 불가");
+                KioskLogger.Error("[VideoPlayManager] Default 비디오 파일도 없습니다. 재생 불가");
                 return;
             }
 
@@ -123,10 +123,10 @@ public class VideoPlayManager : MonoBehaviour
     //{
     //    if (!ResourceManager.Instance.VideoMap.TryGetValue(type, out var list) || list.Count == 0)
     //    {
-    //        Debug.LogWarning($"[VideoPlayManager] 자막 리스트 없음: {type} → Default로 대체");
+    //        KioskLogger.Warn($"[VideoPlayManager] 자막 리스트 없음: {type} → Default로 대체");
     //        if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out list) || list.Count == 0)
     //        {
-    //            Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
+    //            KioskLogger.Error("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
     //            return;
     //        }
 
@@ -159,18 +159,18 @@ public class VideoPlayManager : MonoBehaviour
 
     //    if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out var player))
     //    {
-    //        Debug.LogWarning($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 영상으로 대체");
+    //        KioskLogger.Warn($"[VideoPlayManager] 비디오 파일 없음: {selected.fileName} → Default 영상으로 대체");
 
     //        if (!ResourceManager.Instance.VideoMap.TryGetValue(VideoType.Default, out var defaultList) || defaultList.Count == 0)
     //        {
-    //            Debug.LogError("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
+    //            KioskLogger.Error("[VideoPlayManager] Default 자막 리스트도 없습니다. 재생 불가");
     //            return;
     //        }
 
     //        selected = defaultList[0];
     //        if (!ResourceManager.Instance.TryGetVideoPlayer(selected.fileName, out player))
     //        {
-    //            Debug.LogError("[VideoPlayManager] Default 비디오 파일도 없습니다. 재생 불가");
+    //            KioskLogger.Error("[VideoPlayManager] Default 비디오 파일도 없습니다. 재생 불가");
     //            return;
     //        }
     //    }
@@ -255,20 +255,20 @@ public class VideoPlayManager : MonoBehaviour
                 //}
                 //else
                 //{
-                //    Debug.LogError("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
+                //    KioskLogger.Error("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
                 //    yield break;
                 //}
-                Debug.LogError("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
+                KioskLogger.Error("[VideoPlayManager] VideoPlayer 또는 RenderTexture가 설정되지 않았습니다.");
                 yield break;
             }
             else
             {
-                Debug.LogWarning($"[VideoPlayManager] Display 2 감지 실패, 재시도 {currentRetry + 1}/{maxRetryCount}...");
+                KioskLogger.Warn($"[VideoPlayManager] Display 2 감지 실패, 재시도 {currentRetry + 1}/{maxRetryCount}...");
                 currentRetry++;
                 yield return new WaitForSeconds(retryInterval);
             }
         }
 
-        Debug.LogError("[VideoPlayManager] Display 2를 최종적으로 감지하지 못했습니다.");
+        KioskLogger.Error("[VideoPlayManager] Display 2를 최종적으로 감지하지 못했습니다.");
     }
 }

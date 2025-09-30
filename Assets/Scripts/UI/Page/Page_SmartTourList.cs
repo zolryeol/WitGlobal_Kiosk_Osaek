@@ -92,7 +92,7 @@ public class Page_SmartTourList : MonoBehaviour
                 _target = LoadManager.Instance.ServiceAreaList;
                 break;
             default:
-                Debug.LogError("스마트투어 리스트 페이지에서 카테고리 에러");
+                KioskLogger.Error("스마트투어 리스트 페이지에서 카테고리 에러");
                 break;
         }
 

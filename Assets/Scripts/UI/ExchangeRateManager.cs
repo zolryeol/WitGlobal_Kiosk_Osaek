@@ -65,7 +65,7 @@ public class ExchangeRateManager : MonoBehaviour
         }
 
         if (!success)
-            Debug.LogError("[ExchangeRateManager] 환율 전체 요청 최종 실패");
+            KioskLogger.Error("[ExchangeRateManager] 환율 전체 요청 최종 실패");
     }
 
     private IEnumerator UpdateAllExchangeRates(Action<bool> onComplete = null)
@@ -116,7 +116,7 @@ public class ExchangeRateManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[ExchangeRateManager] 최근 10일간 환율 데이터가 없습니다.");
+            KioskLogger.Error("[ExchangeRateManager] 최근 10일간 환율 데이터가 없습니다.");
             onComplete?.Invoke(false);
         }
     }

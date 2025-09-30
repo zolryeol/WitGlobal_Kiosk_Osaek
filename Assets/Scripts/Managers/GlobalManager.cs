@@ -54,7 +54,7 @@ public class GlobalManager : MonoBehaviour
             post_api = config.post_api;
 
 
-            //Debug.LogError(
+            //KioskLogger.Error(
             //    $"JSon File Read " +
             //    $"\nKioskName : {kioskName}" +
             //    $"\ndomain : {domain}" +
@@ -68,7 +68,7 @@ public class GlobalManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"Config file not found at: {configPath}");
+            KioskLogger.Error($"Config file not found at: {configPath}");
         }
 
     }

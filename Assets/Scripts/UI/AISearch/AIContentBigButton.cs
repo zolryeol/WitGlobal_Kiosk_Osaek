@@ -16,7 +16,7 @@ public class AIContentBigButton : MonoBehaviour
 
         button.onClick.AddListener(UIManager.Instance.OnDetailPage);
         button.onClick.AddListener(() => FetchDetail(courseInfo));
-        button.onClick.AddListener(() => Debug.LogWarning("버튼테스트"));
+        button.onClick.AddListener(() => KioskLogger.Warn("버튼테스트"));
     }
     public void FetchDetail(AICourseInfo _ori)
     {

@@ -52,6 +52,8 @@ public class Core : MonoBehaviour
 
         resourceManager.Init();
 
+        GoogleSheetReader.InitCredential();
+
         await loadManager.Init(); // 데이터 로드가 끝날 때까지 대기 // 테스트용으로 잠시 꺼둠
 
         uiManager.Init();

@@ -26,7 +26,7 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
         else button = this.AddComponent<Button>();
 
         categoryText = GetComponentInChildren<TextMeshProUGUI>();
-        if (_aiselector == null) Debug.LogError("[AICategoryButton] AISelector가 할당되지 않았습니다. Init 메서드에 AISelector를 전달해주세요.");
+        if (_aiselector == null) KioskLogger.Error("[AICategoryButton] AISelector가 할당되지 않았습니다. Init 메서드에 AISelector를 전달해주세요.");
         aiSelector = _aiselector;
         button.onClick.AddListener(OnSelected);
 
@@ -49,7 +49,7 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
         else
         {
             categoryText.text = "Unknown";
-            Debug.LogWarning($"[AICategoryButton] 카테고리 인덱스({index})에 해당하는 카테고리가 없습니다.");
+            KioskLogger.Warn($"[AICategoryButton] 카테고리 인덱스({index})에 해당하는 카테고리가 없습니다.");
         }
     }
 
@@ -59,7 +59,7 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
         {
             if (3 <= aiSelector.aiSelectedCount)
             {
-                Debug.LogWarning("[AICategoryButton] 최대 선택 개수를 초과했습니다.");
+                KioskLogger.Warn("[AICategoryButton] 최대 선택 개수를 초과했습니다.");
                 return;
             }
 
@@ -96,7 +96,7 @@ public class AICategoryButton : MonoBehaviour, ILocalizable
 
         if (str == null)
         {
-            Debug.LogWarning("텍스트 NUll");
+            KioskLogger.Warn("텍스트 NUll");
             return;
         }
         categoryText.text = str;

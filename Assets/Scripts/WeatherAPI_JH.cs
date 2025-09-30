@@ -67,7 +67,7 @@ public class WeatherAPI_JH : MonoBehaviour
         }
         catch (HttpRequestException ex)
         {
-            Debug.LogError($"🌧 날씨 API 요청 실패: {ex.Message}");
+            KioskLogger.Error($"🌧 날씨 API 요청 실패: {ex.Message}");
             return null;
         }
     }
@@ -93,7 +93,7 @@ public class WeatherAPI_JH : MonoBehaviour
             case "Tornado":
             case "Squall": img.sprite = hailSprite; break;
             default:
-                Debug.LogWarning($"알 수 없는 날씨 main: {mainKeyword}");
+                KioskLogger.Warn($"알 수 없는 날씨 main: {mainKeyword}");
                 break;
         }
     }
@@ -132,12 +132,12 @@ public class WeatherAPI_JH : MonoBehaviour
         }
         else if (cachedWeather != null)
         {
-            Debug.LogWarning("✅ API 실패 → 마지막 저장된 날씨 데이터를 사용합니다.");
+            KioskLogger.Warn("✅ API 실패 → 마지막 저장된 날씨 데이터를 사용합니다.");
             ApplyWeatherToUI(cachedWeather);
         }
         else
         {
-            Debug.LogWarning("❌ 현재 날씨 정보를 가져올 수 없고, 저장된 데이터도 없습니다.");
+            KioskLogger.Warn("❌ 현재 날씨 정보를 가져올 수 없고, 저장된 데이터도 없습니다.");
         }
         yield break;
     }

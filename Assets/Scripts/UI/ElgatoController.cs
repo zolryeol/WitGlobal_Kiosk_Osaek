@@ -98,7 +98,7 @@ public class ElgatoController : MonoBehaviour
 
         if (devices.Length == 0)
         {
-            Debug.LogError("No webcam found");
+            KioskLogger.Error("No webcam found");
             page_photo.InitPage();
             yield break;
         }
@@ -121,7 +121,7 @@ public class ElgatoController : MonoBehaviour
 
         if (!faceCamTexture.isPlaying)
         {
-            Debug.LogError("Camera failed to start.");
+            KioskLogger.Error("Camera failed to start.");
             page_photo.InitPage();
 
             yield break;
@@ -187,7 +187,7 @@ public class ElgatoController : MonoBehaviour
 
         if (devices.Length == 0)
         {
-            Debug.LogError("No webcam found");
+            KioskLogger.Error("No webcam found");
             page_photo.InitPage();
             return;
         }
@@ -209,7 +209,7 @@ public class ElgatoController : MonoBehaviour
     {
         if (!System.IO.File.Exists(imagePath))
         {
-            Debug.LogError("File not found: " + imagePath);
+            KioskLogger.Error("File not found: " + imagePath);
             yield break;
         }
 
@@ -234,7 +234,7 @@ public class ElgatoController : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success) // 2차 시도 실패하면 처음으로
             {
-                Debug.LogError("Upload failed: " + www.error);
+                KioskLogger.Error("Upload failed: " + www.error);
                 page_photo.InitPage(); // 실패했을때 초기화면으로
                 yield break;
             }
@@ -274,7 +274,7 @@ public class ElgatoController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("📸 PostImageToServer - Serial mismatch, ignoring result.");
+            KioskLogger.Warn("📸 PostImageToServer - Serial mismatch, ignoring result.");
             page_photo.InitPage();
             yield break;
         }
@@ -353,7 +353,7 @@ public class ElgatoController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("이미지 처리 실패 또는 결과 없음");
+            KioskLogger.Error("이미지 처리 실패 또는 결과 없음");
         }
 
         StartCoroutine(WaitForResultAndCallFinal(_serial));
@@ -376,7 +376,7 @@ public class ElgatoController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("결과 이미지가 준비되지 않음 (타임아웃)");
+            KioskLogger.Error("결과 이미지가 준비되지 않음 (타임아웃)");
             page_photo.InitPage();
         }
     }

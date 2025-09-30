@@ -39,7 +39,7 @@ public class HanbokCategoryCreator : MonoBehaviour, IPrefabInstancer
     {
         if (ResourceManager.Instance.HanbokSpritesDic == null || ResourceManager.Instance.HanbokSpritesDic.Count == 0)
         {
-            Debug.LogWarning("[HanbokCategoryCreator] HanbokSpritesDic에 데이터가 없습니다.");
+            KioskLogger.Warn("[HanbokCategoryCreator] HanbokSpritesDic에 데이터가 없습니다.");
             return;
         }
 
@@ -117,7 +117,7 @@ public class HanbokCategoryCreator : MonoBehaviour, IPrefabInstancer
 //    {
 //        if (ResourceManager.Instance.HanbokSpritesDic == null || ResourceManager.Instance.HanbokSpritesDic.Count == 0)
 //        {
-//            Debug.LogWarning("[HanbokCategoryCreator] HanbokSpritesDic에 데이터가 없습니다.");
+//            KioskLogger.Warn("[HanbokCategoryCreator] HanbokSpritesDic에 데이터가 없습니다.");
 //            return;
 //        }
 

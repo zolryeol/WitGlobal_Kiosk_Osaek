@@ -23,14 +23,20 @@ public static class GoogleSheetReader
     static readonly string DataSheet_PublicMarket = "1EGeS48JvN3YNzFDLiBduKW-t8P5ilSDucNIMUNS2M-4"; // 공공시장 데이터시트
 
     static readonly string TraditionalMarketDataRange = "TraditionalMarket!A4:AC"; // 전통시장 데이터시트
-    static readonly string AttractionDataRange = "Attraction!A4:AK"; 
-    static readonly string ServiceAreaDataRange = "ServiceArea!A4:AC"; 
+    static readonly string AttractionDataRange = "Attraction!A4:AK";
+    static readonly string ServiceAreaDataRange = "ServiceArea!A4:AC";
 
-    static readonly string fileName = "kiosk-insadatasheet-52e5347a7b9c.json";
+    static readonly string fileName = "kiosk-insadatasheet-519b44916688.json";
+
 
     // ✅ 캐시된 객체
     private static GoogleCredential _credential;
     private static SheetsService _service;
+    public static void InitCredential() // 인증정보 갱신
+    {
+        _credential = GetCredential();
+        _service = GetService(_credential);
+    }
 
     public static async Task<ValueRange> ReadShopDataSheetAsync()
     {
@@ -39,7 +45,7 @@ public static class GoogleSheetReader
 
     public static async Task<ValueRange> ReadTraditionalMarketDataSheetAsync()
     {
-        return await ReadSheetAsync(TraditionalMarketDataRange,true);
+        return await ReadSheetAsync(TraditionalMarketDataRange, true);
     }
     public static async Task<ValueRange> ReadAttractionDataSheetAsync()
     {
@@ -77,12 +83,9 @@ public static class GoogleSheetReader
     // ✅ 공통 처리 함수
     private static async Task<ValueRange> ReadSheetAsync(string range, bool isPublicMarketData = false)
     {
-        var credential = GetCredential();
-        var service = GetService(credential);
-
-        if (service == null)
+        if (_service == null)
         {
-            Debug.LogError("[GoogleSheetReader] SheetsService is null.");
+            KioskLogger.Error("[GoogleSheetReader] SheetsService is null.");
             return null;
         }
 
@@ -90,18 +93,18 @@ public static class GoogleSheetReader
         {
             if (isPublicMarketData) // 공공시장 데이터시트 사용
             {
-                var request_p = service.Spreadsheets.Values.Get(DataSheet_PublicMarket, range);
+                var request_p = _service.Spreadsheets.Values.Get(DataSheet_PublicMarket, range);
                 var response_p = await request_p.ExecuteAsync();
                 return response_p;
             }
 
-            var request = service.Spreadsheets.Values.Get(DataSheet_Osaek, range);
+            var request = _service.Spreadsheets.Values.Get(DataSheet_Osaek, range);
             var response = await request.ExecuteAsync();
             return response;
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"[GoogleSheetReader] Google Sheets API request failed: {ex.Message}");
+            KioskLogger.Error($"[GoogleSheetReader] Google Sheets API request failed: {ex.Message}");
             return null;
         }
     }
@@ -123,7 +126,7 @@ public static class GoogleSheetReader
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"[GoogleSheetReader] Credential load failed: {ex.Message}");
+            KioskLogger.Error($"[GoogleSheetReader] Credential load failed: {ex.Message}");
             return null;
         }
     }
@@ -144,7 +147,7 @@ public static class GoogleSheetReader
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"[GoogleSheetReader] SheetsService creation failed: {ex.Message}");
+            KioskLogger.Error($"[GoogleSheetReader] SheetsService creation failed: {ex.Message}");
             return null;
         }
     }

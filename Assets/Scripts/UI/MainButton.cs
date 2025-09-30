@@ -84,6 +84,7 @@ public class MainButton : MonoBehaviour, ILocalizable
         {
             button.onClick.AddListener(() => um.SelectFirstCategory(um.HanbokCategorieButtons));
             button.onClick.AddListener(() => um.HanbokCategorieButtons[0].SelectFirstHanbokContent());
+            button.onClick.AddListener(() => um.Page_Photo.InitPage());
         }
         else if (categoryETC == Category_ETC.Map) // 지도
         {

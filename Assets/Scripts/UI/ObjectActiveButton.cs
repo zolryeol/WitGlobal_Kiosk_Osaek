@@ -17,7 +17,7 @@ public class ObjectActiveButton : MonoBehaviour
 
         if (targetObject == null)
         {
-            Debug.LogError("오브젝트 할당필요" + this.gameObject.name);
+            KioskLogger.Error("오브젝트 할당필요" + this.gameObject.name);
             return;
         }
 
@@ -28,7 +28,7 @@ public class ObjectActiveButton : MonoBehaviour
     {
         if (targetObject == null)
         {
-            Debug.LogError("오브젝트 할당필요" + this.gameObject.name);
+            KioskLogger.Error("오브젝트 할당필요" + this.gameObject.name);
             return;
         }
 

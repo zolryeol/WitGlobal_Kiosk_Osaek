@@ -88,7 +88,7 @@ public class LoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[ShopManager] 비디오 자막 데이터를 불러오지 못했습니다.");
+            KioskLogger.Error("[ShopManager] 비디오 자막 데이터를 불러오지 못했습니다.");
         }
 
     }
@@ -103,7 +103,7 @@ public class LoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[ShopManager] 상점 데이터를 불러오지 못했습니다.");
+            KioskLogger.Error("[ShopManager] 상점 데이터를 불러오지 못했습니다.");
         }
     }
 
@@ -117,7 +117,7 @@ public class LoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[ShopManager] 전통시장 데이터를 불러오지 못했습니다.");
+            KioskLogger.Error("[ShopManager] 전통시장 데이터를 불러오지 못했습니다.");
         }
     }
 
@@ -131,7 +131,7 @@ public class LoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[ShopManager] 관광지 데이터를 불러오지 못했습니다.");
+            KioskLogger.Error("[ShopManager] 관광지 데이터를 불러오지 못했습니다.");
         }
     }
 
@@ -145,7 +145,7 @@ public class LoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[ShopManager] 휴게소 데이터를 불러오지 못했습니다.");
+            KioskLogger.Error("[ShopManager] 휴게소 데이터를 불러오지 못했습니다.");
         }
     }
 
@@ -160,7 +160,7 @@ public class LoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[ShopManager] AI 카테고리 데이터를 불러오지 못했습니다.");
+            KioskLogger.Error("[ShopManager] AI 카테고리 데이터를 불러오지 못했습니다.");
         }
     }
 
@@ -175,7 +175,7 @@ public class LoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[ShopManager] 이벤트 데이터를 불러오지 못했습니다.");
+            KioskLogger.Error("[ShopManager] 이벤트 데이터를 불러오지 못했습니다.");
         }
 
         //이미지불러오기
@@ -344,13 +344,13 @@ public class LoadManager : MonoBehaviour
                 var parts = raw.Split('-');
                 if (parts.Length > 0 && int.TryParse(parts[0].Trim(), out int number))
                 {
-                    Debug.LogWarning("화장실의 인덱스 = " + number);
+                    KioskLogger.Warn("화장실의 인덱스 = " + number);
                     return number - 1; // 첫번째 부분을 int로 변환하여 반환 / 인덱스 1부터 시작 하므로 -1
                 }
             }
         }
 
-        Debug.LogWarning("화장실 못찾았습니다.");
+        KioskLogger.Warn("화장실 못찾았습니다.");
         return -1;
     }
 
@@ -408,7 +408,7 @@ public class LoadManager : MonoBehaviour
     {
         if (_aicategory == null)
         {
-            Debug.LogError("[ShopManager] AICategory가 null입니다.");
+            KioskLogger.Error("[ShopManager] AICategory가 null입니다.");
             return new List<BaseShopInfoData>();
         }
 
@@ -430,7 +430,7 @@ public class LoadManager : MonoBehaviour
     //{
     //    if (_aicategory == null)
     //    {
-    //        Debug.LogError("[ShopManager] AICategory가 null입니다.");
+    //        KioskLogger.Error("[ShopManager] AICategory가 null입니다.");
     //        return new List<BaseShopInfoData>();
     //    }
 
@@ -489,7 +489,7 @@ public class LoadManager : MonoBehaviour
 
                 if (string.IsNullOrEmpty(name))
                 {
-                    Debug.LogWarning($"shopID={shop.ShopID}의 {((Language)langIdx)} 이름이 null 또는 비어 있음");
+                    KioskLogger.Warn($"shopID={shop.ShopID}의 {((Language)langIdx)} 이름이 null 또는 비어 있음");
                     continue;
                 }
                 // 완전 일치
@@ -558,7 +558,7 @@ public class LoadManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("<color=red>썸네일 이미지 로드 실패: <color/>" + uwr.error);
+                KioskLogger.Warn("<color=red>썸네일 이미지 로드 실패: <color/>" + uwr.error);
                 onLoaded?.Invoke(null);
             }
         }

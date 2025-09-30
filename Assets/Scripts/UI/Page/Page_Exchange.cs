@@ -33,7 +33,7 @@ public class Page_Exchange : MonoBehaviour
             }
             else
             {
-                Debug.LogError("불러오기 실패");
+                KioskLogger.Error("불러오기 실패");
                 ExchangeMoneyTextList[i].text = $"{code}: 불러오기 실패";
             }
         }

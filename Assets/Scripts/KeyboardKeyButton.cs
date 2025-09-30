@@ -42,7 +42,7 @@ public class KeyboardKeyButton : MonoBehaviour
                 button.onClick.AddListener(() => hk.OnSpaceClicked());
                 break;
             default:
-                Debug.LogWarning("키가없어요");
+                KioskLogger.Warn("키가없어요");
                 break;
         }
     }

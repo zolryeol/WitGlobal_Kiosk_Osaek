@@ -40,7 +40,7 @@ public class PhotoResultToQR : MonoBehaviour
 
         if (elgatoController != null && !elgatoController.IsElgatoRunning)
         {
-            Debug.LogWarning("Elgato 실행 중이 아니므로 QR 업로드 중단됨");
+            KioskLogger.Warn("Elgato 실행 중이 아니므로 QR 업로드 중단됨");
             yield break;
         }
 
@@ -56,7 +56,7 @@ public class PhotoResultToQR : MonoBehaviour
 
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError("파일 업로드 실패: " + request.error);
+            KioskLogger.Error("파일 업로드 실패: " + request.error);
             yield break;
         }
 
@@ -64,7 +64,7 @@ public class PhotoResultToQR : MonoBehaviour
 
         if (string.IsNullOrEmpty(response.download_url))
         {
-            Debug.LogError("서버 응답에 download_url이 없습니다.");
+            KioskLogger.Error("서버 응답에 download_url이 없습니다.");
             yield break;
         }
 

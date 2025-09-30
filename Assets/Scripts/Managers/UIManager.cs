@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Page_HereInfo page_HereInfo;
     [SerializeField] Page_MarketPaper page_MarketPaper;
-
+    public Page_Photo Page_Photo;
     public Page_SmartTourList Page_SmartTourList => page_SmartTourList;
     public Page_KoreaMapDetail Page_KoreaMapDetail => page_KoreaMapDetail;
 
@@ -194,6 +194,8 @@ public class UIManager : MonoBehaviour
 
         page_SmartTourList = FindAnyObjectByType<Page_SmartTourList>();
         page_SmartTourList.Init();
+
+        Page_Photo = FindAnyObjectByType<Page_Photo>();
     }
 
     public void OpenPage(CanvasGroup _targetCanvasGroup, Action ac = null)
@@ -201,7 +203,7 @@ public class UIManager : MonoBehaviour
         ac?.Invoke();
         if (1f <= _targetCanvasGroup.alpha)
         {
-            Debug.LogWarning($"페이지 {_targetCanvasGroup.name}는 이미 열려 있습니다.");
+            KioskLogger.Warn($"페이지 {_targetCanvasGroup.name}는 이미 열려 있습니다.");
             return;
         }
         PageStack.Push(_targetCanvasGroup);
@@ -466,7 +468,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"{btn.name}은(는) ISelectableButton 인터페이스를 구현하지 않았습니다.");
+                KioskLogger.Warn($"{btn.name}은(는) ISelectableButton 인터페이스를 구현하지 않았습니다.");
             }
         }
     }

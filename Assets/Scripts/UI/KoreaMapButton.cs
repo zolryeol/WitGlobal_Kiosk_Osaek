@@ -22,7 +22,7 @@ public class KoreaMapButton : MonoBehaviour
 
         if (mapImage == null)
         {
-            Debug.LogError("Image 컴포넌트가 없습니다.");
+            KioskLogger.Error("Image 컴포넌트가 없습니다.");
             return;
         }
 

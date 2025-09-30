@@ -64,7 +64,7 @@ public class ResourceManager : MonoBehaviour
 
         if (!Directory.Exists(hanbokPath))
         {
-            Debug.LogWarning($"Hanbok 폴더가 존재하지 않습니다: {hanbokPath}");
+            KioskLogger.Warn($"Hanbok 폴더가 존재하지 않습니다: {hanbokPath}");
             return;
         }
 
@@ -82,7 +82,7 @@ public class ResourceManager : MonoBehaviour
 
             if (imageFiles.Length == 0)
             {
-                Debug.LogWarning($"[ResourceManager] Hanbok/{folderName} 폴더에 이미지가 없습니다.");
+                KioskLogger.Warn($"[ResourceManager] Hanbok/{folderName} 폴더에 이미지가 없습니다.");
                 HanbokSpritesDic[folderName] = new List<(string, Sprite)>();
                 continue;
             }
@@ -105,7 +105,7 @@ public class ResourceManager : MonoBehaviour
                 }
                 catch (System.Exception ex)
                 {
-                    Debug.LogError($"[ResourceManager] Hanbok 이미지 로드 실패: {ipath} / {ex.Message}");
+                    KioskLogger.Error($"[ResourceManager] Hanbok 이미지 로드 실패: {ipath} / {ex.Message}");
                 }
             }
 
@@ -125,7 +125,7 @@ public class ResourceManager : MonoBehaviour
 
         if (!Directory.Exists(shopImagePath))
         {
-            Debug.LogError($"ShopImage 폴더가 존재하지 않습니다: {shopImagePath}");
+            KioskLogger.Error($"ShopImage 폴더가 존재하지 않습니다: {shopImagePath}");
             return;
         }
 
@@ -139,7 +139,7 @@ public class ResourceManager : MonoBehaviour
             string[] imageFiles = GetImageFiles(folderPath);
             if (imageFiles.Length == 0)
             {
-                Debug.LogWarning($"[rResourceManager] {_folder} 폴더에 이미지가 없습니다.");
+                KioskLogger.Warn($"[rResourceManager] {_folder} 폴더에 이미지가 없습니다.");
                 continue;
             }
 
@@ -162,7 +162,7 @@ public class ResourceManager : MonoBehaviour
                 }
                 catch (System.Exception ex)
                 {
-                    Debug.LogError($"[ResourceManager] 이미지 로드 실패: {ipath} / {ex.Message}");
+                    KioskLogger.Error($"[ResourceManager] 이미지 로드 실패: {ipath} / {ex.Message}");
                 }
 
             }
@@ -181,7 +181,7 @@ public class ResourceManager : MonoBehaviour
 
         if (!Directory.Exists(marketImagePath))
         {
-            Debug.LogError($"ShopImage 폴더가 존재하지 않습니다: {marketImagePath}");
+            KioskLogger.Error($"ShopImage 폴더가 존재하지 않습니다: {marketImagePath}");
             return;
         }
 
@@ -195,7 +195,7 @@ public class ResourceManager : MonoBehaviour
             string[] imageFiles = GetImageFiles(folderPath);
             if (imageFiles.Length == 0)
             {
-                Debug.LogWarning($"[rResourceManager] {_folder} 폴더에 이미지가 없습니다.");
+                KioskLogger.Warn($"[rResourceManager] {_folder} 폴더에 이미지가 없습니다.");
                 continue;
             }
 
@@ -218,7 +218,7 @@ public class ResourceManager : MonoBehaviour
                 }
                 catch (System.Exception ex)
                 {
-                    Debug.LogError($"[ResourceManager] 이미지 로드 실패: {ipath} / {ex.Message}");
+                    KioskLogger.Error($"[ResourceManager] 이미지 로드 실패: {ipath} / {ex.Message}");
                 }
 
             }
@@ -238,7 +238,7 @@ public class ResourceManager : MonoBehaviour
             Sprite[] sprites = Resources.LoadAll<Sprite>($"Image/Palace/{folderName}");
             if (sprites.Length == 0)
             {
-                Debug.LogWarning($"Image/Palace/{folderName} 폴더에 이미지가 없습니다.");
+                KioskLogger.Warn($"Image/Palace/{folderName} 폴더에 이미지가 없습니다.");
                 continue;
             }
             PalaceSpritesDic[i] = new List<Sprite>(sprites);
@@ -252,7 +252,7 @@ public class ResourceManager : MonoBehaviour
         {
             if (!System.Enum.TryParse(data.key, out VideoType videoType))
             {
-                Debug.LogWarning($"[ResourceManager] VideoType 변환 실패: {data.key}");
+                KioskLogger.Warn($"[ResourceManager] VideoType 변환 실패: {data.key}");
                 continue;
             }
 
@@ -272,7 +272,7 @@ public class ResourceManager : MonoBehaviour
 #endif
         if (!Directory.Exists(videoFolder))
         {
-            Debug.LogError($"[ResourceManager] 영상 폴더가 존재하지 않습니다: {videoFolder}");
+            KioskLogger.Error($"[ResourceManager] 영상 폴더가 존재하지 않습니다: {videoFolder}");
             return;
         }
 
@@ -304,7 +304,7 @@ public class ResourceManager : MonoBehaviour
 //#endif
 //        if (!Directory.Exists(videoFolder))
 //        {
-//            Debug.LogError($"[ResourceManager] 영상 폴더가 존재하지 않습니다: {videoFolder}");
+//            KioskLogger.Error($"[ResourceManager] 영상 폴더가 존재하지 않습니다: {videoFolder}");
 //            return;
 //        }
 

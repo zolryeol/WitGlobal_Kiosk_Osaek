@@ -15,7 +15,7 @@ public class JsonLoader : MonoBehaviour
 
         if (!File.Exists(fullPath))
         {
-            Debug.LogError($"[JsonLoader] 파일이 존재하지 않습니다: {fullPath}");
+            KioskLogger.Error($"[JsonLoader] 파일이 존재하지 않습니다: {fullPath}");
             return;
         }
 
@@ -30,7 +30,7 @@ public class JsonLoader : MonoBehaviour
             Config = JsonUtility.FromJson<DeviceConfig>(json);
             if (Config == null)
             {
-                Debug.LogError("[JsonLoader] JSON 파싱 실패: 루트가 객체형({ ... })인지 확인");
+                KioskLogger.Error("[JsonLoader] JSON 파싱 실패: 루트가 객체형({ ... })인지 확인");
                 return;
             }
 
@@ -38,7 +38,7 @@ public class JsonLoader : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"[JsonLoader] 읽기/파싱 중 예외: {ex.GetType().Name} - {ex.Message}");
+            KioskLogger.Error($"[JsonLoader] 읽기/파싱 중 예외: {ex.GetType().Name} - {ex.Message}");
         }
     }
 

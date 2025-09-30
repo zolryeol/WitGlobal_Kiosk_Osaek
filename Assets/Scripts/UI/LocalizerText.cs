@@ -26,7 +26,7 @@ public class LocalizerText : MonoBehaviour
 
         if (key == string.Empty)
         {
-            Debug.LogWarning("LocalizerText 키가 비었습니다. = " + this.gameObject.name + "부모 = " + this.gameObject.transform.parent.name);
+            KioskLogger.Warn("LocalizerText 키가 비었습니다. = " + this.gameObject.name + "부모 = " + this.gameObject.transform.parent.name);
             return;
         }
 
@@ -39,7 +39,7 @@ public class LocalizerText : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[LocalizerText] 키 '{key}'에 해당하는 로컬라이즈 데이터를 찾을 수 없습니다.");
+            KioskLogger.Warn($"[LocalizerText] 키 '{key}'에 해당하는 로컬라이즈 데이터를 찾을 수 없습니다.");
             targetText.text = $"[{key}]";
         }
     }
@@ -47,7 +47,7 @@ public class LocalizerText : MonoBehaviour
     {
         if (LoadManager.Instance == null || string.IsNullOrEmpty(key) || targetText == null)
         {
-            Debug.LogWarning($"[LocalizerText] 초기화 실패: key 또는 targetText가 비어있거나 ShopManager가 초기화되지 않음.");
+            KioskLogger.Warn($"[LocalizerText] 초기화 실패: key 또는 targetText가 비어있거나 ShopManager가 초기화되지 않음.");
             return;
         }
 
@@ -60,7 +60,7 @@ public class LocalizerText : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[LocalizerText] 키 '{key}'에 해당하는 로컬라이즈 데이터를 찾을 수 없습니다.");
+            KioskLogger.Warn($"[LocalizerText] 키 '{key}'에 해당하는 로컬라이즈 데이터를 찾을 수 없습니다.");
             targetText.text = $"[{key}]";
         }
     }

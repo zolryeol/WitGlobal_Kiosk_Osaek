@@ -144,7 +144,7 @@ public class Page_Photo : MonoBehaviour
 
         if (string.IsNullOrEmpty(path))
         {
-            Debug.LogError("LatestResultImagePath가 null 또는 빈 문자열입니다.");
+            KioskLogger.Error("LatestResultImagePath가 null 또는 빈 문자열입니다.");
 
             InitPage();
             return;
@@ -152,7 +152,7 @@ public class Page_Photo : MonoBehaviour
 
         if (!File.Exists(path))
         {
-            Debug.LogError("파일 존재하지 않음: " + path);
+            KioskLogger.Error("파일 존재하지 않음: " + path);
 
             InitPage();
             return;
