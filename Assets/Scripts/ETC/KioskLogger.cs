@@ -47,7 +47,8 @@ public sealed class KioskLogger : MonoBehaviour
         _instance = this;
 
         // 디렉터리 준비
-        _logDir = Path.Combine(Application.persistentDataPath, logFolderName);
+        _logDir = Path.Combine(Application.dataPath, $"../{logFolderName}");
+
         Directory.CreateDirectory(_logDir);
 
         // 파일 경로 결정(날짜+시퀀스)
